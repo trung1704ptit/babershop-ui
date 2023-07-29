@@ -1,16 +1,14 @@
 import { render, screen } from '@testing-library/react';
-
-import Home from '../src/pages/index';
 import '@testing-library/jest-dom';
 
+import Home from '../src/pages/index';
+
 describe('Home', () => {
-  it('renders a next.js logo', () => {
+  it('renders page with Make Appointment', () => {
     render(<Home />);
 
-    const heading = screen.getByRole('heading', {
-      name: 'Next.js 13 and Tailwind CSS Template',
-    });
+    const makeAppointmentText = screen.getAllByText('Make Appointment');
 
-    expect(heading).toBeInTheDocument();
+    expect(makeAppointmentText.length).toBeGreaterThan(0)
   });
 });
