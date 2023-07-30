@@ -1,3 +1,56 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+:root {
+  --swiper-pagination-color: #f1f1f1;
+  --swiper-pagination-bullet-size: 8px;
+  --swiper-pagination-bullet-width: 8px;
+  --swiper-pagination-bullet-height: 8px;
+  --swiper-pagination-bullet-inactive-color: #000;
+  --swiper-pagination-bullet-inactive-opacity: 0.2;
+  --swiper-pagination-bullet-opacity: 1;
+  --swiper-pagination-bullet-horizontal-gap: 4px;
+  --swiper-pagination-bullet-vertical-gap: 6px;
+}
+
+.swiper-button-prev,
+.swiper-button-next {
+  color: #f1f1f1 !important;
+}
+
+.swiper-button-prev:after,
+.swiper-button-next:after {
+  font-size: 24px !important;
+}
+
+.testimonial .swiper-pagination {
+  position: unset !important;
+}
+
+@media only screen and (min-width: 768px) {
+  .swiper-button-prev,
+  .swiper-button-next {
+    margin: 0 30px !important;
+  }
+}
+
+.fade-in-out {
+  opacity: 0;
+  animation: fade-in 2s ease-in forwards;
+}
+
+@keyframes fade-in {
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes fade-out {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}

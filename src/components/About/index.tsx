@@ -7,7 +7,7 @@ const About = () => {
             <div className="about_content align-center">
               <h3 className="wow fadeInUp" data-wow-delay="100ms">Introducing</h3>
               <h2 className="wow fadeInUp" data-wow-delay="200ms">The Barber Shop <br />Science 1991</h2>
-              <img className="wow fadeInUp" data-wow-delay="500ms" src="img/about-logo.png" alt="logo" />
+              <img className="wow fadeInUp mx-auto" data-wow-delay="500ms" src="img/about-logo.png" alt="logo" />
               <p className="wow fadeInUp" data-wow-delay="600ms">Barber is a person whose occupation is mainly to
                 cut dress groom style and shave men's and boys' hair. A barber's place of work is known as a
                 "barbershop" or a "barber's". Barbershops are also places of social interaction and public

@@ -9,8 +9,7 @@ const HeroCarousel = dynamic(() => import("./HeroCarousel"))
 const Footer = dynamic(() => import("./Footer"))
 const Loading = dynamic(() => import("./Loading"))
 const Pricing = dynamic(() => import("./Pricing"))
-
-
+const ScrollToTop = dynamic(() => import("./ScrollToTop"))
 
 
 
@@ -22,6 +21,7 @@ export {
   Loading,
   Pricing,
   Reviews,
+  ScrollToTop,
   Services,
   Team
 }

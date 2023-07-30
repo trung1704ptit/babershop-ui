@@ -20,7 +20,8 @@
     "@heroicons/react": "^2.0.15",
     "next": "13.4.4",
     "react": "18.2.0",
-    "react-dom": "18.2.0"
+    "react-dom": "18.2.0",
+    "swiper": "^10.0.4"
   },
   "devDependencies": {
     "@next/bundle-analyzer": "^13.1.1",
