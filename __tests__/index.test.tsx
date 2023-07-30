@@ -1,16 +1,14 @@
-import { render, screen } from '@testing-library/react';
-import { act } from 'react-dom/test-utils';
+import { render, waitFor } from '@testing-library/react';
 import '@testing-library/jest-dom';
 
 import Home from '../src/pages/index';
 
 describe('Home', () => {
-  it('renders page with Make Appointment', () => {
-    act(() => {
-      render(<Home />);
-    });
+  it('renders page with Make Appointment', async () => {
 
-    const makeAppointmentText = screen.getAllByText('Make Appointment');
+    const { getAllByText } = render(<Home />);
+
+    const makeAppointmentText = await waitFor(() => getAllByText('Make Appointment'));
 
     expect(makeAppointmentText.length).toBeGreaterThan(0)
   });
