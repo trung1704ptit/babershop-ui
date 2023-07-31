@@ -4,11 +4,11 @@ import '@testing-library/jest-dom';
 import Home from '../src/pages/index';
 
 describe('Home', () => {
-  it('renders page with Make Appointment', async () => {
+  it('renders page with Đặt chỗ ', async () => {
 
     const { getAllByText } = render(<Home />);
 
-    const makeAppointmentText = await waitFor(() => getAllByText('Make Appointment'));
+    const makeAppointmentText = await waitFor(() => getAllByText('Đặt chỗ '));
 
     expect(makeAppointmentText.length).toBeGreaterThan(0)
   });

@@ -1,10 +1,21 @@
+import Link from "next/link";
 
 const Header = () => {
+  const handleBooking = () => {
+    const element = document.getElementById("booking-box");
+    if (window.innerWidth < 768) {
+      window.scrollTo({
+        top: 360,
+        left: element?.scrollLeft,
+        behavior: 'smooth'
+      });
+    }
+  }
   return (
     <header id="header" className="header-section">
       <div className="container">
         <nav className="navbar ">
-          <a href="#" className="navbar-brand"><img src="img/logo.png" alt="Barbershop" /></a>
+          <Link href="/" className="navbar-brand"><img src="/img/logo.png" alt="Barbershop" /></Link>
           <div className="d-flex menu-wrap align-items-center">
             <div id="mainmenu" className="mainmenu">
               <ul className="nav">
@@ -46,8 +57,8 @@ const Header = () => {
                 <li><a href="contact.html">Contact</a></li>
               </ul>
             </div>
-            <div className="header-btn">
-              <a href="#" className="menu-btn">Make Appointment</a>
+            <div className="header-btn" onClick={handleBooking}>
+              <div className="menu-btn cursor-pointer rounded">Đặt chỗ </div>
             </div>
           </div>
         </nav>

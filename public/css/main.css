@@ -1,4 +1,4 @@
-@import 'https://fonts.googleapis.com/css?family=Lato|Prata|Work+Sans:600&amp;display=swap';
+@import 'https://fonts.googleapis.com/css?family=Lato|Be+Vietnam+Pro:300|Work+Sans:600&amp;display=swap';
 * {
   padding: 0;
   margin: 0;
@@ -15,7 +15,7 @@ body {
   overflow-x: hidden;
 }
 h1 {
-  font-family: prata, sans-serif;
+  font-family: 'Be Vietnam Pro', sans-serif;
   -webkit-font-smoothing: antialiased;
   color: #fff;
 }
@@ -24,7 +24,7 @@ h3,
 h4,
 h5,
 h6 {
-  font-family: prata, sans-serif;
+  font-family: 'Be Vietnam Pro', sans-serif;
   -webkit-font-smoothing: antialiased;
   color: #282828;
 }
@@ -286,7 +286,6 @@ body.loaded #preloader {
 .default_btn {
   font-family: work sans, sans-serif;
   letter-spacing: 0;
-  background-color: #9e8a78;
   color: #fff;
   line-height: 45px;
   display: inline-block;
@@ -1197,7 +1196,7 @@ select.form-control:not([size]):not([multiple]) {
   margin: 0 0 25px;
 }
 .testimonial_item p {
-  font-family: prata, sans-serif;
+  font-family: 'Be Vietnam Pro', sans-serif;
   font-size: 24px;
   line-height: 36px;
 }
@@ -1264,7 +1263,7 @@ select.form-control:not([size]):not([multiple]) {
   width: 0;
 }
 .pricing_section .price_wrap .price_list li span.price {
-  font-family: prata, sans-serif;
+  font-family: 'Be Vietnam Pro', sans-serif;
   font-size: 24px;
   color: #9e8a78;
   font-weight: 700;
@@ -1570,7 +1569,7 @@ select.form-control:not([size]):not([multiple]) {
   display: block;
 }
 .thumb-post li a {
-  font-family: prata, sans-serif;
+  font-family: 'Be Vietnam Pro', sans-serif;
   font-size: 15px;
   font-weight: 600;
   color: #303133;
@@ -1644,7 +1643,7 @@ blockquote {
   z-index: 1;
 }
 blockquote p {
-  font-family: prata, sans-serif;
+  font-family: 'Be Vietnam Pro', sans-serif;
   font-size: 22px;
   line-height: 32px;
   color: #303133;
@@ -1797,7 +1796,7 @@ blockquote span {
   margin-bottom: 20px;
 }
 .blog-single-wrap .comments-area .comments-meta h4 {
-  font-family: prata, sans-serif;
+  font-family: 'Be Vietnam Pro', sans-serif;
   font-size: 18px;
   font-weight: 600;
   letter-spacing: -1px;

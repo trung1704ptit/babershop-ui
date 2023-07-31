@@ -10,7 +10,7 @@ const Team = () => {
         <ul className="team_members row">
           <li className="col-lg-3 col-md-6 sm-padding wow fadeInUp" data-wow-delay="200ms">
             <div className="team_member">
-              <img src="img/team-1.jpg" alt="Team Member1" />
+              <img src="/img/team-1.jpg" alt="Team Member1" />
               <div className="overlay">
                 <h3>Kyle Frederick</h3>
                 <p>WEB DESIGNER</p>
@@ -19,7 +19,7 @@ const Team = () => {
           </li>
           <li className="col-lg-3 col-md-6 sm-padding wow fadeInUp" data-wow-delay="300ms">
             <div className="team_member">
-              <img src="img/team-2.jpg" alt="Team Member2" />
+              <img src="/img/team-2.jpg" alt="Team Member2" />
               <div className="overlay">
                 <h3>José Carpio</h3>
                 <p>WORDPRESS DEVELOPER</p>
@@ -28,7 +28,7 @@ const Team = () => {
           </li>
           <li className="col-lg-3 col-md-6 sm-padding wow fadeInUp" data-wow-delay="400ms">
             <div className="team_member">
-              <img src="img/team-3.jpg" alt="Team Member3" />
+              <img src="/img/team-3.jpg" alt="Team Member3" />
               <div className="overlay">
                 <h3>Michel Ibáñez</h3>
                 <p>ONLINE MARKETER</p>
@@ -37,7 +37,7 @@ const Team = () => {
           </li>
           <li className="col-lg-3 col-md-6 sm-padding wow fadeInUp" data-wow-delay="500ms">
             <div className="team_member">
-              <img src="img/team-4.jpg" alt="Team Member4" />
+              <img src="/img/team-4.jpg" alt="Team Member4" />
               <div className="overlay">
                 <h3>Adam Castellon</h3>
                 <p>JAVA SPECIALIST</p>

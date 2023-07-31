@@ -6,9 +6,11 @@ import 'swiper/css';
 import 'swiper/css/pagination';
 import 'swiper/css/navigation';
 
+import BookingEntrance from '../BookingEntrance';
+
 const HeroCarousel = () => {
   return (
-    <section className='slider_section w-full h-[420px] md:h-[670px]'>
+    <section className='w-full lg:h-[670px] relative'>
       <Swiper
         slidesPerView={1}
         speed={1300}
@@ -26,7 +28,7 @@ const HeroCarousel = () => {
         <SwiperSlide>
           <li
             className='main_slide d-flex align-items-center'
-            style={{ backgroundImage: 'url(img/slide-1.jpg)' }}
+            style={{ backgroundImage: 'url(/img/slide-1.jpg)' }}
           >
             <div className='container'>
               <div className='slider_content fade-in-out'>
@@ -40,9 +42,6 @@ const HeroCarousel = () => {
                   appreciate
                   <br /> premium quality, time and flawless look.
                 </p>
-                <a href='#' className='default_btn'>
-                  Make Appointment
-                </a>
               </div>
             </div>
           </li>
@@ -50,7 +49,7 @@ const HeroCarousel = () => {
         <SwiperSlide>
           <li
             className='main_slide d-flex align-items-center'
-            style={{ backgroundImage: 'url(img/slide-2.jpg)' }}
+            style={{ backgroundImage: 'url(/img/slide-2.jpg)' }}
           >
             <div className='container'>
               <div className='slider_content fade-in-out'>
@@ -65,9 +64,6 @@ const HeroCarousel = () => {
                   appreciate
                   <br /> premium quality, time and flawless look.
                 </p>
-                <a href='#' className='default_btn'>
-                  Make Appointment
-                </a>
               </div>
             </div>
           </li>
@@ -75,7 +71,7 @@ const HeroCarousel = () => {
         <SwiperSlide>
           <li
             className='main_slide d-flex align-items-center'
-            style={{ backgroundImage: 'url(img/slide-3.jpg)' }}
+            style={{ backgroundImage: 'url(/img/slide-3.jpg)' }}
           >
             <div className='container'>
               <div className='slider_content fade-in-out'>
@@ -89,14 +85,12 @@ const HeroCarousel = () => {
                   appreciate
                   <br /> premium quality, time and flawless look.
                 </p>
-                <a href='#' className='default_btn'>
-                  Make Appointment
-                </a>
               </div>
             </div>
           </li>
         </SwiperSlide>
       </Swiper>
+      <div className="lg:absolute top-[100px] right-[200px] center"><BookingEntrance /></div>
     </section >
   );
 };

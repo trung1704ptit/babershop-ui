@@ -6,32 +6,27 @@ export default function Home() {
   return (
     <>
       <Head>
-        <title>Barbershop Quang hair</title>
+        <title>ROY Barber shop</title>
         <meta
           name='description'
           content={`
-          A ready-to-use starter template for building fast and modern web applications.
-          Includes basic configurations and optimizations for
-          optimal performance and development experience.
+          ROY Barber shop
         `}
         />
         <meta name='viewport' content='width=device-width, initial-scale=1' />
         <link rel='icon' href='/favicon.ico' />
       </Head>
 
-      <div>
-        {/* <Loading /> */}
-
-        <Header />
-        <HeroCarousel />
-        <About />
-        <Services />
-        <Team />
-        <Reviews />
-        <Pricing />
-        <Footer />
-        <ScrollToTop />
-      </div>
+      {/* <Loading /> */}
+      <Header />
+      <HeroCarousel />
+      <About />
+      <Services />
+      <Team />
+      <Reviews />
+      <Pricing />
+      <Footer />
+      <ScrollToTop />
     </>
   );
 }

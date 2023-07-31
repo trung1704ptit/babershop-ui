@@ -6,7 +6,7 @@ const Footer = () => {
           <div className="row">
             <div className="col-lg-3 col-md-6 sm-padding">
               <div className="footer_widget">
-                <img className="mb-15" src="img/logo.png" alt="Brand" />
+                <img className="mb-15" src="/img/logo.png" alt="Brand" />
                 <p>Our barbershop is the created for men who appreciate premium quality, time and flawless look.
                 </p>
                 <ul className="widget_social">
@@ -43,9 +43,9 @@ const Footer = () => {
                 <h3>Subscribe to our contents</h3>
                 <div className="subscribe_form">
                   <form action="#" className="subscribe_form">
-                    <input type="email" name="email" id="subs-email" className="form_input"
+                    <input type="email" name="email" id="subs-email" className="form_input rounded"
                       placeholder="Email Address..." />
-                    <button type="submit" className="submit">SUBSCRIBE</button>
+                    <button type="submit" className="submit rounded">SUBSCRIBE</button>
                     <div className="clearfix"></div>
                     <div id="subscribe-result">
                       <p className="subscription-success"></p>
@@ -63,7 +63,7 @@ const Footer = () => {
           <div className="row">
             <div className="col-md-6 xs-padding">
               <div className="copyright">©
-                Barber Shop
+                ROY Barber Shop
               </div>
             </div>
             <div className="col-md-6 xs-padding">

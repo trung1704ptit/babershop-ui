@@ -8,7 +8,7 @@ const ScrollToTop = () => {
     });
   }
   return (
-    <a data-scroll onClick={onClick} id="scroll-to-top" className="d-block cursor-pointer"><i className="arrow_up" /></a>
+    <a data-scroll onClick={onClick} id="scroll-to-top" className="d-block cursor-pointer rounded"><i className="arrow_up" /></a>
   )
 }
 

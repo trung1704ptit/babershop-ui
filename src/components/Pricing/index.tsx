@@ -10,7 +10,7 @@ const Pricing = () => {
         <div className="row">
           <div className="col-lg-4 col-md-6 sm-padding">
             <div className="price_wrap">
-              <h3>Hair Styling</h3>
+              <h3 className="rounded">Hair Styling</h3>
               <ul className="price_list">
                 <li>
                   <h4>Hair Cut</h4>
@@ -35,7 +35,7 @@ const Pricing = () => {
           </div>
           <div className="col-lg-4 col-md-6 sm-padding">
             <div className="price_wrap">
-              <h3>Shaving</h3>
+              <h3 className="rounded">Shaving</h3>
               <ul className="price_list">
                 <li>
                   <h4>Clean Shaving</h4>
@@ -60,7 +60,7 @@ const Pricing = () => {
           </div>
           <div className="col-lg-4 col-md-12 sm-padding">
             <div className="price_wrap">
-              <h3>Face Masking</h3>
+              <h3 className="rounded">Face Masking</h3>
               <ul className="price_list">
                 <li>
                   <h4>White Facial</h4>
