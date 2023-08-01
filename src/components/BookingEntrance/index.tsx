@@ -10,7 +10,7 @@ const Booking = (props: IBookingEntrance) => {
   const phoneRef = useRef<HTMLInputElement>(null);
   const [user, setUser] = useState<IUserBooking>({
     phone: props.phone,
-    name: null,
+    name: props.name,
     services: null,
     bookingTime: null,
     notes: null,
@@ -26,7 +26,6 @@ const Booking = (props: IBookingEntrance) => {
       setUser((prev: IUserBooking) => ({ ...prev, phone }))
     }
   }, [router.query])
-
 
   const handleClick = () => {
     try {
@@ -57,8 +56,10 @@ const Booking = (props: IBookingEntrance) => {
   }
 
   const handleNameFilled = (newName: string) => {
-    console.log('newName:', newName);
     setUser(prev => ({ ...prev, name: newName }))
+    const url = new URL(window.location as any);
+    url.searchParams.set('name', newName);
+    window.history.pushState(null, '', url.toString());
   }
 
   if (user.phone && !user.name) {
@@ -66,7 +67,7 @@ const Booking = (props: IBookingEntrance) => {
   }
 
   if (user.phone && user.name) {
-    return <ServicesList />
+    return <ServicesList user={user} />
   }
 
   return (

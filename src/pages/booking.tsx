@@ -5,7 +5,7 @@ import { BookingEntrance, Header } from '../components';
 import { IBookingPage } from '../interface/pages/booking';
 
 
-export default function Booking({ phone }: IBookingPage) {
+export default function Booking({ phone, name }: IBookingPage) {
   return (
     <>
       <Head>
@@ -24,7 +24,7 @@ export default function Booking({ phone }: IBookingPage) {
       // className="justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none"
       // style={{ background: 'url("/img/slide-1.jpg")', backgroundSize: 'cover', backgroundRepeat: 'no-repeat' }}
 
-      ><BookingEntrance phone={phone} />
+      ><BookingEntrance phone={phone} name={name} />
       </div>
     </>
   );
@@ -33,9 +33,12 @@ export default function Booking({ phone }: IBookingPage) {
 
 export const getServerSideProps: GetServerSideProps = async ({ query }) => {
   const phone = query?.phone || null;
+  const name = query?.name || null;
+
   return {
     props: {
-      phone
+      phone,
+      name
     }
   }
 } 

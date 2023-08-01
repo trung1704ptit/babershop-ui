@@ -2,6 +2,7 @@ import React from "react";
 
 import ServiceItem from "./ServiceItem";
 import { IServiceItem } from "./types";
+import { IUserBooking } from "../../interface/components/bookingEntrance";
 
 const mockServices: IServiceItem[] = [{
   id: 1,
@@ -74,7 +75,7 @@ const mockServices: IServiceItem[] = [{
 }
 ]
 
-export default function ServicesModal() {
+export default function ServicesModal(props: { user: IUserBooking }) {
 
   const handleCancel = () => {
     location.reload();
@@ -85,8 +86,8 @@ export default function ServicesModal() {
     <>
       <div className="container mt-[120px]">
         <div>
-          <h3 className="text-2xl font-semibold mb-0">
-            Mời anh chọn dịch vụ
+          <h3 className="text-2xl font-semibold mb-3">
+            Mời anh <span className="uppercase text-red-500">{props.user.name}</span> chọn dịch vụ
           </h3>
         </div>
 
