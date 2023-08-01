@@ -35,7 +35,7 @@ export default function NameModal(props: INameModal) {
   }
 
   const handleSkip = () => {
-    props.handleContinue(`Guest-${Date.now()}`)
+    props.handleContinue('Guest')
   }
 
   return (

@@ -1,7 +1,13 @@
 export interface IServiceItem {
-  id: number | string
+  data: IServiceDataItem
+  handleSelect: (id: string) => void;
+  serviceSelected: string[]
+}
+
+export interface IServiceDataItem {
+  id: string;
   title: string,
   previewImage: string,
   price: string | number,
-  todos: string[]
+  todos: string[];
 }
