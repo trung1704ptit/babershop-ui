@@ -1,6 +1,6 @@
 import { useRouter } from 'next/router'
 import React, { useRef } from "react";
-import { toast, ToastContainer } from 'react-toastify';
+import { toast } from 'react-toastify';
 
 import { INameModal } from "../../interface/components/bookingEntrance";
 
@@ -11,7 +11,7 @@ export default function NameModal(props: INameModal) {
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Enter') {
-      console.log('enter')
+      handleContinue();
     }
   }
 
@@ -43,10 +43,11 @@ export default function NameModal(props: INameModal) {
       {showModal ? (
         <>
           <div
-            style={{ background: 'url("/img/slide-1.jpg")', backgroundSize: 'cover', backgroundRepeat: 'no-repeat' }}
             className="justify-center items-center flex bg-no-repeat bg-cover bg-center overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none"
+            // className="justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none"
+            style={{ background: 'url("/img/slide-1.jpg")', backgroundSize: 'cover', backgroundRepeat: 'no-repeat' }}
           >
-            <div className="relative w-auto my-6 mx-auto max-w-3xl px-2">
+            <div className="relative w-auto my-6 mx-auto max-w-2xl px-2">
               <div className="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none">
                 <div className="flex items-start justify-between p-8 md:p-10 border-b border-solid border-slate-200 rounded-t">
                   <h3 className="text-2xl font-semibold mb-0">
@@ -89,7 +90,6 @@ export default function NameModal(props: INameModal) {
             </div>
           </div>
           <div className="opacity-25 fixed inset-0 z-40 bg-black"></div>
-          <ToastContainer />
         </>
       ) : null}
     </>

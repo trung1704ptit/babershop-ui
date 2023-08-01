@@ -1,4 +1,5 @@
 import type { AppProps } from 'next/app';
+import { ToastContainer } from 'react-toastify';
 
 import '../styles/globals.css';
 import '../../public/css/elegant-font-icons.css';
@@ -14,6 +15,11 @@ import '../../public/css/main.css';
 import '../../public/css/responsive.css';
 import 'react-toastify/dist/ReactToastify.css';
 
+
 export default function App({ Component, pageProps }: AppProps) {
-  return <Component {...pageProps} />;
+  return <>
+
+    <Component {...pageProps} />
+    <ToastContainer />
+  </>
 }

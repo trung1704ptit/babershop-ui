@@ -1,8 +1,9 @@
 import { useRouter } from 'next/router'
-import { useRef, useState } from "react";
-import { toast, ToastContainer } from 'react-toastify';
+import { useEffect, useRef, useState } from "react";
+import { toast } from 'react-toastify';
 
 import NameModal from "./NameModal";
+import ServicesList from './ServicesList';
 import { IBookingEntrance, IUserBooking } from "../../interface/components/bookingEntrance";
 
 const Booking = (props: IBookingEntrance) => {
@@ -18,6 +19,14 @@ const Booking = (props: IBookingEntrance) => {
 
 
   const router = useRouter();
+
+  useEffect(() => {
+    if (router.query && router.query.phone) {
+      const phone: string = router.query.phone as string;
+      setUser((prev: IUserBooking) => ({ ...prev, phone }))
+    }
+  }, [router.query])
+
 
   const handleClick = () => {
     try {
@@ -52,14 +61,12 @@ const Booking = (props: IBookingEntrance) => {
     setUser(prev => ({ ...prev, name: newName }))
   }
 
-  console.log('user:', user)
-
-  if (user.phone) {
+  if (user.phone && !user.name) {
     return <NameModal handleContinue={handleNameFilled} />
   }
 
-  if (user.name) {
-    // 
+  if (user.phone && user.name) {
+    return <ServicesList />
   }
 
   return (
@@ -73,7 +80,6 @@ const Booking = (props: IBookingEntrance) => {
         <button onClick={handleClick} className="text-white w-full border-0 py-2 px-6 focus:outline-none rounded text-lg bg-emerald-500 active:bg-emerald-600">ĐẶT NGAY</button>
         <p className=" text-gray-500 mt-3 text-md">Hỗ trợ đặt lịch trực tiếp <span className='font-medium text-emerald-500'>0869.825.633</span></p>
       </div>
-      <ToastContainer />
     </div >
   )
 }
