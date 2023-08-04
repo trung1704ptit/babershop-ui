@@ -1,3 +1,5 @@
+import { IUserBooking } from "../../interface/components/bookingEntrance";
+
 export interface IServiceItem {
   data: IServiceDataItem
   handleSelect: (id: string) => void;
@@ -10,4 +12,9 @@ export interface IServiceDataItem {
   previewImage: string,
   price: string | number,
   todos: string[];
+}
+
+export interface IServicesList {
+  user: IUserBooking;
+  handleContinue: (list: any) => void;
 }

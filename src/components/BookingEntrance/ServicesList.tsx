@@ -2,8 +2,7 @@ import React, { useState } from "react";
 import { toast } from "react-toastify";
 
 import ServiceItem from "./ServiceItem";
-import { IServiceDataItem } from "./types";
-import { IUserBooking } from "../../interface/components/bookingEntrance";
+import { IServiceDataItem, IServicesList } from "./types";
 
 const mockServices: IServiceDataItem[] = [{
   id: '1',
@@ -76,30 +75,38 @@ const mockServices: IServiceDataItem[] = [{
 }
 ]
 
-export default function ServicesList(props: { user: IUserBooking }) {
+export default function ServicesList(props: IServicesList) {
   const [serviceSelected, setServicesSelected] = useState<string[]>([]);
 
   const handleContinue = () => {
     if (serviceSelected.length === 0) {
+      toast.dismiss()
       toast.error('Quý khách chưa chọn dịch vụ nào!', {
-        position: toast.POSITION.TOP_RIGHT
+        position: toast.POSITION.TOP_RIGHT,
+        hideProgressBar: true
       });
       window.scrollTo({
         top: 20,
         left: 0,
         behavior: 'smooth'
       });
+    } else {
+      props.handleContinue(serviceSelected);
     }
   }
 
   const handleSelect = (id: string) => {
+    let newSelected = serviceSelected;
     if (serviceSelected.includes(id)) {
-      const newSelected = serviceSelected.filter((item: string) => item !== id);
+      newSelected = serviceSelected.filter((item: string) => item !== id);
       setServicesSelected(newSelected);
     } else {
-      const newSelected = [...serviceSelected, id];
+      newSelected = [...serviceSelected, id];
       setServicesSelected(newSelected);
     }
+    const url = new URL(window.location as any);
+    url.searchParams.set('services', newSelected.join(','));
+    window.history.pushState(null, '', url.toString());
   }
 
   return (
@@ -117,13 +124,13 @@ export default function ServicesList(props: { user: IUserBooking }) {
           ))}
         </div>
 
-        <div className="fixed flex items-center justify-center rounded-b bottom-0 left-0 w-100 bg-white p-3">
+        <div className="fixed flex items-center justify-center rounded-b bottom-0 left-0 w-100 bg-white p-3 shadow-lg">
           <button
-            className="w-full sm:w-4/12 md:6/12 bg-emerald-500 text-white active:bg-emerald-600 font-bold uppercase text-sm px-3 py-2.5 rounded shadow hover:shadow-lg outline-none focus:outline-none mb-1 ease-linear transition-all duration-150"
+            className="text-white w-full sm:w-4/12 md:6/12 bg-[#9f6e0dd4] text-whitefont-bold uppercase text-sm px-3 py-2.5 rounded shadow hover:shadow-lg outline-none focus:outline-none mb-1 ease-linear transition-all duration-150"
             type="button"
             onClick={handleContinue}
           >
-            Chọn {serviceSelected.length > 0 ? serviceSelected.length : ''} dịch vụ
+            Chọn {serviceSelected.length > 0 ? serviceSelected.length : ''} dịch vụ <span className="arrow_right"></span>
           </button>
         </div>
       </div >

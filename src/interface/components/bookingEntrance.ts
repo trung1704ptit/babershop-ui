@@ -10,7 +10,7 @@ export interface INameModal {
 export interface IUserBooking {
   phone: string | number | null | undefined
   name: string | null | undefined,
-  services: null,
+  services: string[],
   bookingTime: string | null,
   notes: string | null,
   barber: string | null
