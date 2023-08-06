@@ -19,7 +19,7 @@ const Booking = (props: IBookingEntrance) => {
       time: 0
     },
     notes: '',
-    stylist: ''
+    barber: null
   })
 
 

@@ -1,4 +1,5 @@
 /* eslint-disable @next/next/no-img-element */
+import moment from 'moment';
 import { useEffect, useState } from "react";
 import Calendar from 'react-calendar';
 
@@ -22,7 +23,7 @@ export const getTimeRange = (time: number) => {
 }
 
 const Stylist = (props: IProps) => {
-  const [stylist, setStylist] = useState<ITeam>();
+  const [barber, setBarber] = useState<ITeam>();
   const [datetime, setDatetime] = useState<{ time: number, date: Value }>({
     time: 8,
     date: new Date()
@@ -37,7 +38,7 @@ const Stylist = (props: IProps) => {
   const handleContinue = () => {
     const payload = {
       datetime,
-      stylist
+      barber
     }
     props.handleContinue(payload)
   }
@@ -57,15 +58,15 @@ const Stylist = (props: IProps) => {
     }, 1000)
   }, [])
 
-  const handleSelectStylist = (item: ITeam) => {
-    setStylist(item);
+  const handleSelectBarber = (item: ITeam) => {
+    setBarber(item);
   }
 
   return (
     <div className="mt-[120px]">
       {
-        !stylist ? <div className="container">
-          <h2 className="text-2lg">Mời anh chọn Stylist</h2>
+        !barber ? <div className="container">
+          <h2 className="text-2lg">Mời anh chọn Barber</h2>
           {
             TEAM.map(item => (
               <div className="flex justify-between border-t py-3" key={item.id}>
@@ -73,7 +74,7 @@ const Stylist = (props: IProps) => {
                   <img src={item.square_avatar} alt="avatar" className="rounded-full w-[100px] mr-3" />
                   <span className="text-lg">{item.name}</span>
                 </div>
-                <div className="flex text-center align-middle"><button className="bg-[#9f6e0dd4] text-white px-4 py-2 rounded outline-none focus:outline-none m-auto" onClick={() => handleSelectStylist(item)}>Chọn <span className="arrow_right"></span></button></div>
+                <div className="flex text-center align-middle"><button className="bg-[#9f6e0dd4] text-white px-4 py-2 rounded outline-none focus:outline-none m-auto" onClick={() => handleSelectBarber(item)}>Chọn <span className="arrow_right"></span></button></div>
               </div>
             ))
           }
@@ -109,7 +110,7 @@ const Stylist = (props: IProps) => {
               type="button"
               onClick={handleContinue}
             >
-              ({datetime.date?.toLocaleString()}, <span className="lowercase">{getTimeRange(datetime.time)})</span> Hoàn tất <span className="arrow_right"></span>
+              ({moment(datetime.date?.toString()).format('DD/MM/YYYY')}, <span className="lowercase">{getTimeRange(datetime.time)})</span> Hoàn tất <span className="arrow_right"></span>
             </button>
           </div>
         </>

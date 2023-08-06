@@ -1,3 +1,5 @@
+import { ITeam } from "../Team/type";
+
 export interface IServiceItem {
   data: IServiceDataItem
   handleSelect: (data: IServiceDataItem) => void;
@@ -27,7 +29,7 @@ export interface IUserBooking {
   services: IServiceDataItem[],
   datetime: IDatetime,
   notes: string,
-  stylist: string
+  barber: ITeam | null
 }
 
 export interface IDatetime {

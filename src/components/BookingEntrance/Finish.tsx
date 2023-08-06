@@ -1,3 +1,4 @@
+import moment from "moment";
 import { useEffect } from "react"
 
 import { getTimeRange } from "./Stylist"
@@ -17,11 +18,12 @@ const Finish = ({ user }: { user: IUserBooking }) => {
         <div className="border-0 rounded-lg  relative p-4">
           <h2 className="text-green-600 mb-4 text-3xl font-bold">Đặt lịch thành công!</h2>
 
-          <p className="font-medium text-lg text-black">ROY Barber Shop xin gửi tới anh thông tin đặt lịch</p>
+          <p className="font-medium text-lg text-black">ROY Barber Shop xin gửi tới anh thông tin lịch hẹn</p>
           <div className="mb-4 text-black text-lg flex flex-wrap">
-            <div className="p-3 text-center justify-center flex flex-col items-center w-full md:w-[33.33%]"><img src="/img/user.png" alt="user" className="w-8 mb-3" /> {user.name} ({user.phone})</div>
-            <div className="p-3 text-center justify-center flex flex-col items-center w-full md:w-[33.33%]"><img src="/img/barber_1.png" alt="barber1" className="w-8 mb-3" />  {user.services.map((s) => s.title).join(', ')}</div>
-            <div className="p-3 text-center justify-center flex flex-col items-center w-full md:w-[33.33%]"><img src="/img/clock.png" alt="clock" className="w-8 mb-3" />  <span>{user.datetime.date.toLocaleDateString()} &nbsp; &nbsp;{getTimeRange(user.datetime.time)}</span></div>
+            <div className="p-3 text-center justify-center flex flex-col items-center w-full md:w-[25%] capitalize"><img src="/img/haircut.png" alt="user" className="w-8 mb-3" /> {user.name} ({user.phone})</div>
+            <div className="p-3 text-center justify-center flex flex-col items-center w-full md:w-[25%]"><img src="/img/barber_1.png" alt="barber1" className="w-8 mb-3" />  {user.services.map((s) => s.title).join(', ')}</div>
+            <div className="p-3 text-center justify-center flex flex-col items-center w-full md:w-[25%] capitalize"><img src="/img/barber.png" alt="clock" className="w-8 mb-3" /> {user.barber?.name}</div>
+            <div className="p-3 text-center justify-center flex flex-col items-center w-full md:w-[25%]"><img src="/img/wall-clock.png" alt="clock" className="w-8 mb-3" />  <span>{moment(user.datetime.date?.toString()).format('DD/MM/YYYY')} &nbsp; &nbsp;{getTimeRange(user.datetime.time)}</span></div>
           </div>
 
           <div className="text-black text-center border-t pt-4">
