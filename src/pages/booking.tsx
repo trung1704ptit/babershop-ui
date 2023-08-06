@@ -20,11 +20,7 @@ export default function Booking({ phone, name }: IBookingPage) {
         <link rel='icon' href='/favicon.ico' />
       </Head>
       <Header />
-      <div
-      // className="justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none"
-      // style={{ background: 'url("/img/slide-1.jpg")', backgroundSize: 'cover', backgroundRepeat: 'no-repeat' }}
-
-      ><BookingEntrance phone={phone} name={name} />
+      <div><BookingEntrance phone={phone} name={name} />
       </div>
     </>
   );

@@ -1,19 +1,23 @@
 import { useRouter } from 'next/router'
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { toast } from 'react-toastify';
 
+import EntranceForm from './EntranceForm';
+import Finish from './Finish';
 import NameModal from "./NameModal";
 import ServicesList from './ServicesList';
 import Stylist from './Stylist';
-import { IBookingEntrance, IUserBooking } from "../../interface/components/bookingEntrance";
+import { IBookingEntrance, IServiceDataItem, IUserBooking } from './types';
 
 const Booking = (props: IBookingEntrance) => {
-  const phoneRef = useRef<HTMLInputElement>(null);
   const [user, setUser] = useState<IUserBooking>({
     phone: props.phone,
     name: props.name,
     services: [],
-    bookingTime: null,
+    bookingTime: {
+      date: new Date(),
+      time: 8
+    },
     notes: null,
     barber: null
   })
@@ -28,7 +32,7 @@ const Booking = (props: IBookingEntrance) => {
     }
   }, [router.query])
 
-  const handleStartBooking = () => {
+  const handleStartBooking = (phoneRef: any) => {
     try {
       if (!phoneRef.current) {
         console.log('error')
@@ -51,13 +55,7 @@ const Booking = (props: IBookingEntrance) => {
     }
   }
 
-  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e?.key === 'Enter') {
-      handleStartBooking();
-    }
-  }
-
-  const handleSelectServices = (services: string[]) => {
+  const handleSelectServices = (services: IServiceDataItem[]) => {
     setUser(prev => ({ ...prev, services }))
   }
 
@@ -76,24 +74,20 @@ const Booking = (props: IBookingEntrance) => {
     return <ServicesList user={user} handleContinue={handleSelectServices} />
   }
 
-  if (user.services.length > 0) {
+  if (user.services.length > 0 && !user.bookingTime) {
     return (
-      <Stylist />
+      <Stylist handleContinue={timeData => setUser(prev => ({ ...prev, bookingTime: timeData }))} />
+    )
+  }
+
+  if (user.bookingTime) {
+    return (
+      <Finish user={user} />
     )
   }
 
   return (
-    <div className="px-3 md:px-5 md:py-24 mx-auto flex text-gray-600 body-font relative" id="booking-box">
-      <div className="max-w-sm bg-white rounded-lg p-8 md:ml-auto w-full mt-10 md:mt-0 relative z-10 shadow-md mx-auto">
-        <h2 className="text-gray-900 text-xl font-semibold title-font">ĐẶT LỊCH GIỮ CHỖ CHỈ 30 GIÂY</h2>
-        <p className="leading-relaxed text-gray-600 text-md mb-4">Cắt xong trả tiền, hủy lịch thoải mái</p>
-        <div className="relative mb-4">
-          <input type="number" required ref={phoneRef} onKeyDown={handleKeyDown} placeholder="Nhập SDT để đặt lịch" name="phone" className="w-full bg-white rounded border border-gray-300 focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-2 px-3 leading-8 transition-colors duration-200 ease-in-out" />
-        </div>
-        <button onClick={handleStartBooking} className="text-white w-full border-0 py-2 px-6 focus:outline-none rounded text-lg bg-[#9f6e0dd4]">ĐẶT NGAY</button>
-        <p className=" text-gray-500 mt-3 text-md">Hỗ trợ đặt lịch trực tiếp <span className='font-medium text-[#9f6e0dd4]'>0869.825.633</span></p>
-      </div>
-    </div >
+    <EntranceForm handleStartBooking={handleStartBooking} />
   )
 }
 

@@ -1,3 +1,6 @@
+/* eslint-disable @next/next/no-img-element */
+import { TEAM } from "../../utils/constants";
+
 const Team = () => {
   return (
     <section id="team" className="team_section bd-bottom padding">
@@ -8,33 +11,17 @@ const Team = () => {
           <div className="heading-line" />
         </div>
         <ul className="team_members row justify-center">
-          <li className="col-lg-3 col-md-6 sm-padding wow fadeInUp" data-wow-delay="200ms">
-            <div className="team_member">
-              <img src="/img/barber1.png" alt="Team Member1" />
-              <div className="overlay">
-                <h3>Kyle Frederick</h3>
-                <p>WEB DESIGNER</p>
+          {TEAM.map(stylist => (
+            <li className="col-lg-3 col-md-6 sm-padding wow fadeInUp" data-wow-delay="200ms" key={stylist.id}>
+              <div className="team_member">
+                <img src={stylist.avatar} alt="Team Member" />
+                <div className="overlay">
+                  <h3>{stylist.name}</h3>
+                  <p>{stylist.description}</p>
+                </div>
               </div>
-            </div>
-          </li>
-          <li className="col-lg-3 col-md-6 sm-padding wow fadeInUp" data-wow-delay="300ms">
-            <div className="team_member">
-              <img src="/img/barber2.png" alt="Team Member2" />
-              <div className="overlay">
-                <h3>José Carpio</h3>
-                <p>WORDPRESS DEVELOPER</p>
-              </div>
-            </div>
-          </li>
-          <li className="col-lg-3 col-md-6 sm-padding wow fadeInUp" data-wow-delay="400ms">
-            <div className="team_member">
-              <img src="/img/barber3.png" alt="Team Member3" />
-              <div className="overlay">
-                <h3>Michel Ibáñez</h3>
-                <p>ONLINE MARKETER</p>
-              </div>
-            </div>
-          </li>
+            </li>
+          ))}
         </ul>
       </div>
     </section>

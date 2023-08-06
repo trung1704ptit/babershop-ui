@@ -90,7 +90,7 @@ const HeroCarousel = () => {
           </li>
         </SwiperSlide>
       </Swiper>
-      <div className="lg:absolute top-[100px] right-[200px] center"><BookingEntrance /></div>
+      <div className="-mt-[150px] lg:mt-0 lg:absolute top-[100px] right-[200px] center"><BookingEntrance /></div>
     </section >
   );
 };

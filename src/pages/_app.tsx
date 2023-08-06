@@ -14,6 +14,7 @@ import '../../public/css/slicknav.min.css';
 import '../../public/css/main.css';
 import '../../public/css/responsive.css';
 import 'react-toastify/dist/ReactToastify.css';
+import 'react-calendar/dist/Calendar.css';
 
 
 export default function App({ Component, pageProps }: AppProps) {

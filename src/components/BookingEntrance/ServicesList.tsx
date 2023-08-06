@@ -3,80 +3,11 @@ import { toast } from "react-toastify";
 
 import ServiceItem from "./ServiceItem";
 import { IServiceDataItem, IServicesList } from "./types";
+import { SERVICES } from "../../utils/constants";
 
-const mockServices: IServiceDataItem[] = [{
-  id: '1',
-  title: 'Cắt tóc',
-  previewImage: 'https://s3.ap-southeast-1.amazonaws.com/storage.30shine.com/service/combo_booking/793.jpg',
-  price: '80k',
-  todos: ['Cắt tóc hoàn hảo', 'Tư vấn cắt', 'Gội và vuốt tạo kiểu']
-}, {
-  id: '2',
-  title: 'Cạo râu mặt',
-  previewImage: 'https://s3.ap-southeast-1.amazonaws.com/storage.30shine.com/service/combo_booking/625.jpg',
-  price: '50k',
-  todos: ['Phong cách BarberShop cổ điển thư giãn cùng khăn nóng kèm tinh dầu thơm']
-},
-{
-  id: '3',
-  title: 'Cạo đầu',
-  previewImage: '/img/troc-dau.jpg',
-  price: '50k',
-  todos: ['Xuống tóc và thư giãn cùng khăn nóng kèm tinh dầu thơm']
-},
-{
-  id: '4',
-  title: 'Nối tóc DREADLOCK',
-  previewImage: 'https://storage.30shine.com/service/combo_booking/382.jpg',
-  price: '2500-3000k',
-  todos: ['Nối tóc DREADLOCK']
-},
-{
-  id: '5',
-  title: 'Uốn tóc',
-  previewImage: 'https://storage.30shine.com/service/combo_booking/382.jpg',
-  price: '350k',
-  todos: ['Uốn tạo kiểu giữ nếp cho mái tóc đẹp hơn']
-},
-{
-  id: '6',
-  title: 'Uốn PREMLOCK',
-  previewImage: 'https://storage.30shine.com/service/combo_booking/382.jpg',
-  price: '500-800k',
-  todos: ['Độc lạ cá tính']
-},
-{
-  id: '7',
-  title: 'Nhuộm màu thời trang',
-  previewImage: '/img/nhuom-mau01.jpeg',
-  price: '300k',
-  todos: ['Thay đổi màu tóc thu hút ánh nhìn']
-},
-{
-  id: '8',
-  title: 'Nhuộm màu đen phủ bạc',
-  previewImage: 'https://storage.30shine.com/service/combo_booking/382.jpg',
-  price: '150k',
-  todos: ['Nhuộm màu đen phủ bạc']
-},
-{
-  id: '9',
-  title: 'LIGHT',
-  previewImage: 'https://storage.30shine.com/service/combo_booking/382.jpg',
-  price: '100k',
-  todos: ['LIGHT']
-},
-{
-  id: '10',
-  title: 'Tẩy tóc (1 lần)',
-  previewImage: 'https://storage.30shine.com/service/combo_booking/382.jpg',
-  price: '100k',
-  todos: ['Tẩy tóc (1 lần)']
-}
-]
 
 export default function ServicesList(props: IServicesList) {
-  const [serviceSelected, setServicesSelected] = useState<string[]>([]);
+  const [serviceSelected, setServicesSelected] = useState<IServiceDataItem[]>([]);
 
   const handleContinue = () => {
     if (serviceSelected.length === 0) {
@@ -95,17 +26,18 @@ export default function ServicesList(props: IServicesList) {
     }
   }
 
-  const handleSelect = (id: string) => {
+  const handleSelect = (data: IServiceDataItem) => {
     let newSelected = serviceSelected;
-    if (serviceSelected.includes(id)) {
-      newSelected = serviceSelected.filter((item: string) => item !== id);
+    const isExist = serviceSelected.find(item => item.id === data.id);
+    if (isExist) {
+      newSelected = serviceSelected.filter((item: IServiceDataItem) => item.id !== data.id);
       setServicesSelected(newSelected);
     } else {
-      newSelected = [...serviceSelected, id];
+      newSelected = [...serviceSelected, data];
       setServicesSelected(newSelected);
     }
     const url = new URL(window.location as any);
-    url.searchParams.set('services', newSelected.join(','));
+    url.searchParams.set('services', newSelected.map(item => item.id).join(','));
     window.history.pushState(null, '', url.toString());
   }
 
@@ -119,7 +51,7 @@ export default function ServicesList(props: IServicesList) {
         </div>
 
         <div className="relative flex flex-wrap -m-2 mt-2 mb-[100px] items-stretch">
-          {mockServices.map(item => (
+          {SERVICES.map(item => (
             <ServiceItem key={item.id} data={item} handleSelect={handleSelect} serviceSelected={serviceSelected} />
           ))}
         </div>

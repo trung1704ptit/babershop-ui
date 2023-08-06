@@ -1,33 +1,17 @@
-/* eslint-disable @next/next/no-img-element */
-import { toast } from "react-toastify";
-
-import { IServiceItem } from "./types";
+import { IServiceDataItem, IServiceItem } from "./types";
 
 const ServiceItem = (props: IServiceItem) => {
-  const isSelected = props.serviceSelected.includes(props.data.id)
+  const isSelected = props.serviceSelected.find(item => item.id === props.data.id)
 
-  const handleSelect = (id: string) => {
-    props.handleSelect(id);
-    toast.dismiss();
-    if (isSelected) {
-      toast.success(`Đã bỏ ${props.data.title}`, {
-        position: toast.POSITION.TOP_RIGHT,
-        hideProgressBar: true
-      });
-    } else {
-      toast.success(`Đã chọn ${props.data.title}`, {
-        position: toast.POSITION.TOP_RIGHT,
-        hideProgressBar: true
-      });
-    }
+  const handleSelect = (data: IServiceDataItem) => {
+    props.handleSelect(data);
   }
 
 
   return (
     <div className="w-1/2 md:w-1/4 p-2 items-stretch h-auto">
       <div className="rounded-lg border border-gray-300 flex flex-col relative overflow-hidden h-100">
-        <img src={props.data.previewImage} alt="service img" />
-        <div className="p-2.5 flex flex-col justify-between h-100">
+        <div className="p-3 flex flex-col justify-between h-100">
           <div>
             <h4 className="font-bold">{props.data.title}</h4>
             {props.data.todos.map((todo: string) => (
@@ -52,7 +36,7 @@ const ServiceItem = (props: IServiceItem) => {
           <div>
             <p className="font-semibold text-black">{props.data.price}</p>
             <button className={`text-black text-center mt-auto border py-1 w-full focus:outline-none rounded ${isSelected ? 'bg-[#9f6e0dd4] text-white' : ''}`}
-              onClick={() => handleSelect(props.data.id)}
+              onClick={() => handleSelect(props.data)}
             >
               {isSelected ? <span className="inline-flex items-center justify-center text-white">
                 <svg
