@@ -23,7 +23,7 @@ export const getTimeRange = (time: number) => {
 
 const Stylist = (props: IProps) => {
   const [stylist, setStylist] = useState<ITeam>();
-  const [dateTime, setDateTime] = useState<{ time: number, date: Value }>({
+  const [datetime, setDatetime] = useState<{ time: number, date: Value }>({
     time: 8,
     date: new Date()
   });
@@ -31,11 +31,15 @@ const Stylist = (props: IProps) => {
   const [timeSeries, setTimeSeries] = useState<number[]>([]);
 
   const handleSelectTime = (time: number) => {
-    setDateTime(prev => ({ ...prev, time }));
+    setDatetime(prev => ({ ...prev, time }));
   }
 
   const handleContinue = () => {
-    props.handleContinue(dateTime)
+    const payload = {
+      datetime,
+      stylist
+    }
+    props.handleContinue(payload)
   }
 
   useEffect(() => {
@@ -74,14 +78,14 @@ const Stylist = (props: IProps) => {
             ))
           }
         </div> : <>
-          <Calendar onChange={newDate => setDateTime(prev => ({ ...prev, date: newDate }))} value={dateTime.date} className="m-auto border-gray-200 rounded" />
+          <Calendar onChange={newDate => setDatetime(prev => ({ ...prev, date: newDate }))} value={datetime.date} className="m-auto border-gray-200 rounded" />
           <div className="flex flex-wrap container mb-[120px]">
             {
               timeSeries.length > 0 ? timeSeries.map(time => {
                 if (Number.isInteger(time)) {
                   return (
                     <div className="p-2 w-1/2 md:w-1/4 h-[100px]" key={time} onClick={() => handleSelectTime(time)} id={time.toString()}>
-                      <div className={`border rounded cursor-pointer text-center w-100 h-100 flex text-base font-semibold ${dateTime.time === time ? "bg-[#9f6e0dd4] text-white" : ""}`}>
+                      <div className={`border rounded cursor-pointer text-center w-100 h-100 flex text-base font-semibold ${datetime.time === time ? "bg-[#9f6e0dd4] text-white" : ""}`}>
                         <span className="m-auto">{time}h:00 - {time}h:30</span>
                       </div>
                     </div>
@@ -89,7 +93,7 @@ const Stylist = (props: IProps) => {
                 }
                 return (
                   <div className="p-2 w-1/2 md:w-1/4 h-[100px]" key={time} onClick={() => handleSelectTime(time)} id={time.toString()}>
-                    <div className={`border rounded cursor-pointer text-center w-100 h-100 flex text-base font-semibold ${dateTime.time === time ? "bg-[#9f6e0dd4] text-white" : ""}`}>
+                    <div className={`border rounded cursor-pointer text-center w-100 h-100 flex text-base font-semibold ${datetime.time === time ? "bg-[#9f6e0dd4] text-white" : ""}`}>
                       <span className="m-auto">{time - 0.5}h:30 - {time + 0.5}h:00</span>
                     </div>
                   </div>
@@ -105,7 +109,7 @@ const Stylist = (props: IProps) => {
               type="button"
               onClick={handleContinue}
             >
-              ({dateTime.date?.toLocaleString()}, <span className="lowercase">{getTimeRange(dateTime.time)})</span> Hoàn tất <span className="arrow_right"></span>
+              ({datetime.date?.toLocaleString()}, <span className="lowercase">{getTimeRange(datetime.time)})</span> Hoàn tất <span className="arrow_right"></span>
             </button>
           </div>
         </>

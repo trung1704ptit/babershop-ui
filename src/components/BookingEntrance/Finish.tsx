@@ -21,7 +21,7 @@ const Finish = ({ user }: { user: IUserBooking }) => {
           <div className="mb-4 text-black text-lg flex flex-wrap">
             <div className="p-3 text-center justify-center flex flex-col items-center w-full md:w-[33.33%]"><img src="/img/user.png" alt="user" className="w-8 mb-3" /> {user.name} ({user.phone})</div>
             <div className="p-3 text-center justify-center flex flex-col items-center w-full md:w-[33.33%]"><img src="/img/barber_1.png" alt="barber1" className="w-8 mb-3" />  {user.services.map((s) => s.title).join(', ')}</div>
-            <div className="p-3 text-center justify-center flex flex-col items-center w-full md:w-[33.33%]"><img src="/img/clock.png" alt="clock" className="w-8 mb-3" />  <span>{user.bookingTime.date.toLocaleDateString()} &nbsp; &nbsp;{getTimeRange(user.bookingTime.time)}</span></div>
+            <div className="p-3 text-center justify-center flex flex-col items-center w-full md:w-[33.33%]"><img src="/img/clock.png" alt="clock" className="w-8 mb-3" />  <span>{user.datetime.date.toLocaleDateString()} &nbsp; &nbsp;{getTimeRange(user.datetime.time)}</span></div>
           </div>
 
           <div className="text-black text-center border-t pt-4">

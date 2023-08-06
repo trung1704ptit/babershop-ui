@@ -14,12 +14,12 @@ const Booking = (props: IBookingEntrance) => {
     phone: props.phone,
     name: props.name,
     services: [],
-    bookingTime: {
+    datetime: {
       date: new Date(),
-      time: 8
+      time: 0
     },
-    notes: null,
-    barber: null
+    notes: '',
+    stylist: ''
   })
 
 
@@ -74,13 +74,13 @@ const Booking = (props: IBookingEntrance) => {
     return <ServicesList user={user} handleContinue={handleSelectServices} />
   }
 
-  if (user.services.length > 0 && !user.bookingTime) {
+  if (user.services.length > 0 && !user.datetime.time) {
     return (
-      <Stylist handleContinue={timeData => setUser(prev => ({ ...prev, bookingTime: timeData }))} />
+      <Stylist handleContinue={payload => setUser(prev => ({ ...prev, ...payload }))} />
     )
   }
 
-  if (user.bookingTime) {
+  if (user.datetime.time) {
     return (
       <Finish user={user} />
     )

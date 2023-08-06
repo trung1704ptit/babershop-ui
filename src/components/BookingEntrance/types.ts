@@ -25,12 +25,12 @@ export interface IUserBooking {
   phone: string | number | null | undefined
   name: string | null | undefined,
   services: IServiceDataItem[],
-  bookingTime: IBookingTime,
-  notes: string | null,
-  barber: string | null
+  datetime: IDatetime,
+  notes: string,
+  stylist: string
 }
 
-export interface IBookingTime {
+export interface IDatetime {
   time: number;
   date: Date;
 }
