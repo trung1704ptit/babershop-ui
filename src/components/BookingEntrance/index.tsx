@@ -8,6 +8,9 @@ import NameModal from "./NameModal";
 import ServicesList from './ServicesList';
 import Stylist from './Stylist';
 import { IBookingEntrance, IServiceDataItem, IUserBooking } from './types';
+import { ITeam } from '../Team/type';
+import addData from '../../firebase/addData';
+import { BOOKING_COLLECTION } from '../../firebase/config';
 
 const Booking = (props: IBookingEntrance) => {
   const [user, setUser] = useState<IUserBooking>({
@@ -66,6 +69,26 @@ const Booking = (props: IBookingEntrance) => {
     window.history.pushState(null, '', url.toString());
   }
 
+  const handleSelectBarberAndTime = (barberAndTime: {
+    datetime: { date: Date, time: number },
+    barber: ITeam
+  }) => {
+    const newUser = { ...user, ...barberAndTime }
+    setUser(newUser)
+
+
+    const payload = {
+      name: newUser.name,
+      barber: newUser.barber?.name,
+      datetime: newUser.datetime,
+      notes: newUser.notes,
+      phone: newUser.phone,
+      services: newUser.services.map(item => ({ id: item.id, price: item.price, title: item.title })),
+    }
+
+    addData(BOOKING_COLLECTION, new Date().getTime().toString(), payload)
+  }
+
   if (user.phone && !user.name) {
     return <NameModal handleContinue={handleNameFilled} />
   }
@@ -76,7 +99,7 @@ const Booking = (props: IBookingEntrance) => {
 
   if (user.services.length > 0 && !user.datetime.time) {
     return (
-      <Stylist handleContinue={payload => setUser(prev => ({ ...prev, ...payload }))} />
+      <Stylist handleContinue={handleSelectBarberAndTime} />
     )
   }
 

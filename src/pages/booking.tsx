@@ -27,9 +27,9 @@ export default function Booking({ phone, name }: IBookingPage) {
 }
 
 
-export const getServerSideProps: GetServerSideProps = async ({ query }) => {
-  const phone = query?.phone || null;
-  const name = query?.name || null;
+export const getServerSideProps: GetServerSideProps = async (args) => {
+  const phone = args.query?.phone || null;
+  const name = args.query?.name || null;
 
   return {
     props: {

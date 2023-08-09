@@ -86,7 +86,7 @@ export const TEAM: ITeam[] = [
     avatar: '/img/barber1.png',
   },
   {
-    id: 1,
+    id: 2,
     name: 'XXX',
     position: '',
     description: '',
@@ -94,7 +94,7 @@ export const TEAM: ITeam[] = [
     avatar: '/img/barber2.png',
   },
   {
-    id: 1,
+    id: 3,
     name: 'Đạt Trần',
     position: '',
     description: '',

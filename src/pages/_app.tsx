@@ -10,7 +10,6 @@ import '../../public/css/bootstrap.min.css';
 import '../../public/css/animate.min.css';
 import '../../public/css/venobox/venobox.css';
 import '../../public/css/nice-select.css';
-import '../../public/css/slicknav.min.css';
 import '../../public/css/main.css';
 import '../../public/css/responsive.css';
 import 'react-toastify/dist/ReactToastify.css';

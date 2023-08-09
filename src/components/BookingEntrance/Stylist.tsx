@@ -1,10 +1,13 @@
 /* eslint-disable @next/next/no-img-element */
+import { collection, getDocs, query, where } from 'firebase/firestore';
 import moment from 'moment';
 import { useEffect, useState } from "react";
 import Calendar from 'react-calendar';
 
 import Loading from "../Loading";
 import { ITeam } from "../Team/type";
+import { BOOKING_COLLECTION, db } from '../../firebase/config';
+import { IBookingItem } from '../../interface/pages/booking';
 import { TEAM, TIME_LIST } from "../../utils/constants";
 
 type ValuePiece = Date | null;
@@ -14,12 +17,18 @@ type Value = ValuePiece | [ValuePiece, ValuePiece];
 type IProps = {
   handleContinue: (timeData: any) => void;
 }
+
 export const getTimeRange = (time: number) => {
   if (Number.isInteger(time)) {
     return `${time}h:00 - ${time}h:30`;
   }
 
   return `${time - 0.5}h:30 - ${time + 0.5}h:00`;
+}
+
+const isAvailableToOrder = (bookingList: IBookingItem[], timeToCheck: number) => {
+  const filter = bookingList.filter((booking: IBookingItem) => booking.datetime.time === timeToCheck);
+  return filter.length < 2;
 }
 
 const Stylist = (props: IProps) => {
@@ -30,9 +39,12 @@ const Stylist = (props: IProps) => {
   });
 
   const [timeSeries, setTimeSeries] = useState<number[]>([]);
+  const [bookingList, setBookingList] = useState<IBookingItem[]>([])
 
-  const handleSelectTime = (time: number) => {
-    setDatetime(prev => ({ ...prev, time }));
+  const handleSelectTime = (time: number, isAvailable: boolean) => {
+    if (isAvailable) {
+      setDatetime(prev => ({ ...prev, time }));
+    }
   }
 
   const handleContinue = () => {
@@ -58,8 +70,41 @@ const Stylist = (props: IProps) => {
     }, 1000)
   }, [])
 
+  console.log('bookingList:', bookingList)
+
+  const onChangeDate = (startDate: any) => {
+    setDatetime(prev => ({ ...prev, date: startDate }))
+    if (barber?.name) {
+      handleQueryBookingList(barber.name, startDate);
+    }
+  }
+
+  const handleQueryBookingList = async (barberName: string, startDate?: Date,) => {
+    if (!startDate) {
+      startDate = new Date();
+    }
+    const colRef = collection(db, BOOKING_COLLECTION);
+    startDate.setHours(0, 0, 0, 0);
+    const nextDate = new Date(startDate)
+    nextDate.setDate(startDate.getDate() + 1)
+    nextDate.setHours(0, 0, 0, 0);
+
+    const queryString = query(colRef, where("datetime.date", ">=", startDate), where("datetime.date", "<", nextDate), where("barber", "==", barberName))
+    const docsSnap = await getDocs(queryString);
+    const data: IBookingItem[] = [];
+    docsSnap.forEach(doc => {
+      if (doc) {
+        data.push(doc.data() as IBookingItem);
+      }
+    })
+    setBookingList(data);
+  }
+
   const handleSelectBarber = (item: ITeam) => {
     setBarber(item);
+    if (item.name) {
+      handleQueryBookingList(item.name)
+    }
   }
 
   return (
@@ -79,23 +124,28 @@ const Stylist = (props: IProps) => {
             ))
           }
         </div> : <>
-          <Calendar onChange={newDate => setDatetime(prev => ({ ...prev, date: newDate }))} value={datetime.date} className="m-auto border-gray-200 rounded" />
+          <Calendar onChange={onChangeDate} value={datetime.date} className="m-auto border-gray-200 rounded" />
           <div className="flex flex-wrap container mb-[120px]">
             {
               timeSeries.length > 0 ? timeSeries.map(time => {
-                if (Number.isInteger(time)) {
-                  return (
-                    <div className="p-2 w-1/2 md:w-1/4 h-[100px]" key={time} onClick={() => handleSelectTime(time)} id={time.toString()}>
-                      <div className={`border rounded cursor-pointer text-center w-100 h-100 flex text-base font-semibold ${datetime.time === time ? "bg-[#9f6e0dd4] text-white" : ""}`}>
-                        <span className="m-auto">{time}h:00 - {time}h:30</span>
-                      </div>
-                    </div>
-                  )
+                const isAvailable = isAvailableToOrder(bookingList, time);
+                let bg = 'bg-stone-300';
+                if (datetime.time === time && isAvailable) {
+                  bg = 'bg-[#9f6e0dd4] text-white';
+                } else if (isAvailable) {
+                  bg = 'bg-white'
                 }
+
+                let text = `${time}h:00 - ${time}h:30`
+
+                if (!Number.isInteger(time)) {
+                  text = `${time - 0.5}h:30 - ${time + 0.5}h:00`
+                }
+
                 return (
-                  <div className="p-2 w-1/2 md:w-1/4 h-[100px]" key={time} onClick={() => handleSelectTime(time)} id={time.toString()}>
-                    <div className={`border rounded cursor-pointer text-center w-100 h-100 flex text-base font-semibold ${datetime.time === time ? "bg-[#9f6e0dd4] text-white" : ""}`}>
-                      <span className="m-auto">{time - 0.5}h:30 - {time + 0.5}h:00</span>
+                  <div className={`${isAvailable ? 'cursor-pointer' : 'cursor-not-allowed'} p-2 w-1/2 md:w-1/4 h-[100px]`} key={time} onClick={() => handleSelectTime(time, isAvailable)} id={time.toString()}>
+                    <div className={`border rounded text-center w-100 h-100 flex text-base font-semibold ${bg}`}>
+                      <span className="m-auto">{text}</span>
                     </div>
                   </div>
                 )

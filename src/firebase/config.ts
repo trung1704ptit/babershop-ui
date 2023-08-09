@@ -1,6 +1,7 @@
 // Import the functions you need from the SDKs you need
 // https://www.freecodecamp.org/news/create-full-stack-app-with-nextjs13-and-firebase/
 import { getApps, initializeApp } from "firebase/app";
+import { getFirestore } from "firebase/firestore";
 
 const firebaseConfig = {
     apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
@@ -16,3 +17,7 @@ const firebaseConfig = {
 const firebaseApp = getApps().length === 0 ? initializeApp(firebaseConfig) : getApps()[0];
 
 export default firebaseApp;
+
+export const db = getFirestore(firebaseApp as any)
+
+export const BOOKING_COLLECTION = 'booking';
