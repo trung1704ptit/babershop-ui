@@ -16,8 +16,15 @@
     "test-watch": "jest --watch"
   },
   "dependencies": {
+    "@aldabil/react-scheduler": "^2.7.17",
+    "@emotion/react": "^11.11.1",
+    "@emotion/styled": "^11.11.0",
     "@headlessui/react": "^1.7.10",
     "@heroicons/react": "^2.0.15",
+    "@mui/icons-material": "^5.14.3",
+    "@mui/material": "^5.14.4",
+    "@mui/x-date-pickers": "^6.11.1",
+    "date-fns": "^2.30.0",
     "firebase": "^10.1.0",
     "moment": "^2.29.4",
     "next": "13.4.4",

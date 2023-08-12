@@ -1,8 +1,10 @@
 import Link from "next/link";
 
-const Header = () => {
+import { IHeaderProps } from "./types";
+
+const Header = ({ position }: IHeaderProps) => {
   return (
-    <header id="header" className="header-section">
+    <header id="header" className={`header-section ${position ? position : 'fixed'}`}>
       <div className="container">
         <nav className="navbar ">
           <Link href="/" className="navbar-brand"><img src="/img/logo.png" alt="Barbershop" /></Link>

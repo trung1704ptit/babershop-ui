@@ -70,8 +70,6 @@ const Stylist = (props: IProps) => {
     }, 1000)
   }, [])
 
-  console.log('bookingList:', bookingList)
-
   const onChangeDate = (startDate: any) => {
     setDatetime(prev => ({ ...prev, date: startDate }))
     if (barber?.name) {

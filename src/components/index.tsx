@@ -11,6 +11,8 @@ const Loading = dynamic(() => import("./Loading"))
 const Pricing = dynamic(() => import("./Pricing"))
 const ScrollToTop = dynamic(() => import("./ScrollToTop"))
 const BookingEntrance = dynamic(() => import("./BookingEntrance"))
+const Layout = dynamic(() => import("./Layout"))
+const Scheduler = dynamic(() => import("./Scheduler"))
 
 export {
   About,
@@ -18,10 +20,11 @@ export {
   Footer,
   Header,
   HeroCarousel,
+  Layout,
   Loading,
   Pricing,
   Reviews,
+  Scheduler,
   ScrollToTop,
-  Services,
-  Team
+  Services, Team
 }

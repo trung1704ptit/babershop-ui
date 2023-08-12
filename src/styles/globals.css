@@ -73,3 +73,11 @@
   font-size: 14px;
   color: #9f6e0dd4;
 }
+
+.rs__time .MuiTypography-caption {
+  margin-top: -56px;
+}
+.active-btn {
+  color: white;
+  background: #9f6e0dd4;
+}
