@@ -79,7 +79,10 @@ const Booking = (props: IBookingEntrance) => {
 
     const payload = {
       name: newUser.name,
-      barber: newUser.barber?.name,
+      barber: {
+        name: newUser.barber.name,
+        color: newUser.barber.color
+      },
       datetime: newUser.datetime,
       notes: newUser.notes,
       phone: newUser.phone,
@@ -99,7 +102,7 @@ const Booking = (props: IBookingEntrance) => {
 
   if (user.services.length > 0 && !user.datetime.time) {
     return (
-      <Stylist handleContinue={handleSelectBarberAndTime} />
+      <Stylist handleContinue={handleSelectBarberAndTime} title='Mời anh chọn Barber' marginTop='120px' />
     )
   }
 

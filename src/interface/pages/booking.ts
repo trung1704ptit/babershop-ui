@@ -5,7 +5,10 @@ export interface IBookingPage {
 
 export interface IBookingItem {
   id?: string;
-  baber: string,
+  barber: {
+    name: string,
+    color: string,
+  },
   name: string,
   datetime: {
     date: any,

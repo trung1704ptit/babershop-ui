@@ -1,4 +1,5 @@
 /* eslint-disable @next/next/no-img-element */
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { collection, getDocs, query, where } from 'firebase/firestore';
 import moment from 'moment';
 import { useEffect, useState } from "react";
@@ -9,6 +10,7 @@ import { ITeam } from "../Team/type";
 import { BOOKING_COLLECTION, db } from '../../firebase/config';
 import { IBookingItem } from '../../interface/pages/booking';
 import { TEAM, TIME_LIST } from "../../utils/constants";
+import { getTimeRange } from '../../utils/helper';
 
 type ValuePiece = Date | null;
 
@@ -16,14 +18,9 @@ type Value = ValuePiece | [ValuePiece, ValuePiece];
 
 type IProps = {
   handleContinue: (timeData: any) => void;
-}
-
-export const getTimeRange = (time: number) => {
-  if (Number.isInteger(time)) {
-    return `${time}h:00 - ${time}h:30`;
-  }
-
-  return `${time - 0.5}h:30 - ${time + 0.5}h:00`;
+  title: string,
+  marginTop: string,
+  renderCustomButton?: (props: any) => JSX.Element
 }
 
 const isAvailableToOrder = (bookingList: IBookingItem[], timeToCheck: number) => {
@@ -32,7 +29,7 @@ const isAvailableToOrder = (bookingList: IBookingItem[], timeToCheck: number) =>
 }
 
 const Stylist = (props: IProps) => {
-  const [barber, setBarber] = useState<ITeam>();
+  const [barber, setBarber] = useState<ITeam | null>();
   const [datetime, setDatetime] = useState<{ time: number, date: Value }>({
     time: 8,
     date: new Date()
@@ -106,13 +103,13 @@ const Stylist = (props: IProps) => {
   }
 
   return (
-    <div className="mt-[120px]">
+    <div className={`mt-[${props.marginTop}]`}>
       {
         !barber ? <div className="container">
-          <h2 className="text-2lg">Mời anh chọn Barber</h2>
+          <h2 className="text-2lg">{props.title}</h2>
           {
             TEAM.map(item => (
-              <div className="flex justify-between border-t py-3" key={item.id}>
+              <div className="flex justify-between border-b py-3" key={item.id}>
                 <div className="flex text-center items-center">
                   <img src={item.square_avatar} alt="avatar" className="rounded-full w-[100px] mr-3" />
                   <span className="text-lg">{item.name}</span>
@@ -122,6 +119,10 @@ const Stylist = (props: IProps) => {
             ))
           }
         </div> : <>
+          <button className='flex mb-3 cursor-pointer bg-[#9f6e0dd4] p-2 rounded text-white' onClick={() => setBarber(null)}>
+            <ArrowBackIcon /><span className='text-md ml-2'>Chọn Barber khác</span>
+          </button>
+          <p className="container">Đang hiển thị lịch đặt của {barber.name}</p>
           <Calendar onChange={onChangeDate} value={datetime.date} className="m-auto border-gray-200 rounded" />
           <div className="flex flex-wrap container mb-[120px]">
             {
@@ -134,16 +135,12 @@ const Stylist = (props: IProps) => {
                   bg = 'bg-white'
                 }
 
-                let text = `${time}h:00 - ${time}h:30`
-
-                if (!Number.isInteger(time)) {
-                  text = `${time - 0.5}h:30 - ${time + 0.5}h:00`
-                }
+                const timeText = getTimeRange(time);
 
                 return (
                   <div className={`${isAvailable ? 'cursor-pointer' : 'cursor-not-allowed'} p-2 w-1/2 md:w-1/4 h-[100px]`} key={time} onClick={() => handleSelectTime(time, isAvailable)} id={time.toString()}>
                     <div className={`border rounded text-center w-100 h-100 flex text-base font-semibold ${bg}`}>
-                      <span className="m-auto">{text}</span>
+                      <span className="m-auto">{timeText}</span>
                     </div>
                   </div>
                 )
@@ -152,7 +149,7 @@ const Stylist = (props: IProps) => {
               </div>
             }
           </div >
-          <div className="fixed flex items-center justify-center rounded-b bottom-0 left-0 w-100 bg-white p-3 shadow-lg">
+          {props.renderCustomButton ? <props.renderCustomButton handleContinue={handleContinue} /> : <div className="fixed flex items-center justify-center rounded-b bottom-0 left-0 w-100 bg-white p-3 shadow-lg">
             <button
               className="text-white w-full sm:w-5/12 md:6/12 bg-[#9f6e0dd4] text-whitefont-bold uppercase text-sm px-3 py-2.5 rounded shadow hover:shadow-lg outline-none focus:outline-none mb-1 ease-linear transition-all duration-150"
               type="button"
@@ -160,7 +157,7 @@ const Stylist = (props: IProps) => {
             >
               ({moment(datetime.date?.toString()).format('DD/MM/YYYY')}, <span className="lowercase">{getTimeRange(datetime.time)})</span> Hoàn tất <span className="arrow_right"></span>
             </button>
-          </div>
+          </div>}
         </>
       }
     </div >

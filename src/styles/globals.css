@@ -76,6 +76,7 @@
 
 .rs__time .MuiTypography-caption {
   margin-top: -56px;
+  background: #fff;
 }
 .active-btn {
   color: white;

@@ -93,7 +93,7 @@ export const TEAM: ITeam[] = [
     description: '',
     square_avatar: '/img/barber2_square.png',
     avatar: '/img/barber2.png',
-    color: 'yeallow'
+    color: '#c94f08'
   },
   {
     id: 3,
@@ -102,6 +102,6 @@ export const TEAM: ITeam[] = [
     description: '',
     square_avatar: '/img/barber3_square.png',
     avatar: '/img/barber3.png',
-    color: 'blue'
+    color: '#ac08c9'
   }
 ]

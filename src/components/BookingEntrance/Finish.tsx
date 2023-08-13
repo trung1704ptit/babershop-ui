@@ -1,8 +1,8 @@
 import moment from "moment";
 import { useEffect } from "react"
 
-import { getTimeRange } from "./Stylist"
 import { IUserBooking } from "./types";
+import { getTimeRange } from "../../utils/helper";
 
 const Finish = ({ user }: { user: IUserBooking }) => {
   try {
