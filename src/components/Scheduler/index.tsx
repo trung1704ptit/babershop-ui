@@ -93,7 +93,7 @@ const SchedulerComp = () => {
   }
 
   return (
-    <div className="bg-white p-2 rounded-lg">
+    <div className="bg-white p-2 rounded-lg rs_scheduler">
       <Scheduler
         events={events}
         view="week"

@@ -82,3 +82,7 @@
   color: white;
   background: #9f6e0dd4;
 }
+
+.rs_scheduler .rs__cell {
+  box-sizing: content-box;
+}
