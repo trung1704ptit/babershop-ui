@@ -29,7 +29,8 @@ export interface IUserBooking {
   services: IServiceDataItem[],
   datetime: IDatetime,
   notes: string,
-  barber: ITeam | null
+  barber: ITeam | null,
+  status: string
 }
 
 export interface IDatetime {

@@ -16,7 +16,7 @@ import Loading from "../Loading";
 import addData from "../../firebase/addData";
 import { BOOKING_COLLECTION, db } from "../../firebase/config";
 import { IBookingItem } from "../../interface/pages/booking";
-import { SERVICES } from "../../utils/constants";
+import { SERVICES, STATUS } from "../../utils/constants";
 import { getTimeRange } from "../../utils/helper";
 
 
@@ -47,9 +47,7 @@ const SchedulerComp = () => {
 
           setBookingList(updatedData)
 
-          setTimeout(() => {
-            setLoading(false);
-          }, 200)
+          setLoading(false);
         })
       } catch (error) {
         console.log(error);
@@ -79,14 +77,15 @@ const SchedulerComp = () => {
     const startDate = new Date(new Date(item.datetime.date.toDate().toDateString()).setHours(startHour, startMinute, 0));
 
     const endDate = new Date(new Date(item.datetime.date.toDate().toDateString()).setHours(endHour, endMinute, 0));
+    const isDone = item.status === STATUS.DONE;
 
     return {
       event_id: item.phone,
-      title: item.name,
+      title: isDone ? `${item.name} - Đã cắt` : item.name,
       start: startDate,
       end: endDate,
       admin_id: item.phone,
-      color: item.barber.color,
+      color: isDone ? '#7e848f' : item.barber.color,
       phone: item.phone,
       name: item.name,
       barber: item.barber,
@@ -96,7 +95,8 @@ const SchedulerComp = () => {
       datetime: {
         date: new Date(item.datetime.date.toDate().toDateString()),
         time: item.datetime.time
-      }
+      },
+      status: item.status
     }
   })
 
@@ -106,6 +106,24 @@ const SchedulerComp = () => {
     </div>
   }
 
+  const handleDoneItem = (id: string, status: string) => {
+    if (id) {
+      const docRef = doc(db, BOOKING_COLLECTION, id);
+      if (status === STATUS.DONE) {
+        status = STATUS.OPEN;
+      } else if (status === STATUS.OPEN) {
+        status = STATUS.DONE;
+      }
+      updateDoc(docRef, { status })
+        .then(() => {
+          location.reload();
+        })
+        .catch(error => {
+          console.log(error);
+        })
+    }
+  }
+
   return (
     <div className="bg-white p-2 rounded-lg">
       <Scheduler
@@ -113,7 +131,6 @@ const SchedulerComp = () => {
         view="week"
         day={null}
         hourFormat="24"
-        // timeZone={7}
         week={{
           weekDays: [0, 1, 2, 3, 4, 5, 6],
           weekStartOn: 6,
@@ -130,6 +147,8 @@ const SchedulerComp = () => {
               <div>- Thời gian: {moment(event.start?.toString()).format('DD/MM/YYYY')} {getTimeRange(event?.datetime?.time)}</div>
               <div>- Gói dịch vụ: {event.services.map((item: any) => `${item.title}(${item.price})`).join(', ')}</div>
               {event.notes && <div>- Ghi chú: {event.notes}</div>}
+              <div>- Trạng thái: {event.status === STATUS.DONE ? 'Đã cắt' : 'Chưa cắt'}</div>
+              <div className="mt-3 mb-3"><button className=" bg-[#9f6e0dd4] text-white px-3 py-1 rounded outline-none focus:outline-none m-auto select-btn-barber" onClick={() => handleDoneItem(event.id, event.status || STATUS.OPEN)}>{event.status === STATUS.DONE ? 'Mở lại' : 'Xác nhận cắt xong'}</button></div>
             </div>
           );
         }}
@@ -185,7 +204,8 @@ const CustomEditor = ({ scheduler }: CustomEditorProps) => {
     phone: event?.phone || "",
     services: event?.services || [],
     datetime: event?.datetime || { date: new Date(), time: 8 },
-    barber: event?.barber || { name: '', color: '' }
+    barber: event?.barber || { name: '', color: '' },
+    status: event?.status || 'open'
   });
   const [error, _] = useState("");
   const [clickedOnBarber, setClickedOnBarber] = useState(false);
@@ -250,7 +270,8 @@ const CustomEditor = ({ scheduler }: CustomEditorProps) => {
           barber: newState.barber.name,
           time: newState.datetime.time,
           services: newState.services,
-          notes: newState.notes
+          notes: newState.notes,
+          statis: newState.status
         });
       })) as ProcessedEvent;
 
@@ -261,7 +282,8 @@ const CustomEditor = ({ scheduler }: CustomEditorProps) => {
         services: newState.services,
         notes: newState.notes,
         id: newState.id,
-        name: newState.name
+        name: newState.name,
+        status: newState.status
       }
 
       if (!newState.services || !newState.services.length || !newState?.barber.name) {
@@ -275,7 +297,6 @@ const CustomEditor = ({ scheduler }: CustomEditorProps) => {
         if (!newState.id) {
           const newId = new Date().getTime().toString();
           dataForFirebaseUpdate.id = newId;
-          console.log('dataForFirebaseUpdate:', dataForFirebaseUpdate)
           addData(BOOKING_COLLECTION, newId, dataForFirebaseUpdate)
         } else {
           const docRef = doc(db, BOOKING_COLLECTION, newState.id);

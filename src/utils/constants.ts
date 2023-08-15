@@ -105,3 +105,9 @@ export const TEAM: ITeam[] = [
     color: '#ac08c9'
   }
 ]
+
+export const STATUS = {
+  DONE: 'done',
+  PENDING: 'pending',
+  OPEN: 'open'
+}

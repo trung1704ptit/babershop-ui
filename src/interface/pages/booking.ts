@@ -20,5 +20,6 @@ export interface IBookingItem {
     id: string,
     price: string,
     title: string
-  }[]
+  }[],
+  status: string
 }

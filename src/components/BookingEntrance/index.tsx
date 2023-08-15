@@ -22,7 +22,8 @@ const Booking = (props: IBookingEntrance) => {
       time: 0
     },
     notes: '',
-    barber: null
+    barber: null,
+    status: 'open'
   })
 
 
@@ -87,6 +88,7 @@ const Booking = (props: IBookingEntrance) => {
       notes: newUser.notes,
       phone: newUser.phone,
       services: newUser.services.map(item => ({ id: item.id, price: item.price, title: item.title })),
+      status: 'open'
     }
 
     addData(BOOKING_COLLECTION, new Date().getTime().toString(), payload)
