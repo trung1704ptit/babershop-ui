@@ -17,10 +17,11 @@ type ValuePiece = Date | null;
 type Value = ValuePiece | [ValuePiece, ValuePiece];
 
 type IProps = {
-  handleContinue: (timeData: any) => void;
+  handleContinue: (payload: any) => void;
   title: string,
   marginTop: string,
-  renderCustomButton?: (props: any) => JSX.Element
+  handleChangeDateTime?: (payload: any) => void;
+  handleBackToBarberCallBack?: () => void;
 }
 
 const isAvailableToOrder = (bookingList: IBookingItem[], timeToCheck: number) => {
@@ -40,7 +41,17 @@ const Stylist = (props: IProps) => {
 
   const handleSelectTime = (time: number, isAvailable: boolean) => {
     if (isAvailable) {
-      setDatetime(prev => ({ ...prev, time }));
+      const newDateTime = {
+        ...datetime,
+        time
+      }
+      setDatetime(newDateTime);
+      if (props.handleChangeDateTime) {
+        props.handleChangeDateTime({
+          datetime: newDateTime,
+          barber
+        })
+      }
     }
   }
 
@@ -68,9 +79,21 @@ const Stylist = (props: IProps) => {
   }, [])
 
   const onChangeDate = (startDate: any) => {
-    setDatetime(prev => ({ ...prev, date: startDate }))
+    const newDateTime = {
+      ...datetime,
+      date: startDate
+    }
+    setDatetime(newDateTime);
+
     if (barber?.name) {
       handleQueryBookingList(barber.name, startDate);
+    }
+
+    if (props.handleChangeDateTime) {
+      props.handleChangeDateTime({
+        datetime: newDateTime,
+        barber
+      })
     }
   }
 
@@ -102,6 +125,13 @@ const Stylist = (props: IProps) => {
     }
   }
 
+  const handleBackToBarber = () => {
+    setBarber(null);
+    if (props.handleBackToBarberCallBack) {
+      props.handleBackToBarberCallBack();
+    }
+  }
+
   return (
     <div className={`mt-[${props.marginTop}]`}>
       {
@@ -114,42 +144,45 @@ const Stylist = (props: IProps) => {
                   <img src={item.square_avatar} alt="avatar" className="rounded-full w-[100px] mr-3" />
                   <span className="text-lg">{item.name}</span>
                 </div>
-                <div className="flex text-center align-middle"><button className="bg-[#9f6e0dd4] text-white px-4 py-2 rounded outline-none focus:outline-none m-auto" onClick={() => handleSelectBarber(item)}>Chọn <span className="arrow_right"></span></button></div>
+                <div className="flex text-center align-middle"><button className="bg-[#9f6e0dd4] text-white px-4 py-2 rounded outline-none focus:outline-none m-auto select-btn-barber" onClick={() => handleSelectBarber(item)}>Chọn <span className="arrow_right"></span></button></div>
               </div>
             ))
           }
         </div> : <>
-          <button className='flex mb-3 cursor-pointer bg-[#9f6e0dd4] p-2 rounded text-white' onClick={() => setBarber(null)}>
-            <ArrowBackIcon /><span className='text-md ml-2'>Chọn Barber khác</span>
-          </button>
-          <p className="container">Đang hiển thị lịch đặt của {barber.name}</p>
-          <Calendar onChange={onChangeDate} value={datetime.date} className="m-auto border-gray-200 rounded" />
-          <div className="flex flex-wrap container mb-[120px]">
-            {
-              timeSeries.length > 0 ? timeSeries.map(time => {
-                const isAvailable = isAvailableToOrder(bookingList, time);
-                let bg = 'bg-stone-300';
-                if (datetime.time === time && isAvailable) {
-                  bg = 'bg-[#9f6e0dd4] text-white';
-                } else if (isAvailable) {
-                  bg = 'bg-white'
-                }
+          <div className="container">
+            <button className='flex mb-3 cursor-pointer bg-[#9f6e0dd4] p-2 rounded text-white back-other-barber' onClick={handleBackToBarber}>
+              <ArrowBackIcon /><span className='text-md ml-2'>Chọn Barber khác</span>
+            </button>
+            <p>Đang hiển thị lịch đặt của {barber.name}</p>
 
-                const timeText = getTimeRange(time);
+            <Calendar onChange={onChangeDate} value={datetime.date} className="m-auto border-gray-200 rounded" />
+            <div className="flex flex-wrap mb-[120px]">
+              {
+                timeSeries.length > 0 ? timeSeries.map(time => {
+                  const isAvailable = isAvailableToOrder(bookingList, time);
+                  let bg = 'bg-stone-300';
+                  if (datetime.time === time && isAvailable) {
+                    bg = 'bg-[#9f6e0dd4] text-white';
+                  } else if (isAvailable) {
+                    bg = 'bg-white'
+                  }
 
-                return (
-                  <div className={`${isAvailable ? 'cursor-pointer' : 'cursor-not-allowed'} p-2 w-1/2 md:w-1/4 h-[100px]`} key={time} onClick={() => handleSelectTime(time, isAvailable)} id={time.toString()}>
-                    <div className={`border rounded text-center w-100 h-100 flex text-base font-semibold ${bg}`}>
-                      <span className="m-auto">{timeText}</span>
+                  const timeText = getTimeRange(time);
+
+                  return (
+                    <div className={`${isAvailable ? 'cursor-pointer' : 'cursor-not-allowed'} p-1 w-1/3 md:w-1/6 h-[80px]`} key={time} onClick={() => handleSelectTime(time, isAvailable)} id={time.toString()}>
+                      <div className={`border rounded text-center w-100 h-100 flex text-base ${bg}`}>
+                        <span className="m-auto">{timeText}</span>
+                      </div>
                     </div>
-                  </div>
-                )
-              }) : <div className="w-100 h-20 flex text-center">
-                <div className="m-auto"><Loading /></div>
-              </div>
-            }
-          </div >
-          {props.renderCustomButton ? <props.renderCustomButton handleContinue={handleContinue} /> : <div className="fixed flex items-center justify-center rounded-b bottom-0 left-0 w-100 bg-white p-3 shadow-lg">
+                  )
+                }) : <div className="w-100 h-20 flex text-center">
+                  <div className="m-auto"><Loading /></div>
+                </div>
+              }
+            </div >
+          </div>
+          <div className="fixed flex items-center justify-center rounded-b bottom-0 left-0 w-100 bg-white p-3 shadow-lg">
             <button
               className="text-white w-full sm:w-5/12 md:6/12 bg-[#9f6e0dd4] text-whitefont-bold uppercase text-sm px-3 py-2.5 rounded shadow hover:shadow-lg outline-none focus:outline-none mb-1 ease-linear transition-all duration-150"
               type="button"
@@ -157,7 +190,7 @@ const Stylist = (props: IProps) => {
             >
               ({moment(datetime.date?.toString()).format('DD/MM/YYYY')}, <span className="lowercase">{getTimeRange(datetime.time)})</span> Hoàn tất <span className="arrow_right"></span>
             </button>
-          </div>}
+          </div>
         </>
       }
     </div >

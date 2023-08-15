@@ -1,8 +1,10 @@
 import { Scheduler } from "@aldabil/react-scheduler";
 import type {
+  ProcessedEvent,
   SchedulerHelpers
 } from "@aldabil/react-scheduler/types";
-import { Button, TextField } from "@mui/material";
+import CloseIcon from '@mui/icons-material/Close';
+import { TextField } from "@mui/material";
 import { collection, query, where } from "firebase/firestore";
 import { onSnapshot } from 'firebase/firestore'
 import moment from "moment";
@@ -168,10 +170,12 @@ const CustomEditor = ({ scheduler }: CustomEditorProps) => {
     name: event?.name || "",
     notes: event?.notes || "",
     phone: event?.phone || "",
-    services: event?.services || '',
-    datetime: event?.datetime || { date: new Date(), time: 8 }
+    services: event?.services || [],
+    datetime: event?.datetime || { date: new Date(), time: 8 },
+    barber: event?.barber || { name: '', color: '' }
   });
   const [error, _] = useState("");
+  const [clickedOnBarber, setClickedOnBarber] = useState(false);
 
   const handleChange = (value: string, name: string) => {
     setState((prev) => {
@@ -220,11 +224,68 @@ const CustomEditor = ({ scheduler }: CustomEditorProps) => {
   //   }
   // };
 
+  console.log(state)
+
+  const onClickOnBarberSection = (event: any) => {
+    if (event?.target?.classList?.contains("select-btn-barber")) {
+      setClickedOnBarber(true);
+    }
+  }
+
+  const handleBackBarber = () => {
+    setClickedOnBarber(false);
+  }
+
+  const handleSelectDateTime = async (data: any) => {
+    const newState = {
+      ...state,
+      barber: {
+        name: data.barber.name,
+        color: data.barber.color
+      },
+      datetime: data.datetime
+    }
+
+    try {
+      scheduler.loading(true);
+
+      const updated_event = (await new Promise((res) => {
+        res({
+          event_id: event?.event_id || Math.random(),
+          title: newState.name,
+          start: scheduler.state.start?.value,
+          end: scheduler.state.end?.value,
+          name: newState.name,
+
+          // start: startDate,
+          // end: endDate,
+
+          admin_id: newState.phone,
+          color: newState.barber.color,
+          phone: newState.phone,
+          barber: newState.barber.name,
+          time: newState.datetime.time,
+          services: newState.services,
+          notes: newState.notes
+        });
+      })) as ProcessedEvent;
+
+      scheduler.onConfirm(updated_event, event ? "edit" : "create");
+      scheduler.close();
+    } finally {
+      scheduler.loading(false);
+    }
+
+    setState(newState)
+    scheduler.close()
+  }
+
 
   return (
     <div>
+      <div className="absolute right-3 top-3 text-lg cursor-pointer" onClick={scheduler.close}><CloseIcon /></div>
       <div style={{ padding: "1rem" }}>
-        <p>Chỉnh sửa thông tin đặt lịch</p>
+        <h3 className="text-medium mb-4">Chỉnh sửa thông tin đặt lịch</h3>
         <TextField
           label="Name"
           value={state.name}
@@ -253,20 +314,21 @@ const CustomEditor = ({ scheduler }: CustomEditorProps) => {
           fullWidth
           className="mb-3"
         />
-        {SERVICES.map(item => (
+        {SERVICES?.map(item => (
           <div key={item.id}>
-            <input type="checkbox" id={item.id} name={item.id} value="Boat" className="mr-2 font-medium" />
+            <input type="checkbox" id={item.id} name={item.id} value="Boat" className="mr-2 font-medium" defaultChecked={state.services?.find((s: any) => s.id === item.id)} />
             <label htmlFor={item.id}>{item.title} - {item.price}</label>
           </div>
         ))}
         <div className="border-t m-3" />
 
-        <Stylist handleContinue={(data) => { console.log(data) }} title="" marginTop="0" renderCustomButton={(props) =>
-        (<div className="align-right">
-          <Button onClick={scheduler.close}>Hủy</Button>
-          <Button onClick={props.handleContinue}>Cập nhật</Button>
-        </div>)
-        } />
+        <div onClick={onClickOnBarberSection}>
+          <Stylist handleContinue={handleSelectDateTime} title="" marginTop="0" handleBackToBarberCallBack={handleBackBarber} />
+        </div>
+        {!clickedOnBarber && <div className="align-right mt-3">
+          <button className="border-gray-300 border mr-2 px-4 py-2 rounded outline-none focus:outline-none select-btn-barber" onClick={scheduler.close}>Hủy</button>
+          <button className="bg-[#9f6e0dd4] text-white px-4 py-2 rounded outline-none focus:outline-none m-auto select-btn-barber" >Cập nhật</button>
+        </div>}
       </div>
     </div >
   );
