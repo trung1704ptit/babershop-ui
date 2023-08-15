@@ -13,10 +13,12 @@ const ScrollToTop = dynamic(() => import("./ScrollToTop"))
 const BookingEntrance = dynamic(() => import("./BookingEntrance"))
 const Layout = dynamic(() => import("./Layout"))
 const Scheduler = dynamic(() => import("./Scheduler"))
+const BookingFilter = dynamic(() => import("./BookingFilter"));
 
 export {
   About,
   BookingEntrance,
+  BookingFilter,
   Footer,
   Header,
   HeroCarousel,
@@ -26,5 +28,6 @@ export {
   Reviews,
   Scheduler,
   ScrollToTop,
-  Services, Team
+  Services,
+  Team
 }

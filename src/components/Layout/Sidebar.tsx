@@ -1,5 +1,5 @@
 import { useRouter } from "next/router";
-import { useLayoutEffect, useState } from "react";
+import { useEffect, useState } from "react";
 
 interface IMenu {
   path: string;
@@ -41,8 +41,7 @@ export const Sidebar = () => {
     setActivePath(nextPath)
   }
 
-  useLayoutEffect(() => {
-    console.log(router.pathname)
+  useEffect(() => {
     setActivePath(router.pathname);
   }, [router])
 

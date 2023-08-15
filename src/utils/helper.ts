@@ -7,3 +7,15 @@ export const getTimeRange = (time: number) => {
   }
   return text;
 }
+
+export const getQueryValue = (key: string) => {
+  if (typeof window !== undefined) {
+    const url = new URL(window.location.href);
+    const search_params = url.searchParams;
+
+    const value = search_params.get(key);
+    if (value) return value;
+    return '';
+  }
+  return '';
+}

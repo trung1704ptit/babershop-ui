@@ -86,3 +86,6 @@
 .rs__cell {
   box-sizing: content-box;
 }
+.rs__event__item {
+  width: 100% !important;
+}

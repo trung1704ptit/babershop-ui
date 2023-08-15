@@ -8,6 +8,7 @@ import { TextField } from "@mui/material";
 import { collection, doc, query, updateDoc, where } from "firebase/firestore";
 import { onSnapshot } from 'firebase/firestore'
 import moment from "moment";
+import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 
@@ -17,12 +18,13 @@ import addData from "../../firebase/addData";
 import { BOOKING_COLLECTION, db } from "../../firebase/config";
 import { IBookingItem } from "../../interface/pages/booking";
 import { SERVICES, STATUS } from "../../utils/constants";
-import { getTimeRange } from "../../utils/helper";
+import { getQueryValue, getTimeRange } from "../../utils/helper";
 
 
 const SchedulerComp = () => {
   const [bookingList, setBookingList] = useState<IBookingItem[]>([])
   const [loading, setLoading] = useState(true);
+  const router = useRouter()
 
   useEffect(() => {
     const queryData = (): void => {
@@ -34,10 +36,29 @@ const SchedulerComp = () => {
         nextDate.setDate(startDate.getDate() + 6)
         nextDate.setHours(0, 0, 0, 0);
         const dbRef = collection(db, BOOKING_COLLECTION);
-        const queryString = query(dbRef, where("datetime.date", ">=", startDate), where("datetime.date", "<", nextDate))
+        const barberFilter = getQueryValue('barber');
+        const statusFitler = getQueryValue('status');
+
+        const args: [any, any, any] = [
+          dbRef,
+          where("datetime.date", ">=", startDate),
+          where("datetime.date", "<", nextDate)
+        ]
+
+        if (barberFilter && barberFilter !== 'all') {
+          args.push(where('barber.name', "==", barberFilter))
+        }
+        if (statusFitler && statusFitler !== 'all') {
+          args.push(where('status', "==", statusFitler))
+        }
+
+        const queryString = query(...args)
+
+        // let queryString = query(dbRef, where("datetime.date", ">=", startDate), where("datetime.date", "<", nextDate))
+        // if (barberFilter && barberFilter !== 'all') {
+        //   queryString = query(dbRef, where("datetime.date", ">=", startDate), where("datetime.date", "<", nextDate), where('barber.name', "==", barberFilter))
+        // }
         const updatedData: IBookingItem[] = [];
-
-
         onSnapshot(queryString, qSnapshot => {
           setLoading(true);
           qSnapshot.forEach((doc: any) => {
@@ -54,13 +75,15 @@ const SchedulerComp = () => {
         setLoading(false)
       }
     }
-    queryData()
+    if (typeof window !== undefined) {
+      queryData()
 
-    window.scroll({
-      top: 0,
-      behavior: 'smooth'
-    });
-  }, [])
+      window.scroll({
+        top: 0,
+        behavior: 'smooth'
+      });
+    }
+  }, [router])
 
   const events = bookingList?.map(item => {
     let startHour = item.datetime.time;
