@@ -9,9 +9,11 @@ import { collection, doc, query, updateDoc, where } from "firebase/firestore";
 import { onSnapshot } from 'firebase/firestore'
 import moment from "moment";
 import { useEffect, useState } from "react";
+import { toast } from "react-toastify";
 
 import Stylist from "../BookingEntrance/Stylist";
 import Loading from "../Loading";
+import addData from "../../firebase/addData";
 import { BOOKING_COLLECTION, db } from "../../firebase/config";
 import { IBookingItem } from "../../interface/pages/booking";
 import { SERVICES } from "../../utils/constants";
@@ -43,8 +45,6 @@ const SchedulerComp = () => {
             updatedData.push({ id: doc.id, ...docData })
           })
 
-          console.log('updatedData:', updatedData)
-
           setBookingList(updatedData)
 
           setTimeout(() => {
@@ -57,6 +57,11 @@ const SchedulerComp = () => {
       }
     }
     queryData()
+
+    window.scroll({
+      top: 0,
+      behavior: 'smooth'
+    });
   }, [])
 
   const events = bookingList?.map(item => {
@@ -85,10 +90,13 @@ const SchedulerComp = () => {
       phone: item.phone,
       name: item.name,
       barber: item.barber,
-      time: item.datetime.time,
       services: item.services,
       notes: item.notes,
-      id: item.id
+      id: item.id,
+      datetime: {
+        date: new Date(item.datetime.date.toDate().toDateString()),
+        time: item.datetime.time
+      }
     }
   })
 
@@ -119,7 +127,7 @@ const SchedulerComp = () => {
               <div>- Tên khách hàng: {event.name}</div>
               <div>- SĐT: {event.phone}</div>
               <div>- Chỉ định người cắt: {event.barber.name}</div>
-              <div>- Thời gian: {moment(event.start?.toString()).format('DD/MM/YYYY')} {getTimeRange(event.time)}</div>
+              <div>- Thời gian: {moment(event.start?.toString()).format('DD/MM/YYYY')} {getTimeRange(event?.datetime?.time)}</div>
               <div>- Gói dịch vụ: {event.services.map((item: any) => `${item.title}(${item.price})`).join(', ')}</div>
               {event.notes && <div>- Ghi chú: {event.notes}</div>}
             </div>
@@ -182,8 +190,6 @@ const CustomEditor = ({ scheduler }: CustomEditorProps) => {
   const [error, _] = useState("");
   const [clickedOnBarber, setClickedOnBarber] = useState(false);
 
-
-  console.log('state:', state)
 
   const handleChange = (value: string, name: string) => {
     setState((prev) => {
@@ -258,22 +264,36 @@ const CustomEditor = ({ scheduler }: CustomEditorProps) => {
         name: newState.name
       }
 
-      scheduler.onConfirm(updated_event, event ? "edit" : "create");
-      const docRef = doc(db, BOOKING_COLLECTION, newState.id);
-      updateDoc(docRef, dataForFirebaseUpdate)
-        .then(() => {
-          console.log("A New Document Field has been added to an existing document");
-        })
-        .catch(error => {
-          console.log(error);
-        })
-      scheduler.close();
+      if (!newState.services || !newState.services.length || !newState?.barber.name) {
+        toast.error('Cần hoàn thiện các thông tin', {
+          position: toast.POSITION.TOP_RIGHT,
+          hideProgressBar: true
+        });
+      } else {
+        scheduler.onConfirm(updated_event, event ? "edit" : "create");
+
+        if (!newState.id) {
+          const newId = new Date().getTime().toString();
+          dataForFirebaseUpdate.id = newId;
+          console.log('dataForFirebaseUpdate:', dataForFirebaseUpdate)
+          addData(BOOKING_COLLECTION, newId, dataForFirebaseUpdate)
+        } else {
+          const docRef = doc(db, BOOKING_COLLECTION, newState.id);
+          updateDoc(docRef, dataForFirebaseUpdate)
+            .then(() => {
+              location.reload();
+            })
+            .catch(error => {
+              console.log(error);
+            })
+        }
+        scheduler.close();
+      }
     } finally {
       scheduler.loading(false);
     }
 
     setState(newState)
-    scheduler.close()
   }
 
   const handleServicesChange = (e: React.ChangeEvent<HTMLInputElement>) => {

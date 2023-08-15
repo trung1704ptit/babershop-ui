@@ -1,4 +1,5 @@
 export const getTimeRange = (time: number) => {
+  if (!time) time = 8;
   let text = `${time}h - ${time}h:30`
 
   if (!Number.isInteger(time)) {
