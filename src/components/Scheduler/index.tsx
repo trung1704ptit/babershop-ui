@@ -5,7 +5,7 @@ import type {
 } from "@aldabil/react-scheduler/types";
 import CloseIcon from '@mui/icons-material/Close';
 import { TextField } from "@mui/material";
-import { collection, query, where } from "firebase/firestore";
+import { collection, doc, query, updateDoc, where } from "firebase/firestore";
 import { onSnapshot } from 'firebase/firestore'
 import moment from "moment";
 import { useEffect, useState } from "react";
@@ -39,8 +39,11 @@ const SchedulerComp = () => {
         onSnapshot(queryString, qSnapshot => {
           setLoading(true);
           qSnapshot.forEach((doc: any) => {
-            updatedData.push(doc.data() as IBookingItem)
+            const docData = doc.data();
+            updatedData.push({ id: doc.id, ...docData })
           })
+
+          console.log('updatedData:', updatedData)
 
           setBookingList(updatedData)
 
@@ -81,10 +84,11 @@ const SchedulerComp = () => {
       color: item.barber.color,
       phone: item.phone,
       name: item.name,
-      barber: item.barber.name,
+      barber: item.barber,
       time: item.datetime.time,
       services: item.services,
-      notes: item.notes
+      notes: item.notes,
+      id: item.id
     }
   })
 
@@ -114,7 +118,7 @@ const SchedulerComp = () => {
             <div>
               <div>- Tên khách hàng: {event.name}</div>
               <div>- SĐT: {event.phone}</div>
-              <div>- Chỉ định người cắt: {event.barber}</div>
+              <div>- Chỉ định người cắt: {event.barber.name}</div>
               <div>- Thời gian: {moment(event.start?.toString()).format('DD/MM/YYYY')} {getTimeRange(event.time)}</div>
               <div>- Gói dịch vụ: {event.services.map((item: any) => `${item.title}(${item.price})`).join(', ')}</div>
               {event.notes && <div>- Ghi chú: {event.notes}</div>}
@@ -167,6 +171,7 @@ const CustomEditor = ({ scheduler }: CustomEditorProps) => {
 
   // Make your own form/state
   const [state, setState] = useState({
+    id: event?.id,
     name: event?.name || "",
     notes: event?.notes || "",
     phone: event?.phone || "",
@@ -177,6 +182,9 @@ const CustomEditor = ({ scheduler }: CustomEditorProps) => {
   const [error, _] = useState("");
   const [clickedOnBarber, setClickedOnBarber] = useState(false);
 
+
+  console.log('state:', state)
+
   const handleChange = (value: string, name: string) => {
     setState((prev) => {
       return {
@@ -185,46 +193,6 @@ const CustomEditor = ({ scheduler }: CustomEditorProps) => {
       };
     });
   };
-
-
-  // const handleSubmit = async () => {
-  //   // Your own validation
-  //   if (state.name.length < 3) {
-  //     return setError("Min 3 letters");
-  //   }
-
-  //   try {
-  //     scheduler.loading(true);
-
-  //     /**Simulate remote data saving */
-  //     const added_updated_event = (await new Promise((res) => {
-  //       /**
-  //        * Make sure the event have 4 mandatory fields
-  //        * event_id: string|number
-  //        * title: string
-  //        * start: Date|string
-  //        * end: Date|string
-  //        */
-  //       setTimeout(() => {
-  //         res({
-  //           event_id: event?.event_id || Math.random(),
-  //           title: state.name,
-  //           start: scheduler.state.start?.value,
-  //           end: scheduler.state.end?.value,
-  //           notes: state.notes,
-  //           name: state.name
-  //         });
-  //       }, 3000);
-  //     })) as ProcessedEvent;
-
-  //     scheduler.onConfirm(added_updated_event, event ? "edit" : "create");
-  //     scheduler.close();
-  //   } finally {
-  //     scheduler.loading(false);
-  //   }
-  // };
-
-  console.log(state)
 
   const onClickOnBarberSection = (event: any) => {
     if (event?.target?.classList?.contains("select-btn-barber")) {
@@ -236,7 +204,7 @@ const CustomEditor = ({ scheduler }: CustomEditorProps) => {
     setClickedOnBarber(false);
   }
 
-  const handleSelectDateTime = async (data: any) => {
+  const finalUpdate = async (data: any) => {
     const newState = {
       ...state,
       barber: {
@@ -246,20 +214,30 @@ const CustomEditor = ({ scheduler }: CustomEditorProps) => {
       datetime: data.datetime
     }
 
-    try {
-      scheduler.loading(true);
+    let startHour = newState.datetime.time;
+    let startMinute = 0
+    let endHour = newState.datetime.time;
+    let endMinute = 30
+    if (!Number.isInteger(newState.datetime.time)) {
+      startHour = startHour - 0.5
+      startMinute = 30;
+      endHour = newState.datetime.time + 0.5;
+      endMinute = 0;
+    }
 
+    const startDate = new Date(newState.datetime.date.setHours(startHour, startMinute, 0));
+
+    const endDate = new Date(newState.datetime.date.setHours(endHour, endMinute, 0));
+
+    try {
       const updated_event = (await new Promise((res) => {
         res({
+          id: event?.id,
           event_id: event?.event_id || Math.random(),
           title: newState.name,
-          start: scheduler.state.start?.value,
-          end: scheduler.state.end?.value,
           name: newState.name,
-
-          // start: startDate,
-          // end: endDate,
-
+          start: startDate,
+          end: endDate,
           admin_id: newState.phone,
           color: newState.barber.color,
           phone: newState.phone,
@@ -270,7 +248,25 @@ const CustomEditor = ({ scheduler }: CustomEditorProps) => {
         });
       })) as ProcessedEvent;
 
+      const dataForFirebaseUpdate = {
+        phone: newState.phone,
+        barber: newState.barber,
+        datetime: newState.datetime,
+        services: newState.services,
+        notes: newState.notes,
+        id: newState.id,
+        name: newState.name
+      }
+
       scheduler.onConfirm(updated_event, event ? "edit" : "create");
+      const docRef = doc(db, BOOKING_COLLECTION, newState.id);
+      updateDoc(docRef, dataForFirebaseUpdate)
+        .then(() => {
+          console.log("A New Document Field has been added to an existing document");
+        })
+        .catch(error => {
+          console.log(error);
+        })
       scheduler.close();
     } finally {
       scheduler.loading(false);
@@ -280,6 +276,24 @@ const CustomEditor = ({ scheduler }: CustomEditorProps) => {
     scheduler.close()
   }
 
+  const handleServicesChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { value, checked } = e.target;
+    let newServices = [...state.services];
+    if (checked) {
+      const finder = SERVICES.find(item => item.id === value);
+      if (finder) {
+        newServices.push({
+          id: finder.id,
+          title: finder.title,
+          price: finder.price,
+        })
+      }
+    } else {
+      newServices = newServices.filter(item => item.id !== value);
+    }
+
+    setState(prev => ({ ...prev, services: newServices }))
+  }
 
   return (
     <div>
@@ -314,20 +328,29 @@ const CustomEditor = ({ scheduler }: CustomEditorProps) => {
           fullWidth
           className="mb-3"
         />
+
+
         {SERVICES?.map(item => (
           <div key={item.id}>
-            <input type="checkbox" id={item.id} name={item.id} value="Boat" className="mr-2 font-medium" defaultChecked={state.services?.find((s: any) => s.id === item.id)} />
+            <input type="checkbox" id={item.id} name={item.id} value={item.id} className="mr-2 font-medium" defaultChecked={state.services?.find((s: any) => s.id === item.id)} onChange={handleServicesChange} />
             <label htmlFor={item.id}>{item.title} - {item.price}</label>
           </div>
         ))}
         <div className="border-t m-3" />
 
         <div onClick={onClickOnBarberSection}>
-          <Stylist handleContinue={handleSelectDateTime} title="" marginTop="0" handleBackToBarberCallBack={handleBackBarber} />
+          <Stylist
+            handleContinue={finalUpdate}
+            title=""
+            marginTop="0"
+            handleBackToBarberCallBack={handleBackBarber}
+            defaultDatetime={state.datetime}
+          />
         </div>
+
         {!clickedOnBarber && <div className="align-right mt-3">
           <button className="border-gray-300 border mr-2 px-4 py-2 rounded outline-none focus:outline-none select-btn-barber" onClick={scheduler.close}>Hủy</button>
-          <button className="bg-[#9f6e0dd4] text-white px-4 py-2 rounded outline-none focus:outline-none m-auto select-btn-barber" >Cập nhật</button>
+          <button className="bg-[#9f6e0dd4] text-white px-4 py-2 rounded outline-none focus:outline-none m-auto select-btn-barber" onClick={() => finalUpdate(state)}>Cập nhật</button>
         </div>}
       </div>
     </div >

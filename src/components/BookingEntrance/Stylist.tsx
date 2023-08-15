@@ -22,6 +22,10 @@ type IProps = {
   marginTop: string,
   handleChangeDateTime?: (payload: any) => void;
   handleBackToBarberCallBack?: () => void;
+  defaultDatetime?: {
+    date: Date,
+    time: number
+  }
 }
 
 const isAvailableToOrder = (bookingList: IBookingItem[], timeToCheck: number) => {
@@ -32,8 +36,8 @@ const isAvailableToOrder = (bookingList: IBookingItem[], timeToCheck: number) =>
 const Stylist = (props: IProps) => {
   const [barber, setBarber] = useState<ITeam | null>();
   const [datetime, setDatetime] = useState<{ time: number, date: Value }>({
-    time: 8,
-    date: new Date()
+    time: props?.defaultDatetime?.time || 8,
+    date: props?.defaultDatetime?.date || new Date()
   });
 
   const [timeSeries, setTimeSeries] = useState<number[]>([]);
