@@ -4,7 +4,7 @@ export interface IBookingPage {
 }
 
 export interface IBookingItem {
-  id?: string;
+  id: string;
   barber: {
     name: string,
     color: string,

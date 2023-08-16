@@ -5,7 +5,7 @@ import type {
 } from "@aldabil/react-scheduler/types";
 import CloseIcon from '@mui/icons-material/Close';
 import { TextField } from "@mui/material";
-import { collection, doc, query, updateDoc, where } from "firebase/firestore";
+import { collection, deleteDoc, doc, query, updateDoc, where } from "firebase/firestore";
 import { onSnapshot } from 'firebase/firestore'
 import moment from "moment";
 import { useRouter } from "next/router";
@@ -103,7 +103,7 @@ const SchedulerComp = () => {
     const isDone = item.status === STATUS.DONE;
 
     return {
-      event_id: item.phone,
+      event_id: item.id,
       title: isDone ? `${item.name} - Đã cắt` : item.name,
       start: startDate,
       end: endDate,
@@ -147,6 +147,13 @@ const SchedulerComp = () => {
     }
   }
 
+  const handleDelete = async (deletedId: string): Promise<string> => {
+    return new Promise((res, _) => {
+      deleteDoc(doc(db, BOOKING_COLLECTION, deletedId));
+      res(deletedId);
+    });
+  };
+
   return (
     <div className="bg-white p-2 rounded-lg">
       <Scheduler
@@ -154,6 +161,7 @@ const SchedulerComp = () => {
         view="week"
         day={null}
         hourFormat="24"
+        onDelete={handleDelete}
         week={{
           weekDays: [0, 1, 2, 3, 4, 5, 6],
           weekStartOn: 6,
