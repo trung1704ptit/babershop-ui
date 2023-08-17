@@ -87,7 +87,7 @@ const Booking = (props: IBookingEntrance) => {
       datetime: newUser.datetime,
       notes: newUser.notes,
       phone: newUser.phone,
-      services: newUser.services.map(item => ({ id: item.id, price: item.price, title: item.title })),
+      services: newUser.services.map(item => ({ id: item.id, price: item.price, title: item.title, priceLabel: item.priceLabel })),
       status: 'open'
     }
 

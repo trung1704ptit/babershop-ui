@@ -14,6 +14,8 @@ const BookingEntrance = dynamic(() => import("./BookingEntrance"))
 const Layout = dynamic(() => import("./Layout"))
 const Scheduler = dynamic(() => import("./Scheduler"))
 const BookingFilter = dynamic(() => import("./BookingFilter"));
+const Summary = dynamic(() => import("./Summary"));
+
 
 export {
   About,
@@ -29,5 +31,6 @@ export {
   Scheduler,
   ScrollToTop,
   Services,
+  Summary,
   Team
 }

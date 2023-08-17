@@ -1,10 +1,11 @@
 
 import { Layout } from "../../components";
+import Summary from "../../components/Summary";
 
 const BookingListPage = () => {
   return (
     <Layout>
-      thong ke
+      <Summary />
     </Layout>
   )
 }

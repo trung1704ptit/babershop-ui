@@ -19,6 +19,7 @@ export interface IBookingItem {
   services: {
     id: string,
     price: string,
+    priceLabel: string,
     title: string
   }[],
   status: string

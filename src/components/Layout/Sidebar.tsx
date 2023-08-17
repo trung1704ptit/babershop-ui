@@ -46,7 +46,7 @@ export const Sidebar = () => {
   }, [router])
 
   return (
-    <aside className="w-[300px] bg-[#222227] mt-3 ml-3 mb-3 rounded-lg">
+    <aside className="w-[280px] bg-[#222227] mt-3 ml-3 mb-3 rounded-lg">
       <div className="w-full h-full p-3">
         <div>
           <ul>

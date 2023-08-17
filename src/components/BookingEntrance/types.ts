@@ -11,6 +11,7 @@ export interface IServiceDataItem {
   title: string,
   previewImage: string,
   price: string | number,
+  priceLabel: string,
   todos: string[];
 }
 

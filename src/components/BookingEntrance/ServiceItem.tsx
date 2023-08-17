@@ -34,7 +34,7 @@ const ServiceItem = (props: IServiceItem) => {
             ))}
           </div>
           <div>
-            <p className="font-semibold text-black">{props.data.price}</p>
+            <p className="font-semibold text-black">{props.data.priceLabel}</p>
             <button className={`text-black text-center mt-auto border py-1 w-full focus:outline-none rounded ${isSelected ? 'bg-[#9f6e0dd4] text-white' : ''}`}
               onClick={() => handleSelect(props.data)}
             >
