@@ -6,8 +6,7 @@ const Team = () => {
     <section id="team" className="team_section bd-bottom padding">
       <div className="container">
         <div className="section_heading text-center mb-40 wow fadeInUp" data-wow-delay="300ms">
-          <h3>Trendy Salon &amp; Spa</h3>
-          <h2>Our Barbers</h2>
+          <h2>Đội ngũ Barbers giàu kinh nghiệm</h2>
           <div className="heading-line" />
         </div>
         <ul className="team_members row justify-center">

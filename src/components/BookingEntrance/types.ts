@@ -13,6 +13,7 @@ export interface IServiceDataItem {
   price: string | number,
   priceLabel: string,
   todos: string[];
+  category?: string;
 }
 
 export interface IServicesList {

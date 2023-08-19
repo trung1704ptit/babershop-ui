@@ -10,14 +10,16 @@ export const SERVICES: IServiceDataItem[] = [
     previewImage: 'https://s3.ap-southeast-1.amazonaws.com/storage.30shine.com/service/combo_booking/793.jpg',
     price: '80k',
     priceLabel: '80k',
-    todos: ['Cắt tóc hoàn hảo', 'Tư vấn cắt', 'Gội và vuốt tạo kiểu']
+    todos: ['Cắt tóc hoàn hảo', 'Tư vấn cắt', 'Gội và vuốt tạo kiểu'],
+    category: 'Dịch vụ cắt tỉa'
   }, {
     id: '2',
     title: 'Cạo râu mặt',
     previewImage: 'https://s3.ap-southeast-1.amazonaws.com/storage.30shine.com/service/combo_booking/625.jpg',
     price: '50k',
     priceLabel: '50k',
-    todos: ['Phong cách BarberShop cổ điển thư giãn cùng khăn nóng kèm tinh dầu thơm']
+    todos: ['Phong cách BarberShop cổ điển thư giãn cùng khăn nóng kèm tinh dầu thơm'],
+    category: 'Dịch vụ cắt tỉa'
   },
   {
     id: '3',
@@ -25,7 +27,8 @@ export const SERVICES: IServiceDataItem[] = [
     previewImage: '/img/troc-dau.jpg',
     price: '50k',
     priceLabel: '50k',
-    todos: ['Xuống tóc và thư giãn cùng khăn nóng kèm tinh dầu thơm']
+    todos: ['Xuống tóc và thư giãn cùng khăn nóng kèm tinh dầu thơm'],
+    category: 'Dịch vụ cắt tỉa'
   },
   {
     id: '4',
@@ -33,7 +36,8 @@ export const SERVICES: IServiceDataItem[] = [
     previewImage: 'https://storage.30shine.com/service/combo_booking/382.jpg',
     price: '3000k',
     priceLabel: '2500k-3000k',
-    todos: ['Nối tóc DREADLOCK']
+    todos: ['Nối tóc DREADLOCK'],
+    category: 'Dịch vụ cắt tỉa'
   },
   {
     id: '5',
@@ -41,7 +45,8 @@ export const SERVICES: IServiceDataItem[] = [
     previewImage: 'https://storage.30shine.com/service/combo_booking/382.jpg',
     price: '350k',
     priceLabel: '350k',
-    todos: ['Uốn tạo kiểu giữ nếp cho mái tóc đẹp hơn']
+    todos: ['Uốn tạo kiểu giữ nếp cho mái tóc đẹp hơn'],
+    category: 'Dịch vụ hóa chất'
   },
   {
     id: '6',
@@ -49,7 +54,8 @@ export const SERVICES: IServiceDataItem[] = [
     previewImage: 'https://storage.30shine.com/service/combo_booking/382.jpg',
     price: '800k',
     priceLabel: '800k',
-    todos: ['Độc lạ cá tính']
+    todos: ['Độc lạ cá tính'],
+    category: 'Dịch vụ hóa chất'
   },
   {
     id: '7',
@@ -57,7 +63,8 @@ export const SERVICES: IServiceDataItem[] = [
     previewImage: '/img/nhuom-mau01.jpeg',
     price: '300k',
     priceLabel: '300k',
-    todos: ['Thay đổi màu tóc thu hút ánh nhìn']
+    todos: ['Thay đổi màu tóc thu hút ánh nhìn'],
+    category: 'Dịch vụ hóa chất'
   },
   {
     id: '8',
@@ -65,7 +72,8 @@ export const SERVICES: IServiceDataItem[] = [
     previewImage: 'https://storage.30shine.com/service/combo_booking/382.jpg',
     price: '150k',
     priceLabel: '150k',
-    todos: ['Nhuộm màu đen phủ bạc']
+    todos: ['Nhuộm màu đen phủ bạc'],
+    category: 'Dịch vụ hóa chất'
   },
   {
     id: '9',
@@ -73,7 +81,8 @@ export const SERVICES: IServiceDataItem[] = [
     previewImage: 'https://storage.30shine.com/service/combo_booking/382.jpg',
     price: '100k',
     priceLabel: '100k',
-    todos: ['LIGHT']
+    todos: [''],
+    category: 'Dịch vụ hóa chất'
   },
   {
     id: '10',
@@ -81,7 +90,8 @@ export const SERVICES: IServiceDataItem[] = [
     previewImage: 'https://storage.30shine.com/service/combo_booking/382.jpg',
     price: '100k',
     priceLabel: '100k',
-    todos: ['Tẩy tóc (1 lần)']
+    todos: [''],
+    category: 'Dịch vụ hóa chất'
   }
 ]
 
