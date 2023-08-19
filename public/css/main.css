@@ -649,6 +649,12 @@ ul.nav > li > a.active {
   margin-bottom: 20px;
   color: #fff;
 }
+@media only screen and (max-width: 767px) {
+  .slider_content h1 {
+    font-size: 40px;
+    line-height: 48px;
+  }
+}
 .slider_content p {
   margin-bottom: 20px;
   color: #ddd;
@@ -1137,6 +1143,8 @@ select.form-control:not([size]):not([multiple]) {
 .team_section .team_members .team_member {
   position: relative;
   overflow: hidden;
+  border-radius: 6px;
+  margin-bottom: 16px;
 }
 .team_section .team_members .team_member img {
   width: 100%;
@@ -1147,18 +1155,18 @@ select.form-control:not([size]):not([multiple]) {
   color: #fff;
   text-align: center;
   padding: 20px 0;
-  position: absolute;
+  /* position: absolute; */
   left: 0;
-  bottom: -100px;
+  /* bottom: -100px; */
   width: 100%;
 }
 .team_section .team_members .team_member:hover .overlay {
   bottom: 0;
 }
-.team_section .team_members .team_member:hover img {
+/* .team_section .team_members .team_member:hover img {
   -webkit-filter: grayscale(1);
   filter: grayscale(1);
-}
+} */
 .team_section .team_members .team_member .overlay h3 {
   color: #fff;
   font-size: 18px;

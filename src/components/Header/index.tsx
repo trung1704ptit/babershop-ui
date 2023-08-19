@@ -16,7 +16,7 @@ const Header = ({ position }: IHeaderProps) => {
                 </li>
                 <li><a href="#bang-gia">Bảng giá</a>
                 </li>
-                <li><a href="#lien-he">Liên hệ</a></li>
+                <li><a href="#dia-chi">Địa chỉ</a></li>
               </ul>
             </div>
             <div className="header-btn">

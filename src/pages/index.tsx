@@ -1,6 +1,6 @@
 import Head from 'next/head';
 
-import { About, Footer, Header, HeroCarousel, Pricing, Reviews, ScrollToTop, Services, Team } from '../components';
+import { About, Contact, Footer, Header, HeroCarousel, Pricing, Reviews, ScrollToTop, Services, Team } from '../components';
 
 export default function Home() {
   return (
@@ -21,8 +21,9 @@ export default function Home() {
       <About />
       <Services />
       <Team />
-      <Reviews />
       <Pricing />
+      <Reviews />
+      <Contact />
       <Footer />
       <ScrollToTop />
     </>

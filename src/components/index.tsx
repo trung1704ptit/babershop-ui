@@ -15,12 +15,15 @@ const Layout = dynamic(() => import("./Layout"))
 const Scheduler = dynamic(() => import("./Scheduler"))
 const BookingFilter = dynamic(() => import("./BookingFilter"));
 const Summary = dynamic(() => import("./Summary"));
+const Contact = dynamic(() => import("./Contact"));
+
 
 
 export {
   About,
   BookingEntrance,
   BookingFilter,
+  Contact,
   Footer,
   Header,
   HeroCarousel,
