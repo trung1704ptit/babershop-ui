@@ -32,15 +32,16 @@ const HeroCarousel = () => {
           >
             <div className='container'>
               <div className='slider_content fade-in-out'>
-                <h3>Its Not Just a Haircut, Its an Experience.</h3>
+                <h3>Đó không chỉ là một lần cắt tóc, đó là 1 lần trải nghiệm</h3>
                 <h1>
-                  Being a barber is about <br />
-                  taking care of the people.
+                  Trở thành một thợ cắt tóc <br />
+                  là chăm sóc mái tóc
+                  <br />
+                  cho mọi người
                 </h1>
                 <p>
-                  Our barbershop is the territory created purely for males who
-                  appreciate
-                  <br /> premium quality, time and flawless look.
+                  Tiệm tóc của chúng tôi là nơi được tạo ra  hoàn toàn dành cho những
+                  <br /> người đàn ông quan tâm tới chất lượng cao cấp, thời gian và cái nhìn hoàn hảo
                 </p>
               </div>
             </div>
@@ -53,16 +54,15 @@ const HeroCarousel = () => {
           >
             <div className='container'>
               <div className='slider_content fade-in-out'>
-                <h3>Classic Hair Style &amp; Shaves.</h3>
+                <h3>Đó không chỉ là một lần cắt tóc, đó là 1 lần trải nghiệm</h3>
                 <h1>
-                  Our hair styles
+                  Nơi đàn ông muốn tán gẫu
                   <br />
-                  enhances your smile.
+                  rất phù hợp
                 </h1>
                 <p>
-                  Our barbershop is the territory created purely for males who
-                  appreciate
-                  <br /> premium quality, time and flawless look.
+                  Tiệm tóc của chúng tôi là nơi được tạo ra  hoàn toàn dành cho những
+                  <br /> người đàn ông quan tâm tới chất lượng cao cấp, thời gian và cái nhìn hoàn hảo
                 </p>
               </div>
             </div>
@@ -75,15 +75,14 @@ const HeroCarousel = () => {
           >
             <div className='container'>
               <div className='slider_content fade-in-out'>
-                <h3>Its Not Just a Haircut, Its an Experience.</h3>
+                <h3>Đó không chỉ là một lần cắt tóc, đó là 1 lần trải nghiệm</h3>
                 <h1>
-                  Where mens want <br />
-                  to look there very best.
+                  Kiểu tóc của chúng tôi <br />
+                  mang đến nụ cười cho bạn
                 </h1>
                 <p>
-                  Our barbershop is the territory created purely for males who
-                  appreciate
-                  <br /> premium quality, time and flawless look.
+                  Tiệm tóc của chúng tôi là nơi được tạo ra  hoàn toàn dành cho những
+                  <br /> người đàn ông quan tâm tới chất lượng cao cấp, thời gian và cái nhìn hoàn hảo
                 </p>
               </div>
             </div>

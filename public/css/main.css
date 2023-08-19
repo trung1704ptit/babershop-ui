@@ -3,6 +3,9 @@
   padding: 0;
   margin: 0;
 }
+html {
+  overflow-x: hidden;
+}
 body {
   background-color: #fff;
   font-family: 'Roboto', sans-serif;
@@ -525,7 +528,7 @@ ul.nav > li > a {
   font-family: work sans, sans-serif;
   display: inline-block;
   vertical-align: middle;
-  padding: 0 20px;
+  padding: 0 13px;
   letter-spacing: 0;
   font-size: 12px;
   font-weight: 600;
@@ -576,6 +579,10 @@ ul.nav > li > a.active {
 }
 .menu-wrap {
   position: relative;
+  display: none;
+  @media only screen and (min-width: 768px) {
+    display: flex;
+  }
 }
 .slicknav_menu {
   background: 0 0;
