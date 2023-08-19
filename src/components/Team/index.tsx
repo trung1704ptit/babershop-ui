@@ -14,7 +14,7 @@ const Team = () => {
             <li className="col-lg-3 col-md-6 sm-padding" data-wow-delay="200ms" key={stylist.id}>
               <div className="team_member">
                 <img src={stylist.avatar} alt="Team Member" />
-                <div className="overlay">
+                <div className="overlay shadow-lg">
                   <h3>{stylist.name}</h3>
                   <p>{stylist.description}</p>
                 </div>

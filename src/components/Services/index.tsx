@@ -11,28 +11,28 @@ const Services = () => {
             <div className="service_box">
               <i className="bs bs-scissors-1" />
               <h3>Cắt tóc</h3>
-              <p>Barber is a person whose occupation is mainly to cut dress style.</p>
+              <p>Cắt tóc hoàn hảo, Tư vấn cắt, Gội và vuốt tạo kiểu</p>
             </div>
           </div>
           <div className="col-lg-3 col-md-6 sm-padding wow fadeInUp" data-wow-delay="300ms">
             <div className="service_box">
               <i className="bs bs-razor-2" />
               <h3>Cạo râu</h3>
-              <p>Barber is a person whose occupation is mainly to cut dress style.</p>
+              <p>Phong cách BarberShop cổ điển thư giãn cùng khăn nóng kèm tinh dầu thơm</p>
             </div>
           </div>
           <div className="col-lg-3 col-md-6 sm-padding wow fadeInUp" data-wow-delay="400ms">
             <div className="service_box">
               <i className="bs bs-brush" />
               <h3>Hóa chất</h3>
-              <p>Barber is a person whose occupation is mainly to cut dress style.</p>
+              <p>Sửa dụng các loại hóa chất an toàn, yên tâm khi sử dụng</p>
             </div>
           </div>
           <div className="col-lg-3 col-md-6 sm-padding wow fadeInUp" data-wow-delay="500ms">
             <div className="service_box">
               <i className="bs bs-hairbrush-1" />
               <h3>Sản phẩm</h3>
-              <p>Barber is a person whose occupation is mainly to cut dress style.</p>
+              <p>Sản phầm tin cậy, đẳng cấp vượt trội</p>
             </div>
           </div>
         </div>

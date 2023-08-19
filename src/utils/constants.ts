@@ -107,7 +107,7 @@ export const TEAM: ITeam[] = [
     id: 1,
     name: TEAM_NAME.QUANG,
     position: '',
-    description: '',
+    description: 'Barber cao cấp',
     square_avatar: '/img/barber1_square.png',
     avatar: '/img/barber1.png',
     color: '#50b500'
@@ -116,7 +116,7 @@ export const TEAM: ITeam[] = [
     id: 2,
     name: TEAM_NAME.XXX,
     position: '',
-    description: '',
+    description: 'Barber trung cấp',
     square_avatar: '/img/barber2_square.png',
     avatar: '/img/barber2.png',
     color: '#c94f08'
@@ -125,7 +125,7 @@ export const TEAM: ITeam[] = [
     id: 3,
     name: TEAM_NAME.DAT,
     position: '',
-    description: '',
+    description: 'Barber trung cấp',
     square_avatar: '/img/barber3_square.png',
     avatar: '/img/barber3.png',
     color: '#ac08c9'

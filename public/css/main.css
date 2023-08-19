@@ -920,6 +920,8 @@ why_section ul.list li:before {
 .service_box {
   background-color: #fff;
   padding: 40px 30px;
+  min-height: 284px;
+  margin-bottom: 10px;
   text-align: center;
   cursor: pointer;
   -webkit-box-shadow: 0 50px 100px 0 rgba(64, 1, 4, 0.1),
@@ -1143,14 +1145,14 @@ select.form-control:not([size]):not([multiple]) {
 .team_section .team_members .team_member {
   position: relative;
   overflow: hidden;
-  border-radius: 6px;
+  border-radius: 4px;
   margin-bottom: 16px;
 }
 .team_section .team_members .team_member img {
   width: 100%;
 }
 .team_section .team_members .team_member .overlay {
-  background-color: rgba(158, 138, 120, 0.8);
+  background-color: #9f6e0dd4;
   display: block;
   color: #fff;
   text-align: center;
@@ -1172,13 +1174,12 @@ select.form-control:not([size]):not([multiple]) {
   font-size: 18px;
   font-weight: 400;
   margin: 0;
+  text-transform: uppercase;
 }
 .team_section .team_members .team_member .overlay p {
   margin: 0 0 5px;
   font-family: work sans, sans-serif;
-  text-transform: uppercase;
-  font-size: 12px;
-  font-weight: 600;
+  font-size: 14px;
 }
 .testimonial_section {
   background-image: url(../img/testimonial.jpg);

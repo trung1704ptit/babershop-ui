@@ -39,7 +39,7 @@ const HeroCarousel = () => {
                   <br />
                   cho mọi người
                 </h1>
-                <p>
+                <p className='text-lg'>
                   Tiệm tóc của chúng tôi là nơi được tạo ra  hoàn toàn dành cho những
                   <br /> người đàn ông quan tâm tới chất lượng cao cấp, thời gian và cái nhìn hoàn hảo
                 </p>
@@ -60,7 +60,7 @@ const HeroCarousel = () => {
                   <br />
                   rất phù hợp
                 </h1>
-                <p>
+                <p className='text-lg'>
                   Tiệm tóc của chúng tôi là nơi được tạo ra  hoàn toàn dành cho những
                   <br /> người đàn ông quan tâm tới chất lượng cao cấp, thời gian và cái nhìn hoàn hảo
                 </p>
@@ -80,7 +80,7 @@ const HeroCarousel = () => {
                   Kiểu tóc của chúng tôi <br />
                   mang đến nụ cười cho bạn
                 </h1>
-                <p>
+                <p className='text-lg'>
                   Tiệm tóc của chúng tôi là nơi được tạo ra  hoàn toàn dành cho những
                   <br /> người đàn ông quan tâm tới chất lượng cao cấp, thời gian và cái nhìn hoàn hảo
                 </p>
