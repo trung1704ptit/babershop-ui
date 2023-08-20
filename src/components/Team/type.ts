@@ -5,5 +5,6 @@ export interface ITeam {
   description: string,
   square_avatar: string,
   avatar: string,
-  color: string
+  color: string,
+  email: string
 }

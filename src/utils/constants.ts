@@ -96,39 +96,48 @@ export const SERVICES: IServiceDataItem[] = [
 ]
 
 export const TEAM_NAME = {
-  QUANG: 'Quang Nguyễn',
-  DAT: 'Đạt Trần',
-  XXX: "XXX"
+  DINH_QUANG: 'Đình Quang',
+  TRAN_DAT: 'Trần Đạt',
+  VAN_LUONG: "Văn Lương"
+}
+
+export const TEAM_EMAILS = {
+  DINH_QUANG: 'nguyendinhquang99bn@gmail.com',
+  VAN_LUONG: 'vanluong2kx@gmail.com',
+  TRAN_DAT: 'dattran24062004@gmail.com'
 }
 
 
 export const TEAM: ITeam[] = [
   {
     id: 1,
-    name: TEAM_NAME.QUANG,
+    name: TEAM_NAME.DINH_QUANG,
     position: '',
     description: 'Barber cao cấp',
     square_avatar: '/img/barber1_square.png',
     avatar: '/img/barber1.png',
-    color: '#50b500'
+    color: '#50b500',
+    email: TEAM_EMAILS.DINH_QUANG,
   },
   {
     id: 2,
-    name: TEAM_NAME.XXX,
+    name: TEAM_NAME.VAN_LUONG,
     position: '',
     description: 'Barber trung cấp',
     square_avatar: '/img/barber2_square.png',
     avatar: '/img/barber2.png',
-    color: '#c94f08'
+    color: '#c94f08',
+    email: TEAM_EMAILS.VAN_LUONG
   },
   {
     id: 3,
-    name: TEAM_NAME.DAT,
+    name: TEAM_NAME.TRAN_DAT,
     position: '',
     description: 'Barber trung cấp',
     square_avatar: '/img/barber3_square.png',
     avatar: '/img/barber3.png',
-    color: '#ac08c9'
+    color: '#ac08c9',
+    email: TEAM_EMAILS.TRAN_DAT
   }
 ]
 

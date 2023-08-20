@@ -1,3 +1,4 @@
+import axios from 'axios';
 import { useRouter } from 'next/router'
 import { useEffect, useState } from "react";
 import { toast } from 'react-toastify';
@@ -11,6 +12,8 @@ import { IBookingEntrance, IServiceDataItem, IUserBooking } from './types';
 import { ITeam } from '../Team/type';
 import addData from '../../firebase/addData';
 import { BOOKING_COLLECTION } from '../../firebase/config';
+import { TEAM_EMAILS } from '../../utils/constants';
+import { bookingEmailTemplate } from '../../utils/helper';
 
 const Booking = (props: IBookingEntrance) => {
   const [user, setUser] = useState<IUserBooking>({
@@ -92,6 +95,13 @@ const Booking = (props: IBookingEntrance) => {
     }
 
     addData(BOOKING_COLLECTION, new Date().getTime().toString(), payload)
+    const emailTemplate = bookingEmailTemplate(payload);
+    axios.post('/api/booking-notification', {
+      from: 'support@roybarbershop.vn',
+      to: newUser.barber.email === TEAM_EMAILS.DINH_QUANG ? newUser.barber.email : [newUser.barber.email, TEAM_EMAILS.DINH_QUANG],
+      subject: `Thông báo có lịch hẹn cắt tóc mới [${payload.name}]`,
+      html: emailTemplate
+    })
   }
 
   if (user.phone && !user.name) {
