@@ -1280,6 +1280,7 @@ select.form-control:not([size]):not([multiple]) {
   font-family: 'Roboto', sans-serif;
   font-size: 24px;
   color: #9f6e0dd4;
+  background: #fcf9f5;
   font-weight: 700;
   position: absolute;
   top: 0;
