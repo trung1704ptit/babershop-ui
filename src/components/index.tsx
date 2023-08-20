@@ -16,6 +16,7 @@ const Scheduler = dynamic(() => import("./Scheduler"))
 const BookingFilter = dynamic(() => import("./BookingFilter"));
 const Summary = dynamic(() => import("./Summary"));
 const Contact = dynamic(() => import("./Contact"));
+const Login = dynamic(() => import('./Login'));
 
 
 
@@ -29,6 +30,7 @@ export {
   HeroCarousel,
   Layout,
   Loading,
+  Login,
   Pricing,
   Reviews,
   Scheduler,
