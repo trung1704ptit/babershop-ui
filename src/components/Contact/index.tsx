@@ -5,8 +5,8 @@ const Contact = () => {
         <div className="m-auto">
           <h1 className="text-black mb-8">Địa chỉ</h1>
           <p className="text-lg">Địa chỉ: 783 Âu Cơ, phố Hồ, Thị xã Thuận Thành, Bắc Ninh</p>
-          <p className="text-lg">Điện thoại: 0869.825.633</p>
-          <p className="text-lg">Mở cửa: tất cả các ngày trong tuần từ 8h-22h30</p>
+          <p className="text-lg">Điện thoại: <a href="tel:0965813633">0965.813.633</a></p>
+          <p className="text-lg">Mở cửa: tất cả các ngày trong tuần từ 8h-20h</p>
         </div>
       </div>
       <div className="w-full lg:w-50">

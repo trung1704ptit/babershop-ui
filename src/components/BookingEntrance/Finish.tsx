@@ -29,7 +29,7 @@ const Finish = ({ user }: { user: IUserBooking }) => {
           <div className="text-black text-center border-t pt-4">
             <h3 className="font-bold">ROY BARBER SHOP - Tiệm tóc nam</h3>
             <p>783 Âu cơ, Phố Hồ, Thị xã Thuận Thành, Bắc Ninh</p>
-            <p>hotline 0869.825.633</p>
+            <p>hotline 0965.813.633</p>
           </div>
         </div>
         <br />

@@ -166,7 +166,7 @@ const SchedulerComp = () => {
           weekDays: [0, 1, 2, 3, 4, 5, 6],
           weekStartOn: 6,
           startHour: 8,
-          endHour: 22,
+          endHour: 20,
           step: 30
         }}
         viewerExtraComponent={(_, event) => {

@@ -22,7 +22,7 @@ const EntranceForm = (props: IProps) => {
           <input type="number" required ref={phoneRef} onKeyDown={handleKeyDown} maxLength={10} placeholder="Nhập SĐT để đặt lịch" name="phone" className="w-full bg-white rounded border border-gray-300 focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-2 px-3 leading-8 transition-colors duration-200 ease-in-out" />
         </div>
         <button onClick={() => props.handleStartBooking(phoneRef)} className="text-white w-full border-0 py-2 px-6 focus:outline-none rounded text-lg bg-[#9f6e0dd4]">ĐẶT NGAY</button>
-        <p className=" text-gray-500 mt-3 text-md">Hỗ trợ đặt lịch trực tiếp <span className='font-medium text-[#9f6e0dd4]'>0869.825.633</span></p>
+        <p className=" text-gray-500 mt-3 text-md">Hỗ trợ đặt lịch trực tiếp <span className='font-medium text-[#9f6e0dd4]'><a href="tel:0965813633">0965.813.633</a></span></p>
       </div>
     </div >
   )

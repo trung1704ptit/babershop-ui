@@ -22,14 +22,14 @@ const Footer = () => {
               <div className="footer_widget">
                 <h3>Địa chỉ</h3>
                 <p>783 Âu Cơ, phố Hồ, Thị xã Thuận Thành, Bắc Ninh</p>
-                <p>0869.825.633</p>
+                <p><a href="tel:0965813633">0965.813.633</a></p>
               </div>
             </div>
             <div className="col-lg-4 col-md-6 sm-padding">
               <div className="footer_widget">
                 <h3>Mở cửa</h3>
                 <ul className="opening_time">
-                  <li>Tất cả các ngày trong tuần từ 8h-22h30</li>
+                  <li>Tất cả các ngày trong tuần từ 8h-20h</li>
                 </ul>
               </div>
             </div>

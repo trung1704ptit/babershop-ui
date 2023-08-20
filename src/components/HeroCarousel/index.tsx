@@ -28,7 +28,7 @@ const HeroCarousel = () => {
         <SwiperSlide>
           <li
             className='main_slide d-flex align-items-center'
-            style={{ backgroundImage: 'url(/img/slide-1.jpg)' }}
+            style={{ backgroundImage: 'url(/img/slide-1.png)' }}
           >
             <div className='container'>
               <div className='slider_content fade-in-out'>

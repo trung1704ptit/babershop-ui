@@ -7,17 +7,20 @@ const About = () => {
             <div className="about_content align-center">
               <h3 className="wow fadeInUp" data-wow-delay="100ms">Giới thiệu</h3>
               <h2 className="wow fadeInUp" data-wow-delay="200ms">Roy Barber Shop</h2>
-              <img className="wow fadeInUp mx-auto" data-wow-delay="500ms" src="/img/about-logo.png" alt="logo" />
-              <p className="wow fadeInUp text-lg" data-wow-delay="600ms"> Tiệm tóc của chúng tôi là nơi được tạo ra  hoàn toàn dành cho những
-                <br /> người đàn ông quan tâm tới chất lượng cao cấp, thời gian và cái nhìn hoàn hảo. Đó không chỉ là một lần cắt tóc, đó là 1 lần trải nghiệm
+              <img className="wow fadeInUp mx-auto h-[80px]" src="/img/about-logo.png" alt="logo" />
+              <p className="wow fadeInUp text-lg" data-wow-delay="600ms">
+                ROY BarberShop được thành lập 07/2023 với 4 thành viên ban đầu gồm Founder Mr Quang , Manager Ms Linh , Barber Lương , Barber Đạt.
+                Với nhiều năm làm việc tại chuỗi cửa hàng tóc nam nổi tiếng và đặc biệt hơn hết khi Founder Quang đã từng làm việc tại House of Barbaard một barbershop hoàn hảo nhất tại Việt Nam.
+                <br />
+                Quang đã thu hoạch được nhiều khinh nghiệm từ nhiều khía cạnh để tạo nên ROY BarberShop ngày nay.
+                Với kinh nghiệm dày dặn và thái độ rất chuẩn mực của ngành nghề chúng tôi tự tin mang lại sự ấn tượng và hài lòng cho khách hàng.
               </p>
             </div>
           </div>
-          <div className="col-md-6 d-none d-md-block">
+          <div className="col-md-6 d-md-block">
             <div className="about_img">
-              <img src="/img/about-1.jpg" alt="idea-images" className="about_img_1" />
-              <img src="/img/about-2.jpg" alt="idea-images" className="about_img_2" />
-              <img src="/img/about-3.jpg" alt="idea-images" className="about_img_3" />
+              <img src="/img/about-preview.jpg" alt="idea-images" className="about_img_1" />
+
             </div>
           </div>
         </div>
