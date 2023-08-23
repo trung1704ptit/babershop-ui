@@ -7,7 +7,7 @@ interface IProps {
 
 const Products = (props: IProps) => {
   return (
-    <section className="text-gray-600 body-font mt-[80px] mb-[80px]">
+    <section className="text-gray-600 body-font mt-[80px] mb-[80px]" id="san-pham">
       <div className="section_heading text-center mb-40">
         <h2>Sản phẩm</h2>
         <div className="heading-line" />

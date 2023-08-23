@@ -1253,7 +1253,7 @@ select.form-control:not([size]):not([multiple]) {
 .pricing_section .price_wrap .price_list {
 }
 .pricing_section .price_wrap .price_list li {
-  margin-bottom: 40px;
+  margin-bottom: 25px;
   position: relative;
 }
 .pricing_section .price_wrap .price_list li h4 {

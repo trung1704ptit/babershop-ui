@@ -14,8 +14,8 @@ const Header = ({ position }: IHeaderProps) => {
                 <li><Link className="nav-link active" href="/">Giới thiệu</Link></li>
                 <li><a href="#dich-vu">Dịch vụ</a>
                 </li>
-                <li><a href="#bang-gia">Bảng giá</a>
-                </li>
+                <li><a href="#bang-gia">Bảng giá</a></li>
+                <li><a href="#san-pham">Sản phẩm</a></li>
                 <li><a href="#dia-chi">Địa chỉ</a></li>
               </ul>
             </div>
