@@ -22,7 +22,9 @@ const Footer = () => {
               <div className="footer_widget">
                 <h3>Địa chỉ</h3>
                 <p>783 Âu Cơ, phố Hồ, Thị xã Thuận Thành, Bắc Ninh</p>
-                <p><a href="tel:0965813633">0965.813.633</a></p>
+                <p><a href="tel:0965813633">Điện thoại: 0965.813.633</a></p>
+                <p><a href="mailto:nguyendinhquang99bn@gmail.com">Email: nguyendinhquang99bn@gmail.com</a></p>
+
               </div>
             </div>
             <div className="col-lg-4 col-md-6 sm-padding">

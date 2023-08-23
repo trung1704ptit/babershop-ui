@@ -748,7 +748,7 @@ ul.nav > li > a.active {
   font-size: 36px;
   line-height: 46px;
   color: #9f6e0dd4;
-  margin-bottom: 30px;
+  margin-bottom: 15px;
 }
 .about_content p {
   margin-bottom: 30px;
@@ -919,7 +919,7 @@ why_section ul.list li:before {
 .service_box {
   background-color: #fff;
   padding: 40px 30px;
-  min-height: 284px;
+  min-height: 290px;
   margin-bottom: 10px;
   text-align: center;
   cursor: pointer;

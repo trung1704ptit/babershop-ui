@@ -21,3 +21,5 @@ export default firebaseApp;
 export const db = getFirestore(firebaseApp as any)
 
 export const BOOKING_COLLECTION = 'booking';
+export const CONTENT_COLLECTION = 'contents';
+export const PRODUCTS_COLLECTION = 'products';

@@ -3,7 +3,10 @@ const Contact = () => {
     <section className="bg-grey lg:flex w-full" id="dia-chi">
       <div className="w-full lg:w-50 p-10 text-black flex">
         <div className="m-auto">
-          <h1 className="text-black mb-8">Địa chỉ</h1>
+          <div className="section_heading text-center mb-40">
+            <h2>Địa chỉ</h2>
+            <div className="heading-line" />
+          </div>
           <p className="text-lg">Địa chỉ: 783 Âu Cơ, phố Hồ, Thị xã Thuận Thành, Bắc Ninh</p>
           <p className="text-lg">Điện thoại: <a href="tel:0965813633">0965.813.633</a></p>
           <p className="text-lg">Email: <a href="mailto:nguyendinhquang99bn@gmail.com ">nguyendinhquang99bn@gmail.com </a></p>

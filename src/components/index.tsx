@@ -17,7 +17,7 @@ const BookingFilter = dynamic(() => import("./BookingFilter"));
 const Summary = dynamic(() => import("./Summary"));
 const Contact = dynamic(() => import("./Contact"));
 const Login = dynamic(() => import('./Login'));
-
+const Products = dynamic(() => import('./Products'));
 
 
 export {
@@ -32,6 +32,7 @@ export {
   Loading,
   Login,
   Pricing,
+  Products,
   Reviews,
   Scheduler,
   ScrollToTop,
