@@ -46,13 +46,12 @@ export default function NameModal(props: INameModal) {
         <>
           <div
             className="justify-center items-center flex bg-no-repeat bg-cover bg-center overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none"
-            // className="justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none"
             style={{ background: 'url("/img/slide-1.jpg")', backgroundSize: 'cover', backgroundRepeat: 'no-repeat' }}
           >
             <div className="relative w-auto my-6 mx-auto max-w-2xl px-2 shadow-md">
               <div className="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none">
-                <div className="flex items-start justify-between px-4 pt-5 md:p-10 rounded-t">
-                  <h2 className="text-gray-900 text-xl font-semibold title-font">
+                <div className="flex items-start justify-between px-4 pt-4 pb-4 rounded-t bg-[#f1f1f1]">
+                  <h2 className="text-gray-900 text-xl font-semibold title-font m-0">
                     Chào mừng anh đến với ROY Barber Shop
                   </h2>
                   <button
@@ -64,8 +63,7 @@ export default function NameModal(props: INameModal) {
                     </span>
                   </button>
                 </div>
-                {/*body*/}
-                <div className="relative px-4 py-2 md:p-10 flex-auto">
+                <div className="relative px-4 py-4 md:p-10 flex-auto">
                   <p className=" text-slate-500 text-lg leading-relaxed">
                     Anh cho chúng em biết tên để tiện xưng hô nhé!
                   </p>

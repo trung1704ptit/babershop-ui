@@ -1,23 +1,22 @@
-import dynamic from "next/dynamic";
 
-const About = dynamic(() => import("./About"))
-const Header = dynamic(() => import("./Header"))
-const Services = dynamic(() => import("./Services"))
-const Team = dynamic(() => import("./Team"))
-const Reviews = dynamic(() => import("./Reviews"))
-const HeroCarousel = dynamic(() => import("./HeroCarousel"))
-const Footer = dynamic(() => import("./Footer"))
-const Loading = dynamic(() => import("./Loading"))
-const Pricing = dynamic(() => import("./Pricing"))
-const ScrollToTop = dynamic(() => import("./ScrollToTop"))
-const BookingEntrance = dynamic(() => import("./BookingEntrance"))
-const Layout = dynamic(() => import("./Layout"))
-const Scheduler = dynamic(() => import("./Scheduler"))
-const BookingFilter = dynamic(() => import("./BookingFilter"));
-const Summary = dynamic(() => import("./Summary"));
-const Contact = dynamic(() => import("./Contact"));
-const Login = dynamic(() => import('./Login'));
-const Products = dynamic(() => import('./Products'));
+import About from "./About"
+import BookingEntrance from "./BookingEntrance"
+import BookingFilter from "./BookingFilter"
+import Contact from "./Contact"
+import Footer from "./Footer"
+import Header from "./Header"
+import HeroCarousel from "./HeroCarousel"
+import Layout from "./Layout"
+import Loading from "./Loading"
+import Login from './Login'
+import Pricing from "./Pricing"
+import Products from './Products'
+import Reviews from "./Reviews"
+import Scheduler from "./Scheduler"
+import ScrollToTop from "./ScrollToTop"
+import Services from "./Services"
+import Summary from "./Summary"
+import Team from "./Team"
 
 
 export {
