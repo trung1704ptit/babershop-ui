@@ -1,6 +1,6 @@
 const Services = () => {
   return (
-    <section className="service_section bg-grey padding">
+    <section className="service_section bg-grey padding" id="dich-vu">
       <div className="container">
         <div className="section_heading text-center mb-40 wow fadeInUp" data-wow-delay="300ms">
           <h2>Dịch vụ của chúng tôi</h2>
