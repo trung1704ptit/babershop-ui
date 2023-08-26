@@ -12,7 +12,7 @@ const About = () => {
                 ROY BarberShop được thành lập 07/2023 với 4 thành viên ban đầu gồm Founder Mr Quang , Manager Ms Linh , Barber Lương , Barber Đạt.
                 Với nhiều năm làm việc tại chuỗi cửa hàng tóc nam nổi tiếng và đặc biệt hơn hết khi Founder Quang đã từng làm việc tại House of Barbaard một barbershop hoàn hảo nhất tại Việt Nam.
                 <br />
-                Quang đã thu hoạch được nhiều khinh nghiệm từ nhiều khía cạnh để tạo nên ROY BarberShop ngày nay.
+                Quang đã thu hoạch được nhiều kinh nghiệm từ nhiều khía cạnh để tạo lên ROY BarberShop ngày nay.
                 Với kinh nghiệm dày dặn và thái độ rất chuẩn mực của ngành nghề chúng tôi tự tin mang lại sự ấn tượng và hài lòng cho khách hàng.
               </p>
             </div>

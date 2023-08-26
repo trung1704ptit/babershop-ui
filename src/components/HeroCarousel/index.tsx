@@ -34,7 +34,7 @@ const HeroCarousel = () => {
               <div className='slider_content fade-in-out'>
                 <h3>Đó không chỉ là một lần cắt tóc, đó là 1 lần trải nghiệm</h3>
                 <h1>
-                  Trở thành một thợ cắt tóc là chăm sóc mái tóccho mọi người
+                  Trở thành một thợ cắt tóc là chăm sóc mái tóc cho mọi người
                 </h1>
                 <p className='text-lg'>
                   Tiệm tóc của chúng tôi là nơi được tạo ra  hoàn toàn dành cho những
