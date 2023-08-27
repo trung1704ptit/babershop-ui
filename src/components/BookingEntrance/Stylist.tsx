@@ -2,6 +2,7 @@
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { collection, getDocs, query, where } from 'firebase/firestore';
 import moment from 'moment';
+import Image from 'next/image';
 import { useEffect, useState } from "react";
 import Calendar from 'react-calendar';
 
@@ -145,8 +146,11 @@ const Stylist = (props: IProps) => {
             TEAM.map(item => (
               <div className="flex justify-between border-b py-3" key={item.id}>
                 <div className="flex text-center items-center">
-                  <img src={item.square_avatar} alt="avatar" className="rounded-full w-[100px] mr-3" />
-                  <span className="text-lg">{item.name}</span>
+                  <Image src={item.square_avatar} alt="avatar" width="100" height="100" className="rounded-full mr-3" />
+                  <div className="align-left">
+                    <div className="text-lg text-black">{item.name}</div>
+                    <i className='text-sm'>{item.description}</i>
+                  </div>
                 </div>
                 <div className="flex text-center align-middle"><button className="bg-[#9f6e0dd4] text-white px-4 py-2 rounded outline-none focus:outline-none m-auto select-btn-barber" onClick={() => handleSelectBarber(item)}>Chọn <span className="arrow_right"></span></button></div>
               </div>

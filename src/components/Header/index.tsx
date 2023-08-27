@@ -15,7 +15,7 @@ const Header = ({ position }: IHeaderProps) => {
     <header id="header" className={`header-section w-full ${position ? position : 'fixed'}`}>
       <div className="w-full flex positive px-3">
         <nav className="navbar w-full">
-          <Link href="/" className="navbar-brand"><img src="/img/logo.png" alt="Barbershop" /></Link>
+          <Link href="/" className="navbar-brand"><img src="/img/logo-type1.png" alt="Barbershop" className="w-[200px]" /></Link>
           <div className="menu-wrap align-items-center">
             <div id="mainmenu" className="mainmenu">
               <ul className="nav">

@@ -6,7 +6,7 @@ const Footer = () => {
           <div className="row">
             <div className="col-lg-4 col-md-6 sm-padding">
               <div className="footer_widget">
-                <img className="mb-15" src="/img/logo.png" alt="Brand" />
+                <img className="mb-15 w-[200px]" src="/img/logo-type1.png" alt="Brand" />
                 <p>Tiệm tóc của chúng tôi là nơi được tạo ra hoàn toàn dành cho những
                   người đàn ông quan tâm tới chất lượng cao cấp, thời gian và cái nhìn hoàn hảo</p>
                 <ul className="widget_social">
