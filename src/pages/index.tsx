@@ -10,13 +10,7 @@ export default function Home(props: IHomeProps) {
   return (
     <>
       <Head>
-        <title>ROY Barber shop</title>
-        <meta
-          name='description'
-          content={`
-          ROY Barber shop, với kinh nghiệm dày dặn và thái độ rất chuẩn mực của ngành nghề chúng tôi tự tin mang lại sự ấn tượng và hài lòng cho khách hàng.
-        `}
-        />
+        <title>ROY Barber Shop - Trang chủ</title>
         <meta name='viewport' content='width=device-width, initial-scale=1' />
         <link rel='icon' href='/favicon.ico' />
       </Head>

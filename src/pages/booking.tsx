@@ -9,7 +9,7 @@ export default function Booking({ phone, name }: IBookingPage) {
   return (
     <>
       <Head>
-        <title>ROY Barber shop - Đặt lịch</title>
+        <title>ROY Barber Shop - Đặt lịch</title>
         <meta
           name='description'
           content={`
