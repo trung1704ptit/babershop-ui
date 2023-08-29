@@ -5,18 +5,21 @@ export default function Document() {
     <Html lang='en'>
       <Head>
         <meta charSet="utf-8" />
-        <meta name="description" content="RoyBarbarshop không chỉ là một lần cắt tóc mà còn là một lần trải nghiệm thú vị" />
         <meta name="author" content="Roy Barber Shop" />
         <link rel="shortcut icon" type="image/x-icon" href="img/favicon.png" />
         <meta property="og:title" content="Roy Barber Shop" />
-        <meta
-          property="og:description"
-          content="RoyBarbarshop không chỉ là một lần cắt tóc mà còn là một lần trải nghiệm thú vị"
-        />
-        <meta
-          property="og:image"
-          content="img/roybarbershop-preview.jpg"
-        />
+        <meta name="description" content="Không chỉ là một lần cắt tóc mà còn là một lần trải nghiệm thú vị" />
+        <meta property="og:url" content="https://www.roybarbershop.com" />
+        <meta property="og:type" content="website" />
+        <meta property="og:title" content="Roy Barber Shop" />
+        <meta property="og:description" content="Không chỉ là một lần cắt tóc mà còn là một lần trải nghiệm thú vị" />
+        <meta property="og:image" content="https://roybarbershop.com/img/roybarbershop-preview.jpg" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta property="twitter:domain" content="roybarbershop.com" />
+        <meta property="twitter:url" content="https://www.roybarbershop.com" />
+        <meta name="twitter:title" content="Roy Barber Shop" />
+        <meta name="twitter:description" content="Không chỉ là một lần cắt tóc mà còn là một lần trải nghiệm thú vị" />
+        <meta name="twitter:image" content="https://roybarbershop.com/img/roybarbershop-preview.jpg" />
       </Head>
       <body>
         <Main />
