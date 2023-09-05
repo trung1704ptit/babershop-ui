@@ -12,6 +12,8 @@ export default function Document() {
         <meta property="og:url" content="https://www.roybarbershop.com" />
         <meta property="og:type" content="website" />
         <meta property="og:title" content="Roy Barber Shop" />
+        <meta property="og:type" content="barbershop" />
+        <meta property="og:locale" content="vi_VN" />
         <meta property="og:description" content="Không chỉ là một lần cắt tóc mà còn là một lần trải nghiệm thú vị" />
         <meta property="og:image" content="https://roybarbershop.com/img/roybarbershop-preview.jpg" />
         <meta name="twitter:card" content="summary_large_image" />
