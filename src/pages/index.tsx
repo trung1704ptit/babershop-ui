@@ -1,7 +1,7 @@
 import { GetServerSideProps } from 'next';
 import Head from 'next/head';
 
-import { About, Contact, Footer, Header, HeroCarousel, Pricing, Products, Reviews, ScrollToTop, Services, Team } from '../components';
+import { About, Contact, Footer, Header, HeroCarousel, Pricing, Products, Reviews, Services, Team } from '../components';
 import { PRODUCTS_COLLECTION } from '../firebase/config';
 import { getDocsByCollection } from '../firebase/getData';
 import { IHomeProps } from '../interface/pages';
@@ -24,7 +24,6 @@ export default function Home(props: IHomeProps) {
       <Reviews />
       <Contact />
       <Footer />
-      <ScrollToTop />
     </>
   );
 }
