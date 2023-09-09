@@ -5,6 +5,7 @@ import moment from 'moment';
 import Image from 'next/image';
 import { useEffect, useState } from "react";
 import Calendar from 'react-calendar';
+import { toast } from 'react-toastify';
 
 import Loading from "../Loading";
 import { ITeam } from "../Team/type";
@@ -37,7 +38,7 @@ const isAvailableToOrder = (bookingList: IBookingItem[], timeToCheck: number) =>
 const Stylist = (props: IProps) => {
   const [barber, setBarber] = useState<ITeam | null>();
   const [datetime, setDatetime] = useState<{ time: number, date: Value }>({
-    time: props?.defaultDatetime?.time || 8,
+    time: props?.defaultDatetime?.time || 0,
     date: props?.defaultDatetime?.date || new Date()
   });
 
@@ -61,6 +62,13 @@ const Stylist = (props: IProps) => {
   }
 
   const handleContinue = () => {
+    if (!datetime.time || !datetime.date) {
+      toast.error('Quý khách vui lòng chọn giờ cắt', {
+        position: toast.POSITION.TOP_RIGHT,
+        hideProgressBar: true
+      });
+      return;
+    }
     const payload = {
       datetime,
       barber
@@ -102,7 +110,7 @@ const Stylist = (props: IProps) => {
     }
   }
 
-  const handleQueryBookingList = async (barberName: string, startDate?: Date,) => {
+  const handleQueryBookingList = async (barberName: string, startDate?: Date) => {
     if (!startDate) {
       startDate = new Date();
     }
@@ -112,7 +120,11 @@ const Stylist = (props: IProps) => {
     nextDate.setDate(startDate.getDate() + 1)
     nextDate.setHours(0, 0, 0, 0);
 
-    const queryString = query(colRef, where("datetime.date", ">=", startDate), where("datetime.date", "<", nextDate), where("barber", "==", barberName))
+    const queryString = query(colRef,
+      where("datetime.date", ">=", startDate),
+      where("datetime.date", "<=", nextDate),
+      where("barber.name", "==", barberName)
+    )
     const docsSnap = await getDocs(queryString);
     const data: IBookingItem[] = [];
     docsSnap.forEach(doc => {
@@ -180,7 +192,10 @@ const Stylist = (props: IProps) => {
                   return (
                     <div className={`${isAvailable ? 'cursor-pointer' : 'cursor-not-allowed'} p-1 w-1/3 md:w-1/6 h-[80px]`} key={time} onClick={() => handleSelectTime(time, isAvailable)} id={time.toString()}>
                       <div className={`border rounded text-center w-100 h-100 flex text-base ${bg}`}>
-                        <span className="m-auto">{timeText}</span>
+                        <div className="m-auto">
+                          <p className="m-0 leading-none">{timeText}</p>
+                          {!isAvailable && <span className="text-[12px]">(Đã kín lịch)</span>}
+                        </div>
                       </div>
                     </div>
                   )
