@@ -170,7 +170,7 @@ const Stylist = (props: IProps) => {
           }
         </div> : <>
           <div className="container">
-            <button className='flex mb-3 cursor-pointer bg-[#9f6e0dd4] p-2 rounded text-white back-other-barber' onClick={handleBackToBarber}>
+            <button className='flex mb-3 cursor-pointer bg-[#9f6e0dd4] p-1 rounded text-white back-other-barber' onClick={handleBackToBarber}>
               <ArrowBackIcon /><span className='text-md ml-2'>Chọn Barber khác</span>
             </button>
             <p>Đang hiển thị lịch đặt của {barber.name}</p>
@@ -191,7 +191,7 @@ const Stylist = (props: IProps) => {
 
                   return (
                     <div className={`${isAvailable ? 'cursor-pointer' : 'cursor-not-allowed'} p-1 w-1/3 md:w-1/6 h-[80px]`} key={time} onClick={() => handleSelectTime(time, isAvailable)} id={time.toString()}>
-                      <div className={`border rounded text-center w-100 h-100 flex text-base ${bg}`}>
+                      <div className={`time-series-item rounded text-center w-100 h-100 flex text-base ${bg}`}>
                         <div className="m-auto">
                           <p className="m-0 leading-none">{timeText}</p>
                           {!isAvailable && <span className="text-[12px]">(Đã kín lịch)</span>}

@@ -93,3 +93,6 @@ html {
 .rs__event__item {
   width: 100% !important;
 }
+.time-series-item {
+  border: 1px solid #a0a096;
+}
