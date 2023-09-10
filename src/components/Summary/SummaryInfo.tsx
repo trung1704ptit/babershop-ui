@@ -8,6 +8,7 @@ const SummaryInfo = (props: TSummaryInfo) => {
   const servicesCounter: any = {};
   const barberCounter: any = {};
 
+  
   props.bookingList.map(item => {
     if (item.services) {
       item.services.forEach(sItem => {
