@@ -97,14 +97,14 @@ export const SERVICES: IServiceDataItem[] = [
 
 export const TEAM_NAME = {
   DINH_QUANG: 'Đình Quang',
-  TRAN_DAT: 'Trần Đạt',
+  VAN_TUAN: 'Văn Tuấn',
   VAN_LUONG: "Văn Lương"
 }
 
 export const TEAM_EMAILS = {
   DINH_QUANG: 'nguyendinhquang99bn@gmail.com',
   VAN_LUONG: 'vanluong2kx@gmail.com',
-  TRAN_DAT: 'dattran24062004@gmail.com'
+  VAN_TUAN: 'hotuananh24092000@gmail.com'
 }
 
 
@@ -114,8 +114,8 @@ export const TEAM: ITeam[] = [
     name: TEAM_NAME.DINH_QUANG,
     position: '',
     description: 'Barber cao cấp',
-    square_avatar: '/img/barber1_square.png',
-    avatar: '/img/barber1.png',
+    square_avatar: '/img/barbers/quang.jpg',
+    avatar: '/img/barbers/quang.jpg',
     color: '#50b500',
     email: TEAM_EMAILS.DINH_QUANG,
   },
@@ -124,20 +124,20 @@ export const TEAM: ITeam[] = [
     name: TEAM_NAME.VAN_LUONG,
     position: '',
     description: 'Barber trung cấp',
-    square_avatar: '/img/barber2_square.png',
-    avatar: '/img/barber2.png',
+    square_avatar: '/img/barbers/luong.jpeg',
+    avatar: '/img/barbers/luong.jpeg',
     color: '#c94f08',
     email: TEAM_EMAILS.VAN_LUONG
   },
   {
     id: 3,
-    name: TEAM_NAME.TRAN_DAT,
+    name: TEAM_NAME.VAN_TUAN,
     position: '',
     description: 'Barber trung cấp',
-    square_avatar: '/img/barber3_square.png',
-    avatar: '/img/barber3.png',
+    square_avatar: '/img/barbers/tuan.jpg',
+    avatar: '/img/barbers/tuan.jpg',
     color: '#ac08c9',
-    email: TEAM_EMAILS.TRAN_DAT
+    email: TEAM_EMAILS.VAN_TUAN
   }
 ]
 
