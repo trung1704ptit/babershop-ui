@@ -4,7 +4,9 @@ import TimelineContent from '@mui/lab/TimelineContent';
 import TimelineDot from '@mui/lab/TimelineDot';
 import TimelineItem from '@mui/lab/TimelineItem';
 import TimelineSeparator from '@mui/lab/TimelineSeparator';
-import { Typography } from '@mui/material';
+import { Button, TextField, Typography } from '@mui/material';
+import { DatePicker, LocalizationProvider } from '@mui/x-date-pickers';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import Head from 'next/head';
 import { useRef, useState } from 'react';
 
@@ -14,15 +16,22 @@ import { CONTACT } from '../utils/constants';
 export default function LinkPointHistory() {
   const phoneRef = useRef<HTMLInputElement>(null);
   const [isValidUser, setIsValidUser] = useState(false);
+  const [submitted, setSubmitted] = useState(false);
 
   const checkUser = () => {
     console.log(phoneRef.current?.value);
-    setIsValidUser(true);
+    if (phoneRef?.current?.value) {
+      setIsValidUser(true);
+      setSubmitted(true);
+    }
   };
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e?.key === 'Enter') {
-      checkUser();
+      if (phoneRef?.current?.value) {
+        checkUser();
+        setSubmitted(true);
+      }
     }
   };
 
@@ -40,8 +49,12 @@ export default function LinkPointHistory() {
         <link rel='icon' href='/favicon.ico' />
       </Head>
       <Header />
-      {isValidUser ? (
-        <HairCutTimeline />
+      {submitted ? (
+        isValidUser ? (
+          <AddNewUser />
+        ) : (
+          <HairCutTimeline />
+        )
       ) : (
         <div
           className='justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none'
@@ -95,6 +108,45 @@ export default function LinkPointHistory() {
         </div>
       )}
     </>
+  );
+}
+
+function AddNewUser() {
+  return (
+    <div className='ml-auto mr-auto mt-[100px] text-center max-w-sm min-h-[80vh]'>
+      <Typography variant='h5' gutterBottom className='mb-3'>
+        Thêm mới khách hàng và tích điểm
+      </Typography>
+
+      <TextField
+        id='outlined-basic'
+        label='Tên khách hàng'
+        variant='outlined'
+        className='w-full mb-3'
+        required
+      />
+      <TextField
+        id='outlined-basic'
+        label='Số điện thoại'
+        variant='outlined'
+        className='w-full mb-3'
+        type='number'
+        required
+      />
+      <LocalizationProvider dateAdapter={AdapterDayjs}>
+        <DatePicker className='w-full mb-3' />
+      </LocalizationProvider>
+      <TextField
+        id='outlined-basic'
+        label='Email (Nếu có)'
+        variant='outlined'
+        className='w-full mb-3'
+        type='email'
+      />
+      <Button variant='contained' className='w-100' size='large'>
+        Thêm mới
+      </Button>
+    </div>
   );
 }
 
