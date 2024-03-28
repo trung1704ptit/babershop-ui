@@ -146,3 +146,9 @@ export const STATUS = {
   PENDING: 'pending',
   OPEN: 'open'
 }
+
+export const CONTACT = {
+  phoneText: '0965.813.633',
+  phoneVal: '0965813633',
+  email: 'nguyendinhquang99bn@gmail.com'
+}

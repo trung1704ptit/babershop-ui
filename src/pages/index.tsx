@@ -1,7 +1,18 @@
 import { GetServerSideProps } from 'next';
 import Head from 'next/head';
 
-import { About, Contact, Footer, Header, HeroCarousel, Pricing, Products, Reviews, Services, Team } from '../components';
+import {
+  About,
+  Contact,
+  Footer,
+  Header,
+  HeroCarousel,
+  Pricing,
+  Products,
+  Reviews,
+  Services,
+  Team,
+} from '../components';
 import { PRODUCTS_COLLECTION } from '../firebase/config';
 import { getDocsByCollection } from '../firebase/getData';
 import { IHomeProps } from '../interface/pages';
@@ -35,17 +46,17 @@ export const getServerSideProps: GetServerSideProps = async () => {
 
     return {
       props: {
-        products: productResults.result
-      }
-    }
+        products: productResults.result,
+      },
+    };
   } catch (error) {
     console.log(error);
     return {
       props: {
         data: {
-          products: []
-        }
-      }
-    }
+          products: [],
+        },
+      },
+    };
   }
-}
+};

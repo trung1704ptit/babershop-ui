@@ -4,7 +4,6 @@ import Head from 'next/head';
 import { BookingEntrance, Header } from '../components';
 import { IBookingPage } from '../interface/pages/booking';
 
-
 export default function Booking({ phone, name }: IBookingPage) {
   return (
     <>
@@ -20,12 +19,12 @@ export default function Booking({ phone, name }: IBookingPage) {
         <link rel='icon' href='/favicon.ico' />
       </Head>
       <Header />
-      <div><BookingEntrance phone={phone} name={name} />
+      <div>
+        <BookingEntrance phone={phone} name={name} />
       </div>
     </>
   );
 }
-
 
 export const getServerSideProps: GetServerSideProps = async (args) => {
   const phone = args.query?.phone || null;
@@ -34,7 +33,7 @@ export const getServerSideProps: GetServerSideProps = async (args) => {
   return {
     props: {
       phone,
-      name
-    }
-  }
-} 
+      name,
+    },
+  };
+};
