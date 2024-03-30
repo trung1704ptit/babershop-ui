@@ -11,18 +11,34 @@ import Head from 'next/head';
 import { useRef, useState } from 'react';
 
 import { Header } from '../components';
-import { CONTACT } from '../utils/constants';
+
+interface IUser {
+  name: string;
+  phone: string;
+  email?: string;
+  birthday?: string;
+}
 
 export default function LinkPointHistory() {
   const phoneRef = useRef<HTMLInputElement>(null);
-  const [isValidUser, setIsValidUser] = useState(false);
+  const [showAddUser, setShowAddUser] = useState(false);
   const [submitted, setSubmitted] = useState(false);
+  const [userData, setUserData] = useState<IUser>();
+  const [loadingUser, setLoadingUser] = useState(false);
 
   const checkUser = () => {
-    console.log(phoneRef.current?.value);
     if (phoneRef?.current?.value) {
-      setIsValidUser(true);
-      setSubmitted(true);
+      setLoadingUser(true);
+      setTimeout(() => {
+        setShowAddUser(false);
+        setSubmitted(true);
+        setUserData({
+          name: 'ABC',
+          birthday: '20-03-1993',
+          email: 'abc@gmail.com',
+          phone: '0965813633',
+        });
+      }, 2000);
     }
   };
 
@@ -30,9 +46,13 @@ export default function LinkPointHistory() {
     if (e?.key === 'Enter') {
       if (phoneRef?.current?.value) {
         checkUser();
-        setSubmitted(true);
       }
     }
+  };
+
+  const handleClickAddUser = () => {
+    setShowAddUser(true);
+    setSubmitted(true);
   };
 
   return (
@@ -49,13 +69,11 @@ export default function LinkPointHistory() {
         <link rel='icon' href='/favicon.ico' />
       </Head>
       <Header />
-      {submitted ? (
-        isValidUser ? (
-          <AddNewUser />
-        ) : (
-          <HairCutTimeline />
-        )
-      ) : (
+      {showAddUser && <AddNewUser />}
+
+      {userData && <HairCutTimeline />}
+
+      {!submitted && (
         <div
           className='justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none'
           style={{
@@ -74,10 +92,9 @@ export default function LinkPointHistory() {
               </h2>
 
               <div>
-                <p className='text-slate-500 text-lg leading-relaxed mb-4'>
-                  Chúng tôi mang đến gói cưới 10+2 cùng với điểm tích lũy qua
-                  mỗi lần cắt. Nhập SĐT để kiểm tra ngay.
-                </p>
+                <Typography className='text-slate-500 text-lg leading-relaxed mb-4 text-center'>
+                  Nhập SĐT để kiểm tra ngay
+                </Typography>
                 <div className='relative mb-4'>
                   <input
                     type='number'
@@ -90,18 +107,27 @@ export default function LinkPointHistory() {
                     className='w-full bg-white rounded border border-gray-300 focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-2 px-3 leading-8 transition-colors duration-200 ease-in-out'
                   />
                 </div>
-                <button
+
+                <Button
+                  variant='contained'
+                  size='large'
+                  className='w-100 mb-2'
                   onClick={() => checkUser()}
-                  className='text-white w-full border-0 py-2 px-6 focus:outline-none rounded text-lg bg-[#9f6e0dd4]'
+                  disabled={loadingUser}
                 >
-                  KIỂM TRA
-                </button>
-                <p className=' text-gray-500 mt-3 text-md'>
-                  Hỗ trợ trực tiếp{' '}
-                  <span className='font-medium text-[#9f6e0dd4]'>
-                    <a href={`tel:${CONTACT.phoneVal}`}>{CONTACT.phoneText}</a>
-                  </span>
-                </p>
+                  {loadingUser ? 'Đang kiểm tra' : 'KIỂM TRA'}
+                </Button>
+
+                <Typography className='text-center mb-2'>Hoặc</Typography>
+
+                <Button
+                  variant='outlined'
+                  size='large'
+                  className='w-100'
+                  onClick={handleClickAddUser}
+                >
+                  Đăng ký thành viên
+                </Button>
               </div>
             </div>
           </div>
