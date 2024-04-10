@@ -178,10 +178,32 @@ function AddNewUser() {
 
 function HairCutTimeline() {
   return (
-    <div className='mt-[100px] text-center'>
+    <div className='text-center max-w-xl ml-auto mr-auto mt-[100px]'>
       <h2 className='text-gray-900 text-xl font-semibold title-font text-center'>
         KIỂM TRA ĐIỂM TÍCH LŨY
       </h2>
+      <div className='mt-30 mb-30'>
+        <div className='grid grid-cols-2 xs:grid-cols-1 gap-4'>
+          <div className='bg-[#0fad78] p-4 rounded-md text-white'>
+            <Typography className='text-2xl'>Tổng điểm:</Typography>
+            <Typography className='text-2xl'>40 điểm</Typography>
+            <br />
+            <Typography variant='body2' className='italic'>
+              Sử dụng điểm để mua các mặt hàng
+            </Typography>
+          </div>
+
+          <div className='bg-[#ff5370] p-4 rounded-md text-white'>
+            <Typography className='text-2xl'>Gói cước 10+2:</Typography>
+            <Typography className='text-2xl'>4 lần</Typography>
+            <br />
+            <Typography variant='body2'>
+              Cần thêm 6 lần cắt nữa để có 2 lượt cắt miễn phí.
+            </Typography>
+          </div>
+        </div>
+      </div>
+
       <Typography variant='body1' gutterBottom>
         Tổng số lần đã cắt: 4, bạn cần cắt thêm 6 lần nữa để có 2 lần cắt miễn
         phí.
