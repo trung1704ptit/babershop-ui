@@ -50,7 +50,7 @@ const MENU: IMenu[] = [
   },
   {
     label: 'Tích điểm',
-    path: '/admin/cai-dat',
+    path: '/admin/tich-diem',
     icon: (
       <svg
         xmlns='http://www.w3.org/2000/svg'

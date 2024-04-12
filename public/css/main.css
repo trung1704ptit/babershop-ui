@@ -80,10 +80,7 @@ li,
 a,
 span {
 }
-p {
-  font-size: 16px;
-  margin-bottom: 15px;
-}
+
 a,
 a:hover {
   text-decoration: none;
@@ -2157,4 +2154,9 @@ blockquote span {
 #scroll-to-top:hover {
   background-color: #897666;
   color: #fff;
+}
+
+.MuiTablePagination-selectLabel,
+.MuiTablePagination-displayedRows {
+  margin: 0;
 }

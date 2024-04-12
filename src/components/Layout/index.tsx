@@ -12,7 +12,7 @@ const Layout = (props: Props) => {
       <Header position='relative' />
       <div className='flex bg-slate-200 min-h-[calc(100vh-80px)]'>
         <Sidebar />
-        <main className='rounded w-full h-full'>{props.children}</main>
+        <main className='rounded w-full h-full p-2'>{props.children}</main>
       </div>
       <Footer />
     </>
