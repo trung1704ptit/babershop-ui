@@ -7,8 +7,9 @@ import TimelineSeparator from '@mui/lab/TimelineSeparator';
 import { Button, TextField, Typography } from '@mui/material';
 import { DatePicker, LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import axios from 'axios';
 import Head from 'next/head';
-import { useRef, useState } from 'react';
+import { ChangeEvent, useRef, useState } from 'react';
 
 import { Header } from '../components';
 
@@ -137,41 +138,98 @@ export default function LinkPointHistory() {
   );
 }
 
+interface INewUserProps {
+  name: string;
+  phone: string;
+  birthday: string;
+  email?: string;
+  password: string;
+  passwordConfirm: string;
+}
+
 function AddNewUser() {
+  const [formData, setFormData] = useState<INewUserProps>({
+    name: '',
+    email: '',
+    birthday: '',
+    phone: '',
+    password: 'guest@babershop.com',
+    passwordConfirm: 'guest@babershop.com',
+  });
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    console.log(formData);
+    axios.post(`http://localhost:8000/api/auth/register`, formData);
+  };
+
+  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setFormData((prevData) => ({
+      ...prevData,
+      [name]: value,
+    }));
+  };
+
+  const handleDateChange = (newdate: any) => {
+    console.log(newdate);
+    setFormData((prevData) => ({
+      ...prevData,
+      birthday: newdate.$d.toISOString(),
+    }));
+  };
+
   return (
     <div className='ml-auto mr-auto mt-[100px] text-center max-w-sm min-h-[80vh]'>
       <Typography variant='h5' gutterBottom className='mb-3'>
         Thêm mới khách hàng và tích điểm
       </Typography>
 
-      <TextField
-        id='outlined-basic'
-        label='Tên khách hàng'
-        variant='outlined'
-        className='w-full mb-3'
-        required
-      />
-      <TextField
-        id='outlined-basic'
-        label='Số điện thoại'
-        variant='outlined'
-        className='w-full mb-3'
-        type='number'
-        required
-      />
-      <LocalizationProvider dateAdapter={AdapterDayjs}>
-        <DatePicker className='w-full mb-3' />
-      </LocalizationProvider>
-      <TextField
-        id='outlined-basic'
-        label='Email (Nếu có)'
-        variant='outlined'
-        className='w-full mb-3'
-        type='email'
-      />
-      <Button variant='contained' className='w-100' size='large'>
-        Thêm mới
-      </Button>
+      <form onSubmit={handleSubmit}>
+        <TextField
+          id='outlined-basic'
+          label='Tên khách hàng'
+          variant='outlined'
+          className='w-full mb-3'
+          required
+          name='name'
+          onChange={handleChange}
+        />
+        <TextField
+          id='outlined-basic'
+          label='Số điện thoại'
+          variant='outlined'
+          className='w-full mb-3'
+          type='number'
+          required
+          name='phone'
+          onChange={handleChange}
+        />
+        <LocalizationProvider dateAdapter={AdapterDayjs}>
+          <DatePicker
+            className='w-full mb-3'
+            label='Ngày sinh'
+            onChange={handleDateChange}
+            format='DD/MM/YYYY'
+          />
+        </LocalizationProvider>
+        <TextField
+          id='outlined-basic'
+          label='Email (Nếu có)'
+          variant='outlined'
+          className='w-full mb-3'
+          type='email'
+          name='email'
+          onChange={handleChange}
+        />
+        <Button
+          variant='contained'
+          className='w-100'
+          size='large'
+          type='submit'
+        >
+          Thêm mới
+        </Button>
+      </form>
     </div>
   );
 }
