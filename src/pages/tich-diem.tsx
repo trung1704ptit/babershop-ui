@@ -275,7 +275,7 @@ function HairCutTimeline() {
             <Typography className='text-2xl'>Tổng điểm:</Typography>
             <Typography className='text-2xl'>40 điểm</Typography>
             <br />
-            <Typography variant='body2' className='italic'>
+            <Typography variant='body2'>
               Sử dụng điểm để mua các mặt hàng
             </Typography>
           </div>

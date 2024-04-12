@@ -18,7 +18,7 @@ const MENU: IMenu[] = [
         viewBox='0 0 24 24'
         strokeWidth={1.5}
         stroke='currentColor'
-        className='w-6 h-6'
+        className='w-5 h-5 mt-[2px]'
       >
         <path
           strokeLinecap='round'
@@ -38,7 +38,7 @@ const MENU: IMenu[] = [
         viewBox='0 0 24 24'
         strokeWidth={1.5}
         stroke='currentColor'
-        className='w-6 h-6'
+        className='w-5 h-5 mt-[2px]'
       >
         <path
           strokeLinecap='round'
@@ -58,7 +58,7 @@ const MENU: IMenu[] = [
         viewBox='0 0 24 24'
         strokeWidth={1.5}
         stroke='currentColor'
-        className='w-6 h-6'
+        className='w-5 h-5 mt-[2px]'
       >
         <path
           strokeLinecap='round'
@@ -84,7 +84,7 @@ export const Sidebar = () => {
   }, [router]);
 
   return (
-    <aside className='w-[280px] bg-[#222227] mt-3 ml-3 mb-3 rounded-lg'>
+    <aside className='w-[280px] bg-black'>
       <div className='w-full h-full p-3'>
         <div>
           <ul>
@@ -96,7 +96,7 @@ export const Sidebar = () => {
                 key={menu.path}
                 onClick={() => handleChangeRoute(menu.path)}
               >
-                <span className='mr-2'>{menu.icon}</span>
+                <div className='mr-2'>{menu.icon}</div>
                 {menu.label}
               </li>
             ))}
