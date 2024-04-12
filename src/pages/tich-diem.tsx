@@ -10,8 +10,10 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import axios from 'axios';
 import Head from 'next/head';
 import { ChangeEvent, useRef, useState } from 'react';
+import { toast } from 'react-toastify';
 
 import { Header } from '../components';
+import { MESSAGES } from '../utils/constants';
 
 interface IUser {
   name: string;
@@ -158,8 +160,35 @@ function AddNewUser() {
   });
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    console.log(formData);
-    axios.post(`http://localhost:8000/api/auth/register`, formData);
+    if (!formData?.email) {
+      formData.email = `${new Date().getTime()}@gmail.com`;
+    }
+    axios
+      .post(`http://localhost:8000/api/auth/register`, formData)
+      .then((res) => {
+        console.log(res);
+        if (res?.data?.status === 'success') {
+          toast.success(MESSAGES.REGISTER_USER_SUCCESS_VI, {
+            position: toast.POSITION.TOP_CENTER,
+            hideProgressBar: true,
+          });
+        }
+      })
+      .catch((error) => {
+        let errorMessage = MESSAGES.COMMON_ERROR_VI;
+        if (
+          error?.response?.data?.message == MESSAGES.REGISTER_USER_EXISTS_EN
+        ) {
+          errorMessage = MESSAGES.REGISTER_USER_EXISTS_VI;
+        }
+
+        toast.error(errorMessage, {
+          position: toast.POSITION.TOP_CENTER,
+          hideProgressBar: true,
+        });
+
+        console.log(error);
+      });
   };
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -241,8 +270,8 @@ function HairCutTimeline() {
         KIỂM TRA ĐIỂM TÍCH LŨY
       </h2>
       <div className='mt-30 mb-30'>
-        <div className='grid grid-cols-2 xs:grid-cols-1 gap-4'>
-          <div className='bg-[#0fad78] p-4 rounded-md text-white'>
+        <div className='grid grid-cols-1 lg:grid-cols-2 gap-4 p-2'>
+          <div className='bg-[#0fad78] p-4 rounded-md text-white m-auto'>
             <Typography className='text-2xl'>Tổng điểm:</Typography>
             <Typography className='text-2xl'>40 điểm</Typography>
             <br />
@@ -251,7 +280,7 @@ function HairCutTimeline() {
             </Typography>
           </div>
 
-          <div className='bg-[#ff5370] p-4 rounded-md text-white'>
+          <div className='bg-[#ff5370] p-4 rounded-md text-white m-auto'>
             <Typography className='text-2xl'>Gói cước 10+2:</Typography>
             <Typography className='text-2xl'>4 lần</Typography>
             <br />
@@ -262,12 +291,8 @@ function HairCutTimeline() {
         </div>
       </div>
 
-      <Typography variant='body1' gutterBottom>
-        Tổng số lần đã cắt: 4, bạn cần cắt thêm 6 lần nữa để có 2 lần cắt miễn
-        phí.
-      </Typography>
       <Typography variant='body1' gutterBottom className='italic'>
-        (Quý khách hiện đang sử dụng gói cước 10+2)
+        Mốc thời gian cắt tóc
       </Typography>
       <Timeline position='alternate-reverse'>
         <TimelineItem>
@@ -278,7 +303,9 @@ function HairCutTimeline() {
           <TimelineContent>
             20-03-2021
             <br />
-            <span>Lần 1</span>
+            <span>
+              Lần 1, <span className='text-green-600'>+10 điểm</span>
+            </span>
           </TimelineContent>
         </TimelineItem>
         <TimelineItem>
@@ -289,7 +316,9 @@ function HairCutTimeline() {
           <TimelineContent>
             04-02-2022
             <br />
-            <span>Lần 2</span>
+            <span>
+              Lần 2, <span className='text-green-600'>+10 điểm</span>
+            </span>
           </TimelineContent>
         </TimelineItem>
         <TimelineItem>
@@ -300,7 +329,9 @@ function HairCutTimeline() {
           <TimelineContent>
             02-01-2023
             <br />
-            <span>Lần 3</span>
+            <span>
+              Lần 3, <span className='text-green-600'>+10 điểm</span>
+            </span>
           </TimelineContent>
         </TimelineItem>
         <TimelineItem>
@@ -311,7 +342,9 @@ function HairCutTimeline() {
           <TimelineContent>
             20-03-2021
             <br />
-            <span>Lần 4</span>
+            <span>
+              Lần 4, <span className='text-green-600'>+10 điểm</span>
+            </span>
           </TimelineContent>
         </TimelineItem>
         <TimelineItem>
@@ -322,7 +355,9 @@ function HairCutTimeline() {
           <TimelineContent>
             20-03-2021
             <br />
-            <span>Lần 5</span>
+            <span>
+              Lần 5, <span className='text-green-600'>+10 điểm</span>
+            </span>
           </TimelineContent>
         </TimelineItem>
         <TimelineItem>
@@ -333,7 +368,9 @@ function HairCutTimeline() {
           <TimelineContent>
             20-03-2021
             <br />
-            <span>Lần 6</span>
+            <span>
+              Lần 6, <span className='text-green-600'>+10 điểm</span>
+            </span>
           </TimelineContent>
         </TimelineItem>{' '}
         <TimelineItem>
@@ -344,7 +381,9 @@ function HairCutTimeline() {
           <TimelineContent>
             20-03-2021
             <br />
-            <span>Lần 7</span>
+            <span>
+              Lần 7, <span className='text-green-600'>+10 điểm</span>
+            </span>
           </TimelineContent>
         </TimelineItem>
         <TimelineItem>
@@ -355,7 +394,9 @@ function HairCutTimeline() {
           <TimelineContent>
             20-03-2021
             <br />
-            <span>Lần 8</span>
+            <span>
+              Lần 8, <span className='text-green-600'>+10 điểm</span>
+            </span>
           </TimelineContent>
         </TimelineItem>
         <TimelineItem>
@@ -366,7 +407,9 @@ function HairCutTimeline() {
           <TimelineContent>
             20-03-2021
             <br />
-            <span>Lần 9</span>
+            <span>
+              Lần 9, <span className='text-green-600'>+10 điểm</span>
+            </span>
           </TimelineContent>
         </TimelineItem>
         <TimelineItem>
@@ -376,7 +419,9 @@ function HairCutTimeline() {
           <TimelineContent>
             09-02-2024
             <br />
-            <span>Lần 10</span>
+            <span>
+              Lần 10, <span className='text-green-600'>+10 điểm</span>
+            </span>
           </TimelineContent>
         </TimelineItem>
       </Timeline>

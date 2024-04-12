@@ -152,3 +152,10 @@ export const CONTACT = {
   phoneVal: '0965813633',
   email: 'nguyendinhquang99bn@gmail.com'
 }
+
+export const MESSAGES = {
+  REGISTER_USER_EXISTS_EN: "User with that email or phone already exists",
+  REGISTER_USER_EXISTS_VI: 'Đăng ký không thành công. Tài khoản email hoặc số điện thoại đẵ được đăng ký.',
+  REGISTER_USER_SUCCESS_VI: 'Đăng ký tài khoản thành công',
+  COMMON_ERROR_VI: 'Đã có lỗi xảy ra. Vui lòng thử lại.'
+}
