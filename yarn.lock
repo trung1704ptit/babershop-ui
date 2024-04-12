@@ -12,10 +12,10 @@
   resolved "https://registry.yarnpkg.com/@adobe/css-tools/-/css-tools-4.3.3.tgz#90749bde8b89cd41764224f5aac29cd4138f75ff"
   integrity sha512-rE0Pygv0sEZ4vBWHlAgJLGDU7Pm8xoO6p3wsEceb7GYAjScrOHpEo8KK/eVkAcnSM+slAEtXjA2JpdjLp4fJQQ==
 
-"@aldabil/react-scheduler@^2.7.17":
-  version "2.8.8"
-  resolved "https://registry.yarnpkg.com/@aldabil/react-scheduler/-/react-scheduler-2.8.8.tgz#bf3fbe643ff6200ce96edbc095e533736f7fd139"
-  integrity sha512-3gYLbud0fHzTBm5cKG7FamkQvYrMWaFtRXiA6rGQslV4kqpCAOdx6Vm12lnlYaPZrgaCFpm5E8uReGrnhIZu7g==
+"@aldabil/react-scheduler@2.7.17":
+  version "2.7.17"
+  resolved "https://registry.yarnpkg.com/@aldabil/react-scheduler/-/react-scheduler-2.7.17.tgz#586d56ffc40fac478d5527a5efac5eaf8855340e"
+  integrity sha512-xLdqOyVbrV813EMBaIKiRk9wPzSfFz3XcY+pIjv81to7r5kgi74dG7bH29RANEB3gA27zVKc+1cHQIUScX3rNQ==
 
 "@alloc/quick-lru@^5.2.0":
   version "5.2.0"

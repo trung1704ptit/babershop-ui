@@ -16,7 +16,7 @@
     "test-watch": "jest --watch"
   },
   "dependencies": {
-    "@aldabil/react-scheduler": "^2.7.17",
+    "@aldabil/react-scheduler": "2.7.17",
     "@emotion/react": "^11.11.1",
     "@emotion/styled": "^11.11.0",
     "@headlessui/react": "^1.7.10",
