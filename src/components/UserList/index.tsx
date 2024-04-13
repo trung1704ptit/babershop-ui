@@ -17,6 +17,7 @@ import TableRow from '@mui/material/TableRow';
 import { useState } from 'react';
 
 import AddNewUser from './AddNewUser';
+import UpdateUserPointsModal from './UpdateUserPointsModal';
 
 interface Column {
   id: 'name' | 'phone' | 'points' | 'email' | 'birthday' | 'action';
@@ -47,7 +48,7 @@ const columns: readonly Column[] = [
   },
 ];
 
-interface IData {
+export interface IUserData {
   name: string;
   phone: string;
   birthday: string;
@@ -61,7 +62,7 @@ function createData(
   birthday: string,
   points: number,
   email?: string
-): IData {
+): IUserData {
   return { name, phone, birthday, points, email };
 }
 
@@ -80,6 +81,7 @@ const UserList = () => {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(25);
   const [openAddUserDrawer, setOpenAddUserDrawer] = useState(false);
+  const [userToUpdatePoints, setUserToUpdatePoints] = useState<IUserData>();
 
   const handleChangePage = (_: unknown, newPage: number) => {
     setPage(newPage);
@@ -95,7 +97,7 @@ const UserList = () => {
   const handleChangeSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
     const val = event.target.value;
     setSearch(val);
-    const filterData = rows.filter((item: IData) => {
+    const filterData = rows.filter((item: IUserData) => {
       if (
         item?.name?.toLowerCase().includes(val?.toLowerCase()) ||
         item?.phone?.toLowerCase().includes(val?.toLowerCase()) ||
@@ -117,6 +119,10 @@ const UserList = () => {
 
   const handleAddUserDone = () => {
     console.log('Add user');
+  };
+
+  const handleUpdateUserPoints = (userInfo: IUserData) => {
+    setUserToUpdatePoints(userInfo);
   };
 
   return (
@@ -157,6 +163,14 @@ const UserList = () => {
         </Box>
       </Drawer>
 
+      {userToUpdatePoints && (
+        <UpdateUserPointsModal
+          handleClose={() => setUserToUpdatePoints(undefined)}
+          handleDone={() => setUserToUpdatePoints(undefined)}
+          userData={userToUpdatePoints}
+        />
+      )}
+
       <TableContainer component={Paper}>
         <Table stickyHeader aria-label='sticky table' size='small'>
           <TableHead>
@@ -189,6 +203,7 @@ const UserList = () => {
                               variant='contained'
                               size='small'
                               className='ml-2'
+                              onClick={() => handleUpdateUserPoints(row)}
                             >
                               Tích điểm
                             </Button>
