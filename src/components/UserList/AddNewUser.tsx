@@ -1,4 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import CloseIcon from '@mui/icons-material/Close';
+import PersonAddIcon from '@mui/icons-material/PersonAdd';
 import { Button, TextField, Typography } from '@mui/material';
 import { DatePicker, LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
@@ -140,6 +142,7 @@ function AddNewUser(props: IProps) {
           size='large'
           type='submit'
           disabled={loading}
+          startIcon={<PersonAddIcon />}
         >
           Thêm mới
         </Button>
@@ -148,6 +151,7 @@ function AddNewUser(props: IProps) {
           className='w-100 mt-2'
           size='large'
           onClick={handleExit}
+          startIcon={<CloseIcon />}
         >
           Thoát
         </Button>

@@ -1,4 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import CloseIcon from '@mui/icons-material/Close';
+import SaveIcon from '@mui/icons-material/Save';
 import { Button, TextField, Typography } from '@mui/material';
 import { DatePicker, LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
@@ -139,6 +141,7 @@ function UpdateUserInfo(props: IProps) {
           size='large'
           type='submit'
           disabled={loading}
+          startIcon={<SaveIcon />}
         >
           Cập nhật
         </Button>
@@ -147,6 +150,7 @@ function UpdateUserInfo(props: IProps) {
           className='w-100 mt-2'
           size='large'
           onClick={props.callbackExit}
+          startIcon={<CloseIcon />}
         >
           Thoát
         </Button>

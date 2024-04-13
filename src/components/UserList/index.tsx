@@ -1,4 +1,7 @@
 import AddIcon from '@mui/icons-material/Add';
+import AddLinkIcon from '@mui/icons-material/AddLink';
+import DeleteIcon from '@mui/icons-material/Delete';
+import EditIcon from '@mui/icons-material/Edit';
 import {
   Box,
   Button,
@@ -36,7 +39,7 @@ const columns: readonly Column[] = [
   {
     id: 'points',
     label: 'Điểm',
-    minWidth: 170,
+    minWidth: 50,
   },
   {
     id: 'email',
@@ -223,15 +226,18 @@ const UserList = () => {
                             <Button
                               variant='outlined'
                               size='small'
+                              className='mr-2 mt-1'
                               onClick={() => handleUpdateUserInfo(row)}
+                              startIcon={<EditIcon />}
                             >
-                              Sửa thông tin
+                              Sửa
                             </Button>
                             <Button
                               variant='contained'
                               size='small'
-                              className='ml-2'
+                              className='mr-2 mt-1'
                               onClick={() => handleUpdateUserPoints(row)}
+                              startIcon={<AddLinkIcon />}
                             >
                               Tích điểm
                             </Button>
@@ -239,8 +245,9 @@ const UserList = () => {
                               variant='outlined'
                               color='error'
                               size='small'
-                              className='ml-2'
+                              className='mr-2 mt-1'
                               onClick={() => setUserToDelete(row)}
+                              startIcon={<DeleteIcon />}
                             >
                               Xóa
                             </Button>

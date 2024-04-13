@@ -1,4 +1,6 @@
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
+import CloseIcon from '@mui/icons-material/Close';
+import DeleteIcon from '@mui/icons-material/Delete';
 import { Typography } from '@mui/material';
 import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
@@ -62,20 +64,28 @@ export default function DeleteUserModal(props: IProps) {
               onClick={props.handleClose}
               variant='contained'
               size='small'
+              startIcon={<CloseIcon />}
             >
               Thoát
             </Button>
           </>
         ) : (
           <>
-            <Button onClick={props.handleClose} variant='outlined' size='small'>
+            <Button
+              onClick={props.handleClose}
+              variant='outlined'
+              size='small'
+              startIcon={<CloseIcon />}
+            >
               Hủy bỏ
             </Button>
             <Button
               type='submit'
               variant='contained'
               size='small'
+              color='error'
               disabled={loading}
+              startIcon={<DeleteIcon />}
             >
               Xác nhận Xóa
             </Button>

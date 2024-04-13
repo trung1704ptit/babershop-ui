@@ -1,4 +1,6 @@
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
+import CloseIcon from '@mui/icons-material/Close';
+import SaveIcon from '@mui/icons-material/Save';
 import { Typography } from '@mui/material';
 import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
@@ -74,13 +76,19 @@ export default function UpdateUserPointsModal(props: IProps) {
               onClick={props.handleClose}
               variant='contained'
               size='small'
+              startIcon={<CloseIcon />}
             >
               Thoát
             </Button>
           </>
         ) : (
           <>
-            <Button onClick={props.handleClose} variant='outlined' size='small'>
+            <Button
+              onClick={props.handleClose}
+              variant='outlined'
+              size='small'
+              startIcon={<CloseIcon />}
+            >
               Hủy bỏ
             </Button>
             <Button
@@ -88,6 +96,7 @@ export default function UpdateUserPointsModal(props: IProps) {
               variant='contained'
               size='small'
               disabled={loading}
+              startIcon={<SaveIcon />}
             >
               Cập nhật
             </Button>
