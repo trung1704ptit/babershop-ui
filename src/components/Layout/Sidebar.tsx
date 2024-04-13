@@ -49,7 +49,7 @@ const MENU: IMenu[] = [
     ),
   },
   {
-    label: 'Tích điểm',
+    label: 'User & Tích điểm',
     path: '/admin/tich-diem',
     icon: (
       <svg
