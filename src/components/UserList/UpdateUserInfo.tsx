@@ -3,9 +3,11 @@ import { Button, TextField, Typography } from '@mui/material';
 import { DatePicker, LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import axios from 'axios';
+import dayjs from 'dayjs';
 import { ChangeEvent, useState } from 'react';
 import { toast } from 'react-toastify';
 
+import { IUserData } from '.';
 import { MESSAGES } from '../../utils/constants';
 
 interface INewUserProps {
@@ -19,9 +21,10 @@ interface INewUserProps {
 
 interface IProps {
   callbackExit: () => void;
+  userData?: IUserData;
 }
 
-function AddNewUser(props: IProps) {
+function UpdateUserInfo(props: IProps) {
   const [loading, setLoading] = useState(false);
 
   const [formData, setFormData] = useState<INewUserProps>({
@@ -83,18 +86,10 @@ function AddNewUser(props: IProps) {
     }));
   };
 
-  const handleExit = () => {
-    if (props.callbackExit) {
-      props.callbackExit();
-    } else {
-      console.log('redirect back');
-    }
-  };
-
   return (
     <div className='ml-auto mr-auto mt-[100px] text-center max-w-sm'>
       <Typography variant='h5' gutterBottom className='mb-5'>
-        Thêm mới khách hàng và tích điểm
+        Cập nhật thông tin khách hàng
       </Typography>
 
       <form onSubmit={handleSubmit}>
@@ -106,6 +101,7 @@ function AddNewUser(props: IProps) {
           required
           name='name'
           onChange={handleChange}
+          defaultValue={props?.userData?.name}
         />
         <TextField
           id='outlined-basic'
@@ -115,6 +111,7 @@ function AddNewUser(props: IProps) {
           type='number'
           required
           name='phone'
+          defaultValue={props?.userData?.phone}
           onChange={handleChange}
         />
         <LocalizationProvider dateAdapter={AdapterDayjs}>
@@ -123,6 +120,7 @@ function AddNewUser(props: IProps) {
             label='Ngày sinh'
             onChange={handleDateChange}
             format='DD/MM/YYYY'
+            defaultValue={dayjs(props?.userData?.birthday || new Date())}
           />
         </LocalizationProvider>
         <TextField
@@ -132,6 +130,7 @@ function AddNewUser(props: IProps) {
           className='w-full mb-3'
           type='email'
           name='email'
+          defaultValue={props?.userData?.email}
           onChange={handleChange}
         />
         <Button
@@ -141,13 +140,13 @@ function AddNewUser(props: IProps) {
           type='submit'
           disabled={loading}
         >
-          Thêm mới
+          Cập nhật
         </Button>
         <Button
           variant='outlined'
           className='w-100 mt-2'
           size='large'
-          onClick={handleExit}
+          onClick={props.callbackExit}
         >
           Thoát
         </Button>
@@ -156,4 +155,4 @@ function AddNewUser(props: IProps) {
   );
 }
 
-export default AddNewUser;
+export default UpdateUserInfo;

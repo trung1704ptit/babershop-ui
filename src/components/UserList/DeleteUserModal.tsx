@@ -6,7 +6,6 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
-import moment from 'moment';
 import * as React from 'react';
 
 import { IUserData } from '.';
@@ -16,7 +15,7 @@ interface IProps {
   userData: IUserData;
 }
 
-export default function UpdateUserPointsModal(props: IProps) {
+export default function DeleteUserModal(props: IProps) {
   const [loading, setLoading] = React.useState(false);
   const [success, setSuccess] = React.useState(false);
 
@@ -36,34 +35,23 @@ export default function UpdateUserPointsModal(props: IProps) {
         },
       }}
     >
-      <DialogTitle>Tích điểm</DialogTitle>
+      <DialogTitle>Xóa tài khoản</DialogTitle>
       <DialogContent style={{ minWidth: '320px' }}>
         <DialogContentText>
           {success ? (
             <div className='justify-center text-center'>
               <CheckCircleIcon className='text-green-600 h-[100px] w-[100px]'></CheckCircleIcon>
               <Typography variant='body1' gutterBottom>
-                Tích điểm thành công! Số điểm hiện tại{' '}
-                {props?.userData?.points + 10}
-              </Typography>
-              <Typography variant='caption' gutterBottom>
-                Ngày cập nhật {moment(new Date()).format('DD-MM-YYYY')}
+                Xóa tài khoản thành công!
               </Typography>
             </div>
           ) : (
-            <>
-              <Typography variant='body1'>
-                Xác nhận cập nhật{' '}
-                <span className='text-green-600'>+10 điểm</span> cho{' '}
-                <Typography variant='subtitle2'>
-                  {props?.userData?.name}?
-                </Typography>
+            <Typography variant='body1'>
+              Xác nhận xóa tài khoản{' '}
+              <Typography variant='subtitle2'>
+                {props?.userData?.name}?
               </Typography>
-
-              <Typography variant='caption' className='mt-3'>
-                Ngày cập nhật: {moment(new Date()).format('DD-MM-YYYY')}
-              </Typography>
-            </>
+            </Typography>
           )}
         </DialogContentText>
       </DialogContent>
@@ -89,7 +77,7 @@ export default function UpdateUserPointsModal(props: IProps) {
               size='small'
               disabled={loading}
             >
-              Cập nhật
+              Xác nhận Xóa
             </Button>
           </>
         )}

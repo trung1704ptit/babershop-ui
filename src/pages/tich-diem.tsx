@@ -54,10 +54,6 @@ export default function LinkPointHistory() {
     setSubmitted(true);
   };
 
-  const handleAddUserDone = () => {
-    console.log('Add User done');
-  };
-
   const handleExitAddUser = () => {
     setShowAddUser(false);
     setSubmitted(false);
@@ -77,12 +73,7 @@ export default function LinkPointHistory() {
         <link rel='icon' href='/favicon.ico' />
       </Head>
       <Header />
-      {showAddUser && (
-        <AddNewUser
-          callbackDone={handleAddUserDone}
-          callbackExit={handleExitAddUser}
-        />
-      )}
+      {showAddUser && <AddNewUser callbackExit={handleExitAddUser} />}
 
       {userData && <HairCutTimeline />}
 

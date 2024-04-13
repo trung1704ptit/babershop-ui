@@ -17,6 +17,8 @@ import TableRow from '@mui/material/TableRow';
 import { useState } from 'react';
 
 import AddNewUser from './AddNewUser';
+import DeleteUserModal from './DeleteUserModal';
+import UpdateUserInfo from './UpdateUserInfo';
 import UpdateUserPointsModal from './UpdateUserPointsModal';
 
 interface Column {
@@ -82,6 +84,8 @@ const UserList = () => {
   const [rowsPerPage, setRowsPerPage] = useState(25);
   const [openAddUserDrawer, setOpenAddUserDrawer] = useState(false);
   const [userToUpdatePoints, setUserToUpdatePoints] = useState<IUserData>();
+  const [userToUpdate, setUserToUpdate] = useState<IUserData>();
+  const [userToDelete, setUserToDelete] = useState<IUserData>();
 
   const handleChangePage = (_: unknown, newPage: number) => {
     setPage(newPage);
@@ -117,12 +121,12 @@ const UserList = () => {
     setOpenAddUserDrawer(true);
   };
 
-  const handleAddUserDone = () => {
-    console.log('Add user');
-  };
-
   const handleUpdateUserPoints = (userInfo: IUserData) => {
     setUserToUpdatePoints(userInfo);
+  };
+
+  const handleUpdateUserInfo = (userInfo: IUserData) => {
+    setUserToUpdate(userInfo);
   };
 
   return (
@@ -150,24 +154,44 @@ const UserList = () => {
         Thêm mới User
       </Button>
 
-      <Drawer
-        anchor='right'
-        open={openAddUserDrawer}
-        onClose={() => setOpenAddUserDrawer(false)}
-      >
-        <Box className='p-4'>
-          <AddNewUser
-            callbackDone={handleAddUserDone}
-            callbackExit={() => setOpenAddUserDrawer(false)}
-          />
-        </Box>
-      </Drawer>
+      {openAddUserDrawer && (
+        <Drawer
+          anchor='right'
+          open={true}
+          onClose={() => setOpenAddUserDrawer(false)}
+        >
+          <Box className='p-4'>
+            <AddNewUser callbackExit={() => setOpenAddUserDrawer(false)} />
+          </Box>
+        </Drawer>
+      )}
+
+      {userToUpdate && (
+        <Drawer
+          anchor='right'
+          open={true}
+          onClose={() => setUserToUpdate(undefined)}
+        >
+          <Box className='p-4'>
+            <UpdateUserInfo
+              callbackExit={() => setUserToUpdate(undefined)}
+              userData={userToUpdate}
+            />
+          </Box>
+        </Drawer>
+      )}
 
       {userToUpdatePoints && (
         <UpdateUserPointsModal
           handleClose={() => setUserToUpdatePoints(undefined)}
-          handleDone={() => setUserToUpdatePoints(undefined)}
           userData={userToUpdatePoints}
+        />
+      )}
+
+      {userToDelete && (
+        <DeleteUserModal
+          handleClose={() => setUserToDelete(undefined)}
+          userData={userToDelete}
         />
       )}
 
@@ -196,7 +220,11 @@ const UserList = () => {
                       if (column.id === 'action') {
                         return (
                           <TableCell key={column.id} align={column.align}>
-                            <Button variant='outlined' size='small'>
+                            <Button
+                              variant='outlined'
+                              size='small'
+                              onClick={() => handleUpdateUserInfo(row)}
+                            >
                               Sửa thông tin
                             </Button>
                             <Button
@@ -212,6 +240,7 @@ const UserList = () => {
                               color='error'
                               size='small'
                               className='ml-2'
+                              onClick={() => setUserToDelete(row)}
                             >
                               Xóa
                             </Button>
