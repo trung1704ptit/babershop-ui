@@ -2160,3 +2160,8 @@ blockquote span {
 .MuiTablePagination-displayedRows {
   margin: 0;
 }
+
+th.MuiTableCell-root {
+  background: #9f6e0dd4 !important;
+  color: #fff;
+}

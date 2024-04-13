@@ -96,7 +96,7 @@ export const Sidebar = () => {
                 key={menu.path}
                 onClick={() => handleChangeRoute(menu.path)}
               >
-                <div className='mr-2'>{menu.icon}</div>
+                <div className='mr-2 h-[20px]'>{menu.icon}</div>
                 {menu.label}
               </li>
             ))}

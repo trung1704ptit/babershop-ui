@@ -1,4 +1,4 @@
-import { TablePagination, TextField, Typography } from '@mui/material';
+import { Button, TablePagination, TextField, Typography } from '@mui/material';
 import Paper from '@mui/material/Paper';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -9,7 +9,7 @@ import TableRow from '@mui/material/TableRow';
 import * as React from 'react';
 
 interface Column {
-  id: 'name' | 'phone' | 'points' | 'email' | 'description';
+  id: 'name' | 'phone' | 'points' | 'email' | 'birthday' | 'action';
   label: string;
   minWidth?: number;
   align?: 'right';
@@ -19,6 +19,7 @@ interface Column {
 const columns: readonly Column[] = [
   { id: 'name', label: 'Name', minWidth: 170 },
   { id: 'phone', label: 'Phone', minWidth: 100 },
+  { id: 'birthday', label: 'Birthday', minWidth: 100 },
   {
     id: 'points',
     label: 'Points',
@@ -30,8 +31,8 @@ const columns: readonly Column[] = [
     minWidth: 170,
   },
   {
-    id: 'description',
-    label: 'Description',
+    id: 'action',
+    label: 'Action',
     minWidth: 170,
   },
 ];
@@ -39,28 +40,28 @@ const columns: readonly Column[] = [
 interface IData {
   name: string;
   phone: string;
+  birthday: string;
   points: number;
   email?: string;
-  description?: string;
 }
 
 function createData(
   name: string,
   phone: string,
+  birthday: string,
   points: number,
-  email?: string,
-  description?: string
+  email?: string
 ): IData {
-  return { name, phone, points, email, description };
+  return { name, phone, birthday, points, email };
 }
 
 const rows = [
-  createData('Anh A', '08973i22', 40, undefined, ''),
-  createData('Anh B', '098322223', 40, undefined, ''),
-  createData('Anh Nghia', '08734222', 40, undefined, ''),
-  createData('Anh ABC', '083789232', 40, undefined, ''),
-  createData('Anh Jonathan', '08973222', 30, undefined, ''),
-  createData('Anh Beckham', '0987838922', 40, 'abc@gmail.com', ''),
+  createData('Anh A', '08973i22', '10-02-1993', 40, undefined),
+  createData('Anh B', '098322223', '10-02-1993', 40, undefined),
+  createData('Anh Nghia', '08734222', '10-02-1993', 40, undefined),
+  createData('Anh ABC', '083789232', '10-02-1993', 40, undefined),
+  createData('Anh Jonathan', '08973222', '10-02-1993', 30, undefined),
+  createData('Anh Beckham', '0987838922', '10-02-1993', 40, 'abc@gmail.com'),
 ];
 
 const UserList = () => {
@@ -89,7 +90,7 @@ const UserList = () => {
         item?.phone?.toLowerCase().includes(val?.toLowerCase()) ||
         item?.points.toString().includes(val?.toLowerCase()) ||
         item?.email?.toLowerCase().includes(val?.toLowerCase()) ||
-        item?.description?.toLowerCase().includes(val?.toLowerCase())
+        item?.birthday?.toLowerCase().includes(val?.toLowerCase())
       ) {
         return item;
       }
@@ -137,6 +138,15 @@ const UserList = () => {
                 return (
                   <TableRow hover role='checkbox' tabIndex={-1} key={row.phone}>
                     {columns.map((column) => {
+                      if (column.id === 'action') {
+                        return (
+                          <TableCell key={column.id} align={column.align}>
+                            <Button variant='contained' size='small'>
+                              Edit
+                            </Button>
+                          </TableCell>
+                        );
+                      }
                       const value = row[column.id];
                       return (
                         <TableCell key={column.id} align={column.align}>
