@@ -49,10 +49,7 @@ export default function DeleteUserModal(props: IProps) {
             </div>
           ) : (
             <Typography variant='body1'>
-              Xác nhận xóa tài khoản{' '}
-              <Typography variant='subtitle2'>
-                {props?.userData?.name}?
-              </Typography>
+              Xác nhận xóa tài khoản <strong>{props?.userData?.name}</strong>?
             </Typography>
           )}
         </DialogContentText>

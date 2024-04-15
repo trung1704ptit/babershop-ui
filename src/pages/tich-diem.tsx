@@ -73,7 +73,11 @@ export default function LinkPointHistory() {
         <link rel='icon' href='/favicon.ico' />
       </Head>
       <Header />
-      {showAddUser && <AddNewUser callbackExit={handleExitAddUser} />}
+      {showAddUser && (
+        <div className='mt-[100px]'>
+          <AddNewUser callbackExit={handleExitAddUser} />
+        </div>
+      )}
 
       {userData && <HairCutTimeline />}
 
@@ -149,7 +153,7 @@ function HairCutTimeline() {
       </h2>
       <div className='mt-30 mb-30'>
         <div className='grid grid-cols-1 lg:grid-cols-2 gap-4 p-2'>
-          <div className='bg-[#0fad78] p-4 rounded-md text-white m-auto'>
+          <div className='bg-[#0fad78] p-4 rounded-md text-white m-auto w-100'>
             <Typography className='text-2xl'>Tổng điểm:</Typography>
             <Typography className='text-2xl'>40 điểm</Typography>
             <br />
@@ -158,7 +162,7 @@ function HairCutTimeline() {
             </Typography>
           </div>
 
-          <div className='bg-[#ff5370] p-4 rounded-md text-white m-auto'>
+          <div className='bg-[#ff5370] p-4 rounded-md text-white m-auto w-100'>
             <Typography className='text-2xl'>Gói cước 10+2:</Typography>
             <Typography className='text-2xl'>4 lần</Typography>
             <br />

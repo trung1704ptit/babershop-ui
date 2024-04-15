@@ -25,7 +25,14 @@ import UpdateUserInfo from './UpdateUserInfo';
 import UpdateUserPointsModal from './UpdateUserPointsModal';
 
 interface Column {
-  id: 'name' | 'phone' | 'points' | 'email' | 'birthday' | 'action';
+  id:
+    | 'name'
+    | 'phone'
+    | 'points'
+    | 'email'
+    | 'birthday'
+    | 'action'
+    | 'services';
   label: string;
   minWidth?: number;
   align?: 'right';
@@ -47,6 +54,11 @@ const columns: readonly Column[] = [
     minWidth: 170,
   },
   {
+    id: 'services',
+    label: 'Dịch vụ',
+    minWidth: 170,
+  },
+  {
     id: 'action',
     label: 'Hành động',
     minWidth: 170,
@@ -58,6 +70,7 @@ export interface IUserData {
   phone: string;
   birthday: string;
   points: number;
+  services?: string;
   email?: string;
 }
 
@@ -66,18 +79,40 @@ function createData(
   phone: string,
   birthday: string,
   points: number,
+  services?: string,
   email?: string
 ): IUserData {
-  return { name, phone, birthday, points, email };
+  return { name, phone, birthday, points, services, email };
 }
 
 const rows = [
-  createData('Anh A', '08973i22', '10-02-1993', 40, undefined),
-  createData('Anh B', '098322223', '10-02-1993', 40, undefined),
-  createData('Anh Nghia', '08734222', '10-02-1993', 40, undefined),
-  createData('Anh ABC', '083789232', '10-02-1993', 40, undefined),
-  createData('Anh Jonathan', '08973222', '10-02-1993', 30, undefined),
-  createData('Anh Beckham', '0987838922', '10-02-1993', 40, 'abc@gmail.com'),
+  createData('Anh A', '08973i22', '10-02-1993', 40, undefined, undefined),
+  createData('Anh B', '098322223', '10-02-1993', 40, undefined, undefined),
+  createData(
+    'Anh Nghia',
+    '08734222',
+    '10-02-1993',
+    40,
+    '10+2: 6 lần',
+    undefined
+  ),
+  createData('Anh ABC', '083789232', '10-02-1993', 40, undefined, undefined),
+  createData(
+    'Anh Jonathan',
+    '08973222',
+    '10-02-1993',
+    30,
+    undefined,
+    undefined
+  ),
+  createData(
+    'Anh Beckham',
+    '0987838922',
+    '10-02-1993',
+    40,
+    '10+2: 6 lần',
+    'abc@gmail.com'
+  ),
 ];
 
 const UserList = () => {
@@ -110,7 +145,8 @@ const UserList = () => {
         item?.phone?.toLowerCase().includes(val?.toLowerCase()) ||
         item?.points.toString().includes(val?.toLowerCase()) ||
         item?.email?.toLowerCase().includes(val?.toLowerCase()) ||
-        item?.birthday?.toLowerCase().includes(val?.toLowerCase())
+        item?.birthday?.toLowerCase().includes(val?.toLowerCase()) ||
+        item?.services?.toLowerCase().includes(val?.toLowerCase())
       ) {
         return item;
       }
@@ -135,7 +171,7 @@ const UserList = () => {
   return (
     <div>
       <Typography variant='h6' className='mb-3'>
-        Danh sách User đang tích điểm
+        Danh sách khách hàng
       </Typography>
 
       <TextField
@@ -170,18 +206,10 @@ const UserList = () => {
       )}
 
       {userToUpdate && (
-        <Drawer
-          anchor='right'
-          open={true}
-          onClose={() => setUserToUpdate(undefined)}
-        >
-          <Box className='p-4'>
-            <UpdateUserInfo
-              callbackExit={() => setUserToUpdate(undefined)}
-              userData={userToUpdate}
-            />
-          </Box>
-        </Drawer>
+        <UpdateUserInfo
+          callbackExit={() => setUserToUpdate(undefined)}
+          userData={userToUpdate}
+        />
       )}
 
       {userToUpdatePoints && (

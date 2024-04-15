@@ -45,10 +45,11 @@ export default function UpdateUserPointsModal(props: IProps) {
             <div className='justify-center text-center'>
               <CheckCircleIcon className='text-green-600 h-[100px] w-[100px]'></CheckCircleIcon>
               <Typography variant='body1' gutterBottom>
-                Tích điểm thành công! Số điểm hiện tại{' '}
-                {props?.userData?.points + 10}
+                Tích điểm thành công! Số điểm{' '}
+                <strong>{props?.userData?.name}</strong> hiện tại là{' '}
+                {props?.userData?.points + 10} điểm
               </Typography>
-              <Typography variant='caption' gutterBottom>
+              <Typography variant='body2' gutterBottom>
                 Ngày cập nhật {moment(new Date()).format('DD-MM-YYYY')}
               </Typography>
             </div>
@@ -57,12 +58,10 @@ export default function UpdateUserPointsModal(props: IProps) {
               <Typography variant='body1'>
                 Xác nhận cập nhật{' '}
                 <span className='text-green-600'>+10 điểm</span> cho{' '}
-                <Typography variant='subtitle2'>
-                  {props?.userData?.name}?
-                </Typography>
+                <strong>{props?.userData?.name}</strong>?
               </Typography>
 
-              <Typography variant='caption' className='mt-3'>
+              <Typography variant='body2' className='mt-3'>
                 Ngày cập nhật: {moment(new Date()).format('DD-MM-YYYY')}
               </Typography>
             </>

@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import CloseIcon from '@mui/icons-material/Close';
 import PersonAddIcon from '@mui/icons-material/PersonAdd';
-import { Button, TextField, Typography } from '@mui/material';
+import { Button, Stack, TextField, Typography } from '@mui/material';
 import { DatePicker, LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import axios from 'axios';
@@ -94,7 +94,7 @@ function AddNewUser(props: IProps) {
   };
 
   return (
-    <div className='ml-auto mr-auto mt-[100px] text-center max-w-sm'>
+    <div className='ml-auto mr-auto text-center max-w-sm'>
       <Typography variant='h5' gutterBottom className='mb-5'>
         Thêm mới khách hàng và tích điểm
       </Typography>
@@ -136,25 +136,28 @@ function AddNewUser(props: IProps) {
           name='email'
           onChange={handleChange}
         />
-        <Button
-          variant='contained'
-          className='w-100'
-          size='large'
-          type='submit'
-          disabled={loading}
-          startIcon={<PersonAddIcon />}
-        >
-          Thêm mới
-        </Button>
-        <Button
-          variant='outlined'
-          className='w-100 mt-2'
-          size='large'
-          onClick={handleExit}
-          startIcon={<CloseIcon />}
-        >
-          Thoát
-        </Button>
+
+        <Stack direction='row' gap={2}>
+          <Button
+            variant='outlined'
+            className='w-100'
+            size='large'
+            onClick={handleExit}
+            startIcon={<CloseIcon />}
+          >
+            Thoát
+          </Button>
+          <Button
+            variant='contained'
+            className='w-100'
+            size='large'
+            type='submit'
+            disabled={loading}
+            startIcon={<PersonAddIcon />}
+          >
+            Thêm mới
+          </Button>
+        </Stack>
       </form>
     </div>
   );
