@@ -4,10 +4,10 @@ import PersonAddIcon from '@mui/icons-material/PersonAdd';
 import { Button, Stack, TextField, Typography } from '@mui/material';
 import { DatePicker, LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import axios from 'axios';
 import { ChangeEvent, useState } from 'react';
 import { toast } from 'react-toastify';
 
+import api from '../../utils/api';
 import { MESSAGES } from '../../utils/constants';
 
 interface INewUserProps {
@@ -41,8 +41,8 @@ function AddNewUser(props: IProps) {
     }
 
     setLoading(true);
-    axios
-      .post(`http://localhost:8000/api/auth/register`, formData)
+    api
+      .post('api/auth/register', formData)
       .then((res) => {
         if (res?.data?.status === 'success') {
           toast.success(MESSAGES.REGISTER_USER_SUCCESS_VI, {
@@ -50,6 +50,7 @@ function AddNewUser(props: IProps) {
             hideProgressBar: true,
           });
           setLoading(false);
+          props.callbackExit();
         }
       })
       .catch((error) => {

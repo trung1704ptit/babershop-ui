@@ -13,12 +13,12 @@ import Toolbar from '@mui/material/Toolbar';
 import { TransitionProps } from '@mui/material/transitions';
 import { DatePicker, LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import axios from 'axios';
 import dayjs from 'dayjs';
 import { ChangeEvent, forwardRef, useState } from 'react';
 import { toast } from 'react-toastify';
 
 import { IUserData } from '.';
+import api from '../../utils/api';
 import { MESSAGES } from '../../utils/constants';
 
 interface INewUserProps {
@@ -63,8 +63,8 @@ function UpdateUserInfo(props: IProps) {
     }
 
     setLoading(true);
-    axios
-      .post(`http://localhost:8000/api/auth/register`, formData)
+    api
+      .post(`api/auth/register`, formData)
       .then((res) => {
         if (res?.data?.status === 'success') {
           toast.success(MESSAGES.REGISTER_USER_SUCCESS_VI, {
@@ -125,7 +125,7 @@ function UpdateUserInfo(props: IProps) {
             <CloseIcon />
           </IconButton>
           <Typography sx={{ ml: 2, flex: 1 }} variant='h6' component='div'>
-            Thông tin khách hàng
+            Cài đặt tài khoản
           </Typography>
         </Toolbar>
       </AppBar>

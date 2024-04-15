@@ -17,7 +17,7 @@ import TableCell from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import AddNewUser from './AddNewUser';
 import DeleteUserModal from './DeleteUserModal';
@@ -168,6 +168,23 @@ const UserList = () => {
     setUserToUpdate(userInfo);
   };
 
+  const fetchUserList = () => {
+    try {
+      setData(rows);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    fetchUserList();
+  }, []);
+
+  const handleAddUserDone = () => {
+    setOpenAddUserDrawer(false);
+    fetchUserList();
+  };
+
   return (
     <div>
       <Typography variant='h6' className='mb-3'>
@@ -200,7 +217,7 @@ const UserList = () => {
           onClose={() => setOpenAddUserDrawer(false)}
         >
           <Box className='p-4'>
-            <AddNewUser callbackExit={() => setOpenAddUserDrawer(false)} />
+            <AddNewUser callbackExit={handleAddUserDone} />
           </Box>
         </Drawer>
       )}
@@ -258,7 +275,7 @@ const UserList = () => {
                               onClick={() => handleUpdateUserInfo(row)}
                               startIcon={<EditIcon />}
                             >
-                              Sửa
+                              Cài đặt
                             </Button>
                             <Button
                               variant='contained'
