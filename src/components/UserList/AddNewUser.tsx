@@ -4,6 +4,7 @@ import PersonAddIcon from '@mui/icons-material/PersonAdd';
 import { Button, Stack, TextField, Typography } from '@mui/material';
 import { DatePicker, LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { Dayjs } from 'dayjs';
 import { ChangeEvent, useState } from 'react';
 import { toast } from 'react-toastify';
 
@@ -25,6 +26,7 @@ interface IProps {
 
 function AddNewUser(props: IProps) {
   const [loading, setLoading] = useState(false);
+  const [birthday, setBirthday] = useState<Dayjs | null>();
 
   const [formData, setFormData] = useState<INewUserProps>({
     name: '',
@@ -37,7 +39,14 @@ function AddNewUser(props: IProps) {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (!formData?.email) {
-      formData.email = `${new Date().getTime()}@gmail.com`;
+      formData.email = `guest-${new Date().getTime()}@gmail.com`;
+    }
+
+    if (!birthday) {
+      toast.error('Vui lòng điền thông tin ngày sinh');
+      return;
+    } else {
+      formData.birthday = birthday.toISOString();
     }
 
     setLoading(true);
@@ -78,14 +87,6 @@ function AddNewUser(props: IProps) {
     }));
   };
 
-  const handleDateChange = (newdate: any) => {
-    console.log(newdate);
-    setFormData((prevData) => ({
-      ...prevData,
-      birthday: newdate.$d.toISOString(),
-    }));
-  };
-
   const handleExit = () => {
     if (props.callbackExit) {
       props.callbackExit();
@@ -120,14 +121,17 @@ function AddNewUser(props: IProps) {
           name='phone'
           onChange={handleChange}
         />
+
         <LocalizationProvider dateAdapter={AdapterDayjs}>
           <DatePicker
-            className='w-full mb-3'
             label='Ngày sinh'
-            onChange={handleDateChange}
-            format='DD/MM/YYYY'
+            className='w-full mb-3'
+            format='DD-MM-YYYY'
+            onChange={(value) => setBirthday(value)}
+            value={birthday}
           />
         </LocalizationProvider>
+
         <TextField
           id='outlined-basic'
           label='Email (Nếu có)'

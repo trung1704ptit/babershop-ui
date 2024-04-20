@@ -1,13 +1,12 @@
-
-import { Layout, Scheduler } from "../../components";
+import { Layout } from '../../components';
+import UserList from '../../components/UserList';
 
 const BookingListPage = () => {
   return (
     <Layout>
-      <Scheduler />
+      <UserList />
     </Layout>
-  )
-}
-
+  );
+};
 
 export default BookingListPage;

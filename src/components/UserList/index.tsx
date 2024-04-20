@@ -144,16 +144,16 @@ const UserList = () => {
   const fetchUserList = async () => {
     try {
       setLoading(true);
-      setTimeout(async () => {
-        const res = await api.get('/api/users');
+      const res = await api.get('/api/users');
+      if (res.status == 200) {
         const users = res.data.data;
         users.forEach((user: IUserData) => {
           user.birthday = moment(user.birthday).format('DD-MM-YYYY');
         });
-        setUsers(res.data.data);
-        setUsersFitler(res.data.data);
+        setUsers(users);
+        setUsersFitler(users);
         setLoading(false);
-      }, 1000);
+      }
     } catch (error) {
       console.log(error);
       setLoading(false);
