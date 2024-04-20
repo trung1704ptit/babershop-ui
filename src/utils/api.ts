@@ -13,10 +13,19 @@ const api = () => {
 
   // Set the AUTH token for any request
   instance.interceptors.request.use(function (config) {
-    const token = localStorage.getItem('token');
+    const token = localStorage.getItem('access_token');
     config.headers.Authorization = token ? `Bearer ${token}` : '';
     return config;
   });
+
+  instance.interceptors.response.use((response) => {
+    return response;
+  }, (error) => {
+    if (error.response.status === 401) {
+      return window.location.href = '/dang-nhap'
+    }
+    return Promise.reject(error);
+  })
 
   return instance;
 };

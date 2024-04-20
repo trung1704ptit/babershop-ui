@@ -46,6 +46,10 @@ yarn install
 yarn dev
 ```
 
+## Disable CORS
+
+google-chrome --disable-site-isolation-trials --disable-web-security --user-data-dir="~/tmp"
+
 The template should now be running on http://localhost:3000.
 
 ## Contributions

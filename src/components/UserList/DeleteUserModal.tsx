@@ -11,6 +11,7 @@ import DialogTitle from '@mui/material/DialogTitle';
 import * as React from 'react';
 
 import { IUserData } from '.';
+import api from '../../utils/api';
 
 interface IProps {
   handleClose: () => void;
@@ -27,13 +28,19 @@ export default function DeleteUserModal(props: IProps) {
       onClose={props.handleClose}
       PaperProps={{
         component: 'form',
-        onSubmit: (event: React.FormEvent<HTMLFormElement>) => {
+        onSubmit: async (event: React.FormEvent<HTMLFormElement>) => {
           event.preventDefault();
-          setLoading(true);
-          setTimeout(() => {
+          try {
+            setLoading(true);
+            const res = await api.delete(`/api/users/${props.userData.id}`);
+            if (res.status === 204) {
+              setSuccess(true);
+              setLoading(false);
+            }
+          } catch (error) {
+            console.log(error);
             setLoading(false);
-            setSuccess(true);
-          }, 500);
+          }
         },
       }}
     >

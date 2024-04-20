@@ -5,6 +5,7 @@ import EditIcon from '@mui/icons-material/Edit';
 import {
   Box,
   Button,
+  CircularProgress,
   Drawer,
   TablePagination,
   TextField,
@@ -17,12 +18,14 @@ import TableCell from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
+import moment from 'moment';
 import { useEffect, useState } from 'react';
 
 import AddNewUser from './AddNewUser';
 import DeleteUserModal from './DeleteUserModal';
 import UpdateUserInfo from './UpdateUserInfo';
 import UpdateUserPointsModal from './UpdateUserPointsModal';
+import api from '../../utils/api';
 
 interface Column {
   id:
@@ -36,13 +39,17 @@ interface Column {
   label: string;
   minWidth?: number;
   align?: 'right';
-  format?: (value: number) => string;
+  format?: (value: any) => string;
 }
 
 const columns: readonly Column[] = [
   { id: 'name', label: 'Tên', minWidth: 170 },
   { id: 'phone', label: 'Số Điện Thoại', minWidth: 100 },
-  { id: 'birthday', label: 'Ngày sinh', minWidth: 100 },
+  {
+    id: 'birthday',
+    label: 'Ngày sinh',
+    minWidth: 100,
+  },
   {
     id: 'points',
     label: 'Điểm',
@@ -66,64 +73,30 @@ const columns: readonly Column[] = [
 ];
 
 export interface IUserData {
+  id: string;
   name: string;
   phone: string;
   birthday: string;
   points: number;
   services?: string;
   email?: string;
+  role?: string;
+  provider?: string;
+  created_at: string;
+  updated_at: string;
 }
-
-function createData(
-  name: string,
-  phone: string,
-  birthday: string,
-  points: number,
-  services?: string,
-  email?: string
-): IUserData {
-  return { name, phone, birthday, points, services, email };
-}
-
-const rows = [
-  createData('Anh A', '08973i22', '10-02-1993', 40, undefined, undefined),
-  createData('Anh B', '098322223', '10-02-1993', 40, undefined, undefined),
-  createData(
-    'Anh Nghia',
-    '08734222',
-    '10-02-1993',
-    40,
-    '10+2: 6 lần',
-    undefined
-  ),
-  createData('Anh ABC', '083789232', '10-02-1993', 40, undefined, undefined),
-  createData(
-    'Anh Jonathan',
-    '08973222',
-    '10-02-1993',
-    30,
-    undefined,
-    undefined
-  ),
-  createData(
-    'Anh Beckham',
-    '0987838922',
-    '10-02-1993',
-    40,
-    '10+2: 6 lần',
-    'abc@gmail.com'
-  ),
-];
 
 const UserList = () => {
   const [search, setSearch] = useState('');
-  const [data, setData] = useState(rows);
+  const [users, setUsers] = useState<IUserData[]>([]);
+  const [usersFilter, setUsersFitler] = useState<IUserData[]>([]);
   const [page, setPage] = useState(0);
-  const [rowsPerPage, setRowsPerPage] = useState(25);
+  const [rowsPerPage, setRowsPerPage] = useState(50);
   const [openAddUserDrawer, setOpenAddUserDrawer] = useState(false);
   const [userToUpdatePoints, setUserToUpdatePoints] = useState<IUserData>();
   const [userToUpdate, setUserToUpdate] = useState<IUserData>();
   const [userToDelete, setUserToDelete] = useState<IUserData>();
+  const [loading, setLoading] = useState(false);
 
   const handleChangePage = (_: unknown, newPage: number) => {
     setPage(newPage);
@@ -137,23 +110,23 @@ const UserList = () => {
   };
 
   const handleChangeSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const val = event.target.value;
-    setSearch(val);
-    const filterData = rows.filter((item: IUserData) => {
+    const val = event.target.value.toLowerCase();
+    setSearch(event.target.value);
+    const filterUsers = users.filter((item: IUserData) => {
       if (
-        item?.name?.toLowerCase().includes(val?.toLowerCase()) ||
-        item?.phone?.toLowerCase().includes(val?.toLowerCase()) ||
-        item?.points.toString().includes(val?.toLowerCase()) ||
-        item?.email?.toLowerCase().includes(val?.toLowerCase()) ||
-        item?.birthday?.toLowerCase().includes(val?.toLowerCase()) ||
-        item?.services?.toLowerCase().includes(val?.toLowerCase())
+        item?.name?.toLowerCase()?.includes(val?.toLowerCase()) ||
+        item?.phone?.toLowerCase()?.includes(val?.toLowerCase()) ||
+        item?.points?.toString()?.includes(val?.toLowerCase()) ||
+        item?.email?.toLowerCase()?.includes(val?.toLowerCase()) ||
+        item?.birthday?.toLowerCase()?.includes(val?.toLowerCase()) ||
+        item?.services?.toLowerCase()?.includes(val?.toLowerCase())
       ) {
         return item;
       }
       return null;
     });
 
-    setData(filterData);
+    setUsersFitler(filterUsers);
   };
 
   const handleAddUser = () => {
@@ -168,11 +141,22 @@ const UserList = () => {
     setUserToUpdate(userInfo);
   };
 
-  const fetchUserList = () => {
+  const fetchUserList = async () => {
     try {
-      setData(rows);
+      setLoading(true);
+      setTimeout(async () => {
+        const res = await api.get('/api/users');
+        const users = res.data.data;
+        users.forEach((user: IUserData) => {
+          user.birthday = moment(user.birthday).format('DD-MM-YYYY');
+        });
+        setUsers(res.data.data);
+        setUsersFitler(res.data.data);
+        setLoading(false);
+      }, 1000);
     } catch (error) {
       console.log(error);
+      setLoading(false);
     }
   };
 
@@ -185,6 +169,14 @@ const UserList = () => {
     fetchUserList();
   };
 
+  if (loading) {
+    return (
+      <Box sx={{ display: 'flex' }} className='w-full mt-[100px]'>
+        <CircularProgress className='m-auto' />
+      </Box>
+    );
+  }
+
   return (
     <div>
       <Typography variant='h6' className='mb-3'>
@@ -195,7 +187,6 @@ const UserList = () => {
         id='outlined-basic'
         label='Tìm kếm'
         variant='outlined'
-        placeholder='Tìm theo tên, SĐT,...'
         className='mb-3'
         size='small'
         onChange={handleChangeSearch}
@@ -224,21 +215,30 @@ const UserList = () => {
 
       {userToUpdate && (
         <UpdateUserInfo
-          callbackExit={() => setUserToUpdate(undefined)}
+          callbackExit={() => {
+            setUserToUpdate(undefined);
+            fetchUserList();
+          }}
           userData={userToUpdate}
         />
       )}
 
       {userToUpdatePoints && (
         <UpdateUserPointsModal
-          handleClose={() => setUserToUpdatePoints(undefined)}
+          handleClose={() => {
+            setUserToUpdatePoints(undefined);
+            fetchUserList();
+          }}
           userData={userToUpdatePoints}
         />
       )}
 
       {userToDelete && (
         <DeleteUserModal
-          handleClose={() => setUserToDelete(undefined)}
+          handleClose={() => {
+            setUserToDelete(undefined);
+            fetchUserList();
+          }}
           userData={userToDelete}
         />
       )}
@@ -259,11 +259,16 @@ const UserList = () => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {data
-              .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-              .map((row) => {
+            {usersFilter
+              ?.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+              ?.map((user) => {
                 return (
-                  <TableRow hover role='checkbox' tabIndex={-1} key={row.phone}>
+                  <TableRow
+                    hover
+                    role='checkbox'
+                    tabIndex={-1}
+                    key={user.phone}
+                  >
                     {columns.map((column) => {
                       if (column.id === 'action') {
                         return (
@@ -272,7 +277,7 @@ const UserList = () => {
                               variant='outlined'
                               size='small'
                               className='mr-2 mt-1'
-                              onClick={() => handleUpdateUserInfo(row)}
+                              onClick={() => handleUpdateUserInfo(user)}
                               startIcon={<EditIcon />}
                             >
                               Cài đặt
@@ -281,7 +286,7 @@ const UserList = () => {
                               variant='contained'
                               size='small'
                               className='mr-2 mt-1'
-                              onClick={() => handleUpdateUserPoints(row)}
+                              onClick={() => handleUpdateUserPoints(user)}
                               startIcon={<AddLinkIcon />}
                             >
                               Tích điểm
@@ -291,7 +296,7 @@ const UserList = () => {
                               color='error'
                               size='small'
                               className='mr-2 mt-1'
-                              onClick={() => setUserToDelete(row)}
+                              onClick={() => setUserToDelete(user)}
                               startIcon={<DeleteIcon />}
                             >
                               Xóa
@@ -299,12 +304,10 @@ const UserList = () => {
                           </TableCell>
                         );
                       }
-                      const value = row[column.id];
+                      const value = user[column.id];
                       return (
                         <TableCell key={column.id} align={column.align}>
-                          {column.format && typeof value === 'number'
-                            ? column.format(value)
-                            : value}
+                          {value}
                         </TableCell>
                       );
                     })}
@@ -315,9 +318,9 @@ const UserList = () => {
         </Table>
       </TableContainer>
       <TablePagination
-        rowsPerPageOptions={[25, 50, 100]}
+        rowsPerPageOptions={[50, 100]}
         component='div'
-        count={rows.length}
+        count={users.length}
         rowsPerPage={rowsPerPage}
         page={page}
         onPageChange={handleChangePage}
