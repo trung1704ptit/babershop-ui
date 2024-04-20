@@ -4,7 +4,7 @@ import PersonAddIcon from '@mui/icons-material/PersonAdd';
 import { Button, Stack, TextField, Typography } from '@mui/material';
 import { DatePicker, LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import { Dayjs } from 'dayjs';
+import { viVN } from '@mui/x-date-pickers/locales';
 import { ChangeEvent, useState } from 'react';
 import { toast } from 'react-toastify';
 
@@ -26,7 +26,6 @@ interface IProps {
 
 function AddNewUser(props: IProps) {
   const [loading, setLoading] = useState(false);
-  const [birthday, setBirthday] = useState<Dayjs | null>();
 
   const [formData, setFormData] = useState<INewUserProps>({
     name: '',
@@ -42,11 +41,9 @@ function AddNewUser(props: IProps) {
       formData.email = `guest-${new Date().getTime()}@gmail.com`;
     }
 
-    if (!birthday) {
+    if (!formData.birthday) {
       toast.error('Vui lòng điền thông tin ngày sinh');
       return;
-    } else {
-      formData.birthday = birthday.toISOString();
     }
 
     setLoading(true);
@@ -122,13 +119,28 @@ function AddNewUser(props: IProps) {
           onChange={handleChange}
         />
 
-        <LocalizationProvider dateAdapter={AdapterDayjs}>
+        <LocalizationProvider
+          dateAdapter={AdapterDayjs}
+          localeText={
+            viVN.components.MuiLocalizationProvider.defaultProps.localeText
+          }
+        >
           <DatePicker
             label='Ngày sinh'
             className='w-full mb-3'
             format='DD-MM-YYYY'
-            onChange={(value) => setBirthday(value)}
-            value={birthday}
+            onChange={(value: any) => {
+              setFormData((prevData) => ({
+                ...prevData,
+                birthday: value.$d.toISOString(),
+              }));
+            }}
+            slotProps={{
+              textField: { size: 'small' },
+              field: {
+                readOnly: true,
+              },
+            }}
           />
         </LocalizationProvider>
 

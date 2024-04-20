@@ -13,26 +13,24 @@ import Toolbar from '@mui/material/Toolbar';
 import { TransitionProps } from '@mui/material/transitions';
 import { DatePicker, LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import axios from 'axios';
 import dayjs from 'dayjs';
 import { ChangeEvent, forwardRef, useState } from 'react';
 import { toast } from 'react-toastify';
 
 import { IUserData } from '.';
 import api from '../../utils/api';
-import { MESSAGES } from '../../utils/constants';
 
 interface INewUserProps {
   name: string;
   phone: string;
   birthday: string;
   email?: string;
-  password: string;
-  passwordConfirm: string;
 }
 
 interface IProps {
   callbackExit: () => void;
-  userData?: IUserData;
+  userData: IUserData;
 }
 
 const Transition = forwardRef(function Transition(
@@ -45,49 +43,45 @@ const Transition = forwardRef(function Transition(
 });
 
 function UpdateUserInfo(props: IProps) {
-  const [loading, setLoading] = useState(false);
-  // const [checked, setChecked] = useState(true);
+  const [loadingUpdateUser, setLoadingUpdateUser] = useState(false);
 
   const [formData, setFormData] = useState<INewUserProps>({
-    name: '',
-    email: '',
-    birthday: '',
-    phone: '',
-    password: 'guest@babershop.com',
-    passwordConfirm: 'guest@babershop.com',
+    name: props.userData.name,
+    email: props.userData.email,
+    birthday: props.userData.birthday,
+    phone: props.userData.phone,
   });
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmitUpdateUserInfo = (e: React.FormEvent) => {
     e.preventDefault();
-    if (!formData?.email) {
-      formData.email = `${new Date().getTime()}@gmail.com`;
+
+    setLoadingUpdateUser(true);
+
+    if (!formData.birthday) {
+      toast.error('Vui lòng điền thông tin ngày sinh');
+      return;
     }
 
-    setLoading(true);
     api
-      .post(`api/auth/register`, formData)
+      .put(`api/users/${props.userData.id}`, formData)
       .then((res) => {
         if (res?.data?.status === 'success') {
-          toast.success(MESSAGES.REGISTER_USER_SUCCESS_VI, {
+          toast.success('Cập nhật thông tin khách hàng thành công', {
             position: toast.POSITION.TOP_CENTER,
             hideProgressBar: true,
           });
-          setLoading(false);
+          setLoadingUpdateUser(false);
         }
       })
       .catch((error) => {
-        let errorMessage = MESSAGES.COMMON_ERROR_VI;
-        if (
-          error?.response?.data?.message == MESSAGES.REGISTER_USER_EXISTS_EN
-        ) {
-          errorMessage = MESSAGES.REGISTER_USER_EXISTS_VI;
+        let errMsg = 'Đã có lỗi xảy ra, vui lòng thử lại.';
+        if (axios.isAxiosError(error) && error?.response) {
+          errMsg = error.response.data.message;
         }
-
-        toast.error(errorMessage, {
+        toast.error(errMsg, {
           position: toast.POSITION.TOP_CENTER,
           hideProgressBar: true,
         });
-
-        setLoading(false);
+        setLoadingUpdateUser(false);
       });
   };
 
@@ -100,7 +94,6 @@ function UpdateUserInfo(props: IProps) {
   };
 
   const handleDateChange = (newdate: any) => {
-    console.log(newdate);
     setFormData((prevData) => ({
       ...prevData,
       birthday: newdate.$d.toISOString(),
@@ -130,7 +123,7 @@ function UpdateUserInfo(props: IProps) {
         </Toolbar>
       </AppBar>
       <div className='ml-auto mr-auto max-w-sm'>
-        <form onSubmit={handleSubmit} className='mt-20'>
+        <form onSubmit={handleSubmitUpdateUserInfo} className='mt-20'>
           <TextField
             id='outlined-basic'
             label='Tên khách hàng'
@@ -162,7 +155,12 @@ function UpdateUserInfo(props: IProps) {
               onChange={handleDateChange}
               format='DD/MM/YYYY'
               defaultValue={dayjs(props?.userData?.birthday || new Date())}
-              slotProps={{ textField: { size: 'small' } }}
+              slotProps={{
+                textField: { size: 'small' },
+                field: {
+                  readOnly: true,
+                },
+              }}
             />
           </LocalizationProvider>
           <TextField
@@ -182,7 +180,7 @@ function UpdateUserInfo(props: IProps) {
             className='w-50'
             size='small'
             type='submit'
-            disabled={loading}
+            disabled={loadingUpdateUser}
             startIcon={<SaveIcon />}
           >
             Cập nhật thông tin
@@ -204,7 +202,7 @@ function UpdateUserInfo(props: IProps) {
             className='w-50'
             size='small'
             type='submit'
-            disabled={loading}
+            disabled={loadingUpdateUser}
             startIcon={<SaveIcon />}
           >
             Cập nhật dịch vụ
@@ -242,7 +240,7 @@ function UpdateUserInfo(props: IProps) {
               className='w-100'
               size='small'
               type='submit'
-              disabled={loading}
+              disabled={loadingUpdateUser}
               startIcon={<SaveIcon />}
             >
               Cập nhật điểm

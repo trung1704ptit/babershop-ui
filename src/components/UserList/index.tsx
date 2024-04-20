@@ -18,7 +18,6 @@ import TableCell from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
-import moment from 'moment';
 import { useEffect, useState } from 'react';
 
 import AddNewUser from './AddNewUser';
@@ -147,9 +146,6 @@ const UserList = () => {
       const res = await api.get('/api/users');
       if (res.status == 200) {
         const users = res.data.data;
-        users.forEach((user: IUserData) => {
-          user.birthday = moment(user.birthday).format('DD-MM-YYYY');
-        });
         setUsers(users);
         setUsersFitler(users);
         setLoading(false);
@@ -270,6 +266,13 @@ const UserList = () => {
                     key={user.phone}
                   >
                     {columns.map((column) => {
+                      if (column.id === 'birthday') {
+                        return (
+                          <TableCell key={column.id}>
+                            {new Date(user.birthday).toLocaleDateString()}
+                          </TableCell>
+                        );
+                      }
                       if (column.id === 'action') {
                         return (
                           <TableCell key={column.id} align={column.align}>
