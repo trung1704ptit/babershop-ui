@@ -55,7 +55,7 @@ const api = () => {
         isRefreshing = true;
 
         try {
-          const response = await axios.get('http://localhost:8000/api/auth/refresh');
+          const response = await axios.get(`${process.env.NEXT_PUBLIC_APP_API_PATH}/api/auth/refresh`);
 
           if (response.status === 200) {
             const { access_token: newAccessToken } = response.data;
