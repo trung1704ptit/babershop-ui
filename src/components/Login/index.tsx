@@ -24,7 +24,6 @@ const Login = () => {
           password: password,
         });
         if (res && res?.data?.status == 'success') {
-          localStorage.setItem('access_token', res.data.access_token);
           window.location.href = '/admin';
         }
       } catch (error) {
