@@ -215,7 +215,11 @@ function UpdateUserInfo(props: IProps) {
           Sử dụng điểm
         </Typography>
         <Typography variant='body2' className='w-full mb-2'>
-          Số điểm hiện tại: {props.userData?.points}
+          Số điểm hiện tại:{' '}
+          {props?.userData?.points
+            ? props?.userData?.points[props?.userData?.points?.length - 1]
+                ?.points
+            : 0}
         </Typography>
         <Typography variant='body2' className='w-full italic mb-3'>
           Nhập vào số điểm để trừ đi. Số nhập vào phải nhỏ hơn số điểm hiện tại

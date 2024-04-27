@@ -21,6 +21,12 @@ const theme = createTheme(
       primary: {
         main: '#9f6e0dd4',
       },
+      secondary: {
+        light: '#ff7961',
+        main: '#f44336',
+        dark: '#ba000d',
+        contrastText: '#000',
+      },
     },
   },
   viVN

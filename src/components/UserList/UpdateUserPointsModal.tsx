@@ -12,6 +12,7 @@ import moment from 'moment';
 import * as React from 'react';
 
 import { IUserData } from '.';
+import api from '../../utils/api';
 
 interface IProps {
   handleClose: () => void;
@@ -21,6 +22,10 @@ interface IProps {
 export default function UpdateUserPointsModal(props: IProps) {
   const [loading, setLoading] = React.useState(false);
   const [success, setSuccess] = React.useState(false);
+  const [error, setError] = React.useState(false);
+
+  const userPoints =
+    props?.userData?.points?.[props?.userData?.points?.length - 1]?.points || 0;
 
   return (
     <Dialog
@@ -28,13 +33,24 @@ export default function UpdateUserPointsModal(props: IProps) {
       onClose={props.handleClose}
       PaperProps={{
         component: 'form',
-        onSubmit: (event: React.FormEvent<HTMLFormElement>) => {
+        onSubmit: async (event: React.FormEvent<HTMLFormElement>) => {
           event.preventDefault();
-          setLoading(true);
-          setTimeout(() => {
+          try {
+            setLoading(true);
+            setError(false);
+            const res = await api.post('/api/points', {
+              user_id: props.userData.id,
+            });
+            console.log(res);
+            if (res?.status === 201) {
+              setLoading(false);
+              setSuccess(true);
+            }
+          } catch (error) {
             setLoading(false);
-            setSuccess(true);
-          }, 500);
+            console.log(error);
+            setError(true);
+          }
         },
       }}
     >
@@ -43,11 +59,11 @@ export default function UpdateUserPointsModal(props: IProps) {
         <DialogContentText>
           {success ? (
             <div className='justify-center text-center'>
-              <CheckCircleIcon className='text-green-600 h-[100px] w-[100px]'></CheckCircleIcon>
+              <CheckCircleIcon className='text-green-600 text-8xl'></CheckCircleIcon>
               <Typography variant='body1' gutterBottom>
                 Tích điểm thành công! Số điểm{' '}
                 <strong>{props?.userData?.name}</strong> hiện tại là{' '}
-                {props?.userData?.points + 10} điểm
+                {userPoints + 10} điểm
               </Typography>
               <Typography variant='body2' gutterBottom>
                 Ngày cập nhật {moment(new Date()).format('DD-MM-YYYY')}
@@ -64,6 +80,15 @@ export default function UpdateUserPointsModal(props: IProps) {
               <Typography variant='body2' className='mt-3'>
                 Ngày cập nhật: {moment(new Date()).format('DD-MM-YYYY')}
               </Typography>
+              {error && (
+                <Typography
+                  variant='body2'
+                  className='mt-3'
+                  color='secondary.light'
+                >
+                  Đã xảy ra lỗi, vui lòng thử lại sau!
+                </Typography>
+              )}
             </>
           )}
         </DialogContentText>

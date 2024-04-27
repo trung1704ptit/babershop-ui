@@ -71,13 +71,32 @@ const columns: readonly Column[] = [
   },
 ];
 
+export interface IPoint {
+  id: string;
+  points: number;
+  user_id: string;
+  created_at: string;
+  updated_at: string;
+}
+
+export interface IService {
+  id: string;
+  name: string;
+  image: string;
+  price: number;
+  price_text: string;
+  description?: string;
+  created_at: string;
+  updated_at: string;
+}
+
 export interface IUserData {
   id: string;
   name: string;
   phone: string;
   birthday: string;
-  points: number;
-  services?: string;
+  services?: IService[];
+  points?: IPoint[];
   email?: string;
   role?: string;
   provider?: string;
@@ -117,8 +136,7 @@ const UserList = () => {
         item?.phone?.toLowerCase()?.includes(val?.toLowerCase()) ||
         item?.points?.toString()?.includes(val?.toLowerCase()) ||
         item?.email?.toLowerCase()?.includes(val?.toLowerCase()) ||
-        item?.birthday?.toLowerCase()?.includes(val?.toLowerCase()) ||
-        item?.services?.toLowerCase()?.includes(val?.toLowerCase())
+        item?.birthday?.toLowerCase()?.includes(val?.toLowerCase())
       ) {
         return item;
       }
@@ -266,6 +284,22 @@ const UserList = () => {
                     key={user.phone}
                   >
                     {columns.map((column) => {
+                      if (column.id === 'services') {
+                        return (
+                          <TableCell key={column.id}>
+                            {user?.services
+                              ?.map((item: IService) => item.name)
+                              .join(', ')}
+                          </TableCell>
+                        );
+                      }
+                      if (column.id === 'points') {
+                        return (
+                          <TableCell key={column.id}>
+                            {user?.points?.[user?.points?.length - 1]?.points}
+                          </TableCell>
+                        );
+                      }
                       if (column.id === 'birthday') {
                         return (
                           <TableCell key={column.id}>

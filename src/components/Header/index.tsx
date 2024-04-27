@@ -1,15 +1,26 @@
 /* eslint-disable @next/next/no-html-link-for-pages */
+import { Button } from '@mui/material';
+import cookie from 'js-cookie';
 import Link from 'next/link';
-import { useState } from 'react';
+import { useRouter } from 'next/router';
+import { useEffect, useState } from 'react';
 
 import { IHeaderProps } from './types';
+import api from '../../utils/api';
 
 const Header = ({ position }: IHeaderProps) => {
   const [mobileMenu, setMobileMenu] = useState(false);
+  const [token, setToken] = useState<string | undefined>('');
+  const router = useRouter();
 
   const handleClickHamberger = () => {
     setMobileMenu(!mobileMenu);
   };
+
+  useEffect(() => {
+    const accessToken = cookie.get('access_token');
+    setToken(accessToken);
+  }, []);
 
   return (
     <header
@@ -52,14 +63,37 @@ const Header = ({ position }: IHeaderProps) => {
                 </li>
               </ul>
             </div>
-            <div className='header-btn'>
-              <Link
-                href='/dat-lich'
-                className='menu-btn cursor-pointer rounded'
+            <Button
+              variant='contained'
+              onClick={() => {
+                router.push('/dat-lich');
+              }}
+              className='text-white'
+            >
+              Đặt chỗ
+            </Button>
+            {token ? (
+              <Button
+                variant='outlined'
+                className='ml-2 text-white'
+                onClick={async () => {
+                  await api.get('/api/auth/logout');
+                  router.push('/');
+                }}
               >
-                Đặt chỗ{' '}
-              </Link>
-            </div>
+                Đăng xuất
+              </Button>
+            ) : (
+              <Button
+                variant='outlined'
+                className='ml-2 text-white'
+                onClick={() => {
+                  router.push('/dang-nhap');
+                }}
+              >
+                Đăng nhập
+              </Button>
+            )}
           </div>
         </nav>
         <div
@@ -98,7 +132,9 @@ const Header = ({ position }: IHeaderProps) => {
             </svg>
           )}
         </div>
-        {mobileMenu && <MobileMenu handleClick={() => setMobileMenu(false)} />}
+        {mobileMenu && (
+          <MobileMenu handleClick={() => setMobileMenu(false)} token={token} />
+        )}
       </div>
     </header>
   );
@@ -108,6 +144,7 @@ export default Header;
 
 interface IMobileProps {
   handleClick: () => void;
+  token?: string | undefined;
 }
 
 const MobileMenu = (props: IMobileProps) => {
@@ -146,7 +183,7 @@ const MobileMenu = (props: IMobileProps) => {
             </a>
           </li>
         </ul>
-        <div className='w-full p-3' onClick={props.handleClick}>
+        <div className='w-full p-2' onClick={props.handleClick}>
           <Link
             href='/dat-lich'
             className='block text-center text-white w-full border-0 py-1.5 px-4 focus:outline-none rounded text-lg bg-[#9f6e0dd4]'
@@ -154,6 +191,17 @@ const MobileMenu = (props: IMobileProps) => {
             Đặt chỗ{' '}
           </Link>
         </div>
+
+        {props.token && (
+          <div className='w-full p-2' onClick={props.handleClick}>
+            <Link
+              href='/dat-lich'
+              className='block text-center text-white w-full border-0 py-1.5 px-4 focus:outline-none rounded text-lg bg-[#9f6e0dd4]'
+            >
+              Đăng xuất
+            </Link>
+          </div>
+        )}
       </div>
       <div
         className='absolute top-full left-0 h-screen w-screen opacity-70 bg-black'
