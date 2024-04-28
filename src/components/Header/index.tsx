@@ -151,9 +151,10 @@ interface IMobileProps {
 }
 
 const MobileMenu = (props: IMobileProps) => {
+  const router = useRouter();
   return (
     <>
-      <div className='bg-white absolute top-full left-0 w-full z-10 p-2'>
+      <div className='bg-white absolute top-full left-0 w-full z-10 p-2 pb-4'>
         <ul className='text-black'>
           <li onClick={props.handleClick}>
             <Link className='nav-link active text-black' href='/#gioi-thieu'>
@@ -186,7 +187,7 @@ const MobileMenu = (props: IMobileProps) => {
             </a>
           </li>
         </ul>
-        <div className='w-full p-2' onClick={props.handleClick}>
+        <div className='w-full p-3' onClick={props.handleClick}>
           <Link
             href='/dat-lich'
             className='block text-center text-white w-full border-0 py-1.5 px-4 focus:outline-none rounded text-lg bg-[#9f6e0dd4]'
@@ -194,17 +195,30 @@ const MobileMenu = (props: IMobileProps) => {
             Đặt chỗ{' '}
           </Link>
         </div>
-
-        {props.isLoggedIn && (
-          <div className='w-full p-2' onClick={props.handleClick}>
-            <Link
-              href='/dat-lich'
-              className='block text-center text-white w-full border-0 py-1.5 px-4 focus:outline-none rounded text-lg bg-[#9f6e0dd4]'
+        <div className='w-full pl-3 pr-3'>
+          {props.isLoggedIn ? (
+            <Button
+              variant='outlined'
+              className='w-full'
+              onClick={async () => {
+                await api.get('/api/auth/logout');
+                router.push('/');
+              }}
             >
               Đăng xuất
-            </Link>
-          </div>
-        )}
+            </Button>
+          ) : (
+            <Button
+              variant='outlined'
+              className='w-full'
+              onClick={() => {
+                router.push('/dang-nhap');
+              }}
+            >
+              Đăng nhập
+            </Button>
+          )}
+        </div>
       </div>
       <div
         className='absolute top-full left-0 h-screen w-screen opacity-70 bg-black'
