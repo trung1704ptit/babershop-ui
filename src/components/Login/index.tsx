@@ -24,7 +24,7 @@ const Login = () => {
           password: password,
         });
         if (res && res?.data?.status == 'success') {
-          window.location.href = '/admin';
+          window.location.href = '/quan-ly';
         }
       } catch (error) {
         if (
