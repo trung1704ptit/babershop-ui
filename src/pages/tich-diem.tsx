@@ -118,7 +118,7 @@ export default function LinkPointHistory() {
               <div>
                 <Typography
                   className='text-slate-500 text-lg leading-relaxed mb-4 text-center'
-                  variant='body1'
+                  variant='body2'
                 >
                   Nhập SĐT để kiểm tra ngay
                 </Typography>
