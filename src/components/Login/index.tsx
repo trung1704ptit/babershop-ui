@@ -63,7 +63,7 @@ const Login = () => {
               />
               <TextField
                 id='outlined-basic'
-                label='Passpord'
+                label='Mật khẩu'
                 className='w-100'
                 size='medium'
                 type='password'

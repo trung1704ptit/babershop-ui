@@ -10,7 +10,7 @@ import api from '../../utils/api';
 
 const Header = ({ position }: IHeaderProps) => {
   const [mobileMenu, setMobileMenu] = useState(false);
-  const [token, setToken] = useState<string | undefined>('');
+  const [isLoggedIn, setIsLoggedIn] = useState<string | undefined>('');
   const router = useRouter();
 
   const handleClickHamberger = () => {
@@ -18,8 +18,8 @@ const Header = ({ position }: IHeaderProps) => {
   };
 
   useEffect(() => {
-    const accessToken = cookie.get('access_token');
-    setToken(accessToken);
+    const loggedIn = cookie.get('logged_in');
+    setIsLoggedIn(loggedIn);
   }, []);
 
   return (
@@ -72,7 +72,7 @@ const Header = ({ position }: IHeaderProps) => {
             >
               Đặt chỗ
             </Button>
-            {token ? (
+            {isLoggedIn ? (
               <Button
                 variant='outlined'
                 className='ml-2 text-white'
@@ -133,7 +133,10 @@ const Header = ({ position }: IHeaderProps) => {
           )}
         </div>
         {mobileMenu && (
-          <MobileMenu handleClick={() => setMobileMenu(false)} token={token} />
+          <MobileMenu
+            handleClick={() => setMobileMenu(false)}
+            isLoggedIn={isLoggedIn}
+          />
         )}
       </div>
     </header>
@@ -144,7 +147,7 @@ export default Header;
 
 interface IMobileProps {
   handleClick: () => void;
-  token?: string | undefined;
+  isLoggedIn?: string | undefined;
 }
 
 const MobileMenu = (props: IMobileProps) => {
@@ -192,7 +195,7 @@ const MobileMenu = (props: IMobileProps) => {
           </Link>
         </div>
 
-        {props.token && (
+        {props.isLoggedIn && (
           <div className='w-full p-2' onClick={props.handleClick}>
             <Link
               href='/dat-lich'

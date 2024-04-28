@@ -5,6 +5,7 @@ import cookie from 'js-cookie';
 const api = () => {
   const defaultOptions = {
     baseURL: process.env.NEXT_PUBLIC_APP_API_PATH,
+    withCredentials: true,
     headers: {
       'Content-Type': 'application/json',
     },

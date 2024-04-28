@@ -1,3 +1,4 @@
+import { Button, TextField, Typography } from '@mui/material';
 import { useRef } from 'react';
 
 import { CONTACT } from '../../utils/constants';
@@ -21,36 +22,36 @@ const EntranceForm = (props: IProps) => {
       id='booking-box'
     >
       <div className='max-w-sm bg-white rounded-lg p-8 md:ml-auto w-full mt-10 md:mt-0 relative z-10 shadow-md mx-auto'>
-        <h2 className='text-gray-900 text-xl font-semibold title-font'>
+        <Typography variant='h6' className='title-font mb-2 text-center'>
           ĐẶT LỊCH GIỮ CHỖ CHỈ 30 GIÂY
-        </h2>
-        <p className='text-slate-500 text-lg leading-relaxed mb-4'>
+        </Typography>
+        <Typography variant='body1' className='mb-4 text-center'>
           Cắt xong trả tiền, hủy lịch thoải mái
-        </p>
-        <div className='relative mb-4'>
-          <input
-            type='number'
-            required
-            ref={phoneRef}
-            onKeyDown={handleKeyDown}
-            maxLength={10}
-            placeholder='Nhập SĐT để đặt lịch'
-            name='phone'
-            className='w-full bg-white rounded border border-gray-300 focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-2 px-3 leading-8 transition-colors duration-200 ease-in-out'
-          />
-        </div>
-        <button
+        </Typography>
+        <TextField
+          type='number'
+          required
+          ref={phoneRef}
+          onKeyDown={handleKeyDown}
+          label='Nhập SĐT để đặt lịch'
+          name='phone'
+          size='medium'
+          className='w-full mb-3'
+        />
+        <Button
           onClick={() => props.handleStartBooking(phoneRef)}
-          className='text-white w-full border-0 py-2 px-6 focus:outline-none rounded text-lg bg-[#9f6e0dd4]'
+          variant='contained'
+          size='large'
+          className='w-full mb-4'
         >
           ĐẶT NGAY
-        </button>
-        <p className=' text-gray-500 mt-3 text-md'>
+        </Button>
+        <Typography variant='body1'>
           Hỗ trợ đặt lịch trực tiếp{' '}
           <span className='font-medium text-[#9f6e0dd4]'>
             <a href={`tel:${CONTACT.phoneVal}`}>{CONTACT.phoneText}</a>
           </span>
-        </p>
+        </Typography>
       </div>
     </div>
   );
