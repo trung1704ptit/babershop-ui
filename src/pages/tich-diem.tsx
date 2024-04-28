@@ -4,47 +4,54 @@ import TimelineContent from '@mui/lab/TimelineContent';
 import TimelineDot from '@mui/lab/TimelineDot';
 import TimelineItem from '@mui/lab/TimelineItem';
 import TimelineSeparator from '@mui/lab/TimelineSeparator';
-import { Button, Typography } from '@mui/material';
+import { Button, TextField, Typography } from '@mui/material';
+import axios from 'axios';
+import { size } from 'lodash';
+import moment from 'moment';
 import Head from 'next/head';
-import { useRef, useState } from 'react';
+import { ChangeEvent, useState } from 'react';
 
 import { Header } from '../components';
+import { IUserData } from '../components/UserList';
 import AddNewUser from '../components/UserList/AddNewUser';
-
-interface IUser {
-  name: string;
-  phone: string;
-  email?: string;
-  birthday?: string;
-}
+import api from '../utils/api';
+import { getLastPoint } from '../utils/helper';
 
 export default function LinkPointHistory() {
-  const phoneRef = useRef<HTMLInputElement>(null);
   const [showAddUser, setShowAddUser] = useState(false);
   const [submitted, setSubmitted] = useState(false);
-  const [userData, setUserData] = useState<IUser>();
+  const [userData, setUserData] = useState<IUserData>();
   const [loadingUser, setLoadingUser] = useState(false);
+  const [phone, setPhone] = useState('');
+  const [error, setError] = useState('');
 
-  const checkUser = () => {
-    if (phoneRef?.current?.value) {
-      setLoadingUser(true);
-      setTimeout(() => {
-        setShowAddUser(false);
-        setSubmitted(true);
-        setUserData({
-          name: 'ABC',
-          birthday: '20-03-1993',
-          email: 'abc@gmail.com',
-          phone: '0965813633',
-        });
-      }, 2000);
+  const getUserProfile = async () => {
+    if (phone) {
+      try {
+        setLoadingUser(true);
+        const res = await api.get(`/api/users/${phone}`);
+        if (res?.status === 200) {
+          const { data } = res.data;
+          setShowAddUser(false);
+          setUserData(data);
+          setSubmitted(true);
+          setLoadingUser(false);
+        }
+      } catch (error) {
+        if (axios.isAxiosError(error) && error?.response?.status === 404) {
+          setError(error.response.data.message);
+          setLoadingUser(false);
+        }
+        console.log('error:', error);
+        setLoadingUser(false);
+      }
     }
   };
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e?.key === 'Enter') {
-      if (phoneRef?.current?.value) {
-        checkUser();
+      if (phone) {
+        getUserProfile();
       }
     }
   };
@@ -57,6 +64,15 @@ export default function LinkPointHistory() {
   const handleExitAddUser = () => {
     setShowAddUser(false);
     setSubmitted(false);
+  };
+
+  const handleOnChangePhone = (e: ChangeEvent<HTMLInputElement>) => {
+    setPhone(e.target.value);
+  };
+
+  const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    getUserProfile();
   };
 
   return (
@@ -79,7 +95,7 @@ export default function LinkPointHistory() {
         </div>
       )}
 
-      {userData && <HairCutTimeline />}
+      {userData && <HairCutTimeline userData={userData} />}
 
       {!submitted && (
         <div
@@ -103,28 +119,40 @@ export default function LinkPointHistory() {
                 <Typography className='text-slate-500 text-lg leading-relaxed mb-4 text-center'>
                   Nhập SĐT để kiểm tra ngay
                 </Typography>
-                <div className='relative mb-4'>
-                  <input
-                    type='number'
-                    required
-                    ref={phoneRef}
-                    onKeyDown={handleKeyDown}
-                    maxLength={10}
-                    placeholder='Nhập SĐT để kiểm tra'
-                    name='phone'
-                    className='w-full bg-white rounded border border-gray-300 focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-2 px-3 leading-8 transition-colors duration-200 ease-in-out'
-                  />
-                </div>
+                <form onSubmit={onSubmit}>
+                  <div className='relative mb-4'>
+                    <TextField
+                      type='number'
+                      size='medium'
+                      required
+                      value={phone}
+                      onKeyDown={handleKeyDown}
+                      onChange={handleOnChangePhone}
+                      placeholder='Nhập SĐT để kiểm tra'
+                      name='phone'
+                      className='w-full'
+                    />
 
-                <Button
-                  variant='contained'
-                  size='large'
-                  className='w-100 mb-2'
-                  onClick={() => checkUser()}
-                  disabled={loadingUser}
-                >
-                  {loadingUser ? 'Đang kiểm tra' : 'KIỂM TRA'}
-                </Button>
+                    <Typography
+                      variant='body2'
+                      color='secondary'
+                      className='mt-1'
+                    >
+                      {error}
+                    </Typography>
+                  </div>
+
+                  <Button
+                    variant='contained'
+                    size='large'
+                    type='submit'
+                    className='w-100 mb-2'
+                    onClick={() => getUserProfile()}
+                    disabled={loadingUser}
+                  >
+                    {loadingUser ? 'Đang kiểm tra' : 'KIỂM TRA'}
+                  </Button>
+                </form>
 
                 <Typography className='text-center mb-2'>Hoặc</Typography>
 
@@ -145,7 +173,14 @@ export default function LinkPointHistory() {
   );
 }
 
-function HairCutTimeline() {
+interface IPropsTimeline {
+  userData: IUserData;
+}
+
+function HairCutTimeline(props: IPropsTimeline) {
+  const { userData } = props;
+  const currentPoints = getLastPoint(userData);
+
   return (
     <div className='text-center max-w-xl ml-auto mr-auto mt-[100px]'>
       <h2 className='text-gray-900 text-xl font-semibold title-font text-center'>
@@ -155,7 +190,7 @@ function HairCutTimeline() {
         <div className='grid grid-cols-1 lg:grid-cols-2 gap-4 p-2'>
           <div className='bg-[#0fad78] p-4 rounded-md text-white m-auto w-100'>
             <Typography className='text-2xl'>Tổng điểm:</Typography>
-            <Typography className='text-2xl'>40 điểm</Typography>
+            <Typography className='text-2xl'>{currentPoints} điểm</Typography>
             <br />
             <Typography variant='body2'>
               Sử dụng điểm để mua các mặt hàng
@@ -177,135 +212,44 @@ function HairCutTimeline() {
         Mốc thời gian cắt tóc
       </Typography>
       <Timeline position='alternate-reverse'>
-        <TimelineItem>
-          <TimelineSeparator>
-            <TimelineDot color='success' />
-            <TimelineConnector />
-          </TimelineSeparator>
-          <TimelineContent>
-            20-03-2021
-            <br />
-            <span>
-              Lần 1, <span className='text-green-600'>+10 điểm</span>
-            </span>
-          </TimelineContent>
-        </TimelineItem>
-        <TimelineItem>
-          <TimelineSeparator>
-            <TimelineDot color='success' />
-            <TimelineConnector />
-          </TimelineSeparator>
-          <TimelineContent>
-            04-02-2022
-            <br />
-            <span>
-              Lần 2, <span className='text-green-600'>+10 điểm</span>
-            </span>
-          </TimelineContent>
-        </TimelineItem>
-        <TimelineItem>
-          <TimelineSeparator>
-            <TimelineDot color='success' />
-            <TimelineConnector />
-          </TimelineSeparator>
-          <TimelineContent>
-            02-01-2023
-            <br />
-            <span>
-              Lần 3, <span className='text-green-600'>+10 điểm</span>
-            </span>
-          </TimelineContent>
-        </TimelineItem>
-        <TimelineItem>
-          <TimelineSeparator>
-            <TimelineDot color='success' />
-            <TimelineConnector />
-          </TimelineSeparator>
-          <TimelineContent>
-            20-03-2021
-            <br />
-            <span>
-              Lần 4, <span className='text-green-600'>+10 điểm</span>
-            </span>
-          </TimelineContent>
-        </TimelineItem>
-        <TimelineItem>
-          <TimelineSeparator>
-            <TimelineDot color='success' />
-            <TimelineConnector />
-          </TimelineSeparator>
-          <TimelineContent>
-            20-03-2021
-            <br />
-            <span>
-              Lần 5, <span className='text-green-600'>+10 điểm</span>
-            </span>
-          </TimelineContent>
-        </TimelineItem>
-        <TimelineItem>
-          <TimelineSeparator>
-            <TimelineDot color='success' />
-            <TimelineConnector />
-          </TimelineSeparator>
-          <TimelineContent>
-            20-03-2021
-            <br />
-            <span>
-              Lần 6, <span className='text-green-600'>+10 điểm</span>
-            </span>
-          </TimelineContent>
-        </TimelineItem>{' '}
-        <TimelineItem>
-          <TimelineSeparator>
-            <TimelineDot color='success' />
-            <TimelineConnector />
-          </TimelineSeparator>
-          <TimelineContent>
-            20-03-2021
-            <br />
-            <span>
-              Lần 7, <span className='text-green-600'>+10 điểm</span>
-            </span>
-          </TimelineContent>
-        </TimelineItem>
-        <TimelineItem>
-          <TimelineSeparator>
-            <TimelineDot color='success' />
-            <TimelineConnector />
-          </TimelineSeparator>
-          <TimelineContent>
-            20-03-2021
-            <br />
-            <span>
-              Lần 8, <span className='text-green-600'>+10 điểm</span>
-            </span>
-          </TimelineContent>
-        </TimelineItem>
-        <TimelineItem>
-          <TimelineSeparator>
-            <TimelineDot color='success' />
-            <TimelineConnector />
-          </TimelineSeparator>
-          <TimelineContent>
-            20-03-2021
-            <br />
-            <span>
-              Lần 9, <span className='text-green-600'>+10 điểm</span>
-            </span>
-          </TimelineContent>
-        </TimelineItem>
-        <TimelineItem>
-          <TimelineSeparator>
-            <TimelineDot color='success' />
-          </TimelineSeparator>
-          <TimelineContent>
-            09-02-2024
-            <br />
-            <span>
-              Lần 10, <span className='text-green-600'>+10 điểm</span>
-            </span>
-          </TimelineContent>
-        </TimelineItem>
+        {userData &&
+          userData.points &&
+          userData?.points?.map((p, index) => {
+            if (index === size(userData.points) - 1) {
+              return (
+                <TimelineItem key={p.id}>
+                  <TimelineSeparator>
+                    <TimelineDot color='success' />
+                  </TimelineSeparator>
+                  <TimelineContent>
+                    {moment(p.created_at).format('DD-MM-YYYY')}
+                    <br />
+                    <span>
+                      Lần {index + 1},{' '}
+                      <span className='text-green-600'>+10 điểm</span>
+                    </span>
+                  </TimelineContent>
+                </TimelineItem>
+              );
+            }
+
+            return (
+              <TimelineItem key={p.id}>
+                <TimelineSeparator>
+                  <TimelineDot color='success' />
+                  <TimelineConnector />
+                </TimelineSeparator>
+                <TimelineContent>
+                  {moment(p.created_at).format('DD-MM-YYYY')}
+                  <br />
+                  <span>
+                    Lần {index + 1},{' '}
+                    <span className='text-green-600'>+10 điểm</span>
+                  </span>
+                </TimelineContent>
+              </TimelineItem>
+            );
+          })}
       </Timeline>
     </div>
   );

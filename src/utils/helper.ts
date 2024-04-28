@@ -1,5 +1,7 @@
 import moment from "moment";
 
+import { IUserData } from "../components/UserList";
+
 export const getTimeRange = (time: number) => {
   if (!time) time = 8;
   let text = `${time}h - ${time}h:30`
@@ -56,4 +58,16 @@ export const bookingEmailTemplate = (bookingItem: any) => {
       <div>Roy Barber Shop team.</div>
     </div>
   `
+}
+
+export const getLastPoint = (userData: IUserData) => {
+  let currentPoints = 0;
+  if (userData?.points) {
+    const lastPoint = userData?.points[userData.points.length - 1];
+    if (lastPoint) {
+      currentPoints = lastPoint.points;
+    }
+  }
+
+  return currentPoints;
 }

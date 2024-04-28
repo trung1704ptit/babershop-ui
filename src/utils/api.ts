@@ -79,6 +79,8 @@ const api = () => {
         } finally {
           isRefreshing = false;
         }
+      } else {
+        return Promise.reject(error);
       }
     }
   );
