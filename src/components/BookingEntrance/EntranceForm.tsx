@@ -1,19 +1,18 @@
 import { Button, TextField, Typography } from '@mui/material';
-import { useRef } from 'react';
+import { useState } from 'react';
 
 import { CONTACT } from '../../utils/constants';
 
 interface IProps {
-  handleStartBooking: (a: any) => void;
+  handleStartBooking: (val: string) => void;
 }
 
 const EntranceForm = (props: IProps) => {
-  const phoneRef = useRef<HTMLInputElement>(null);
+  const [phone, setPhone] = useState('');
 
-  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e?.key === 'Enter') {
-      props.handleStartBooking(phoneRef);
-    }
+  const onSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    props.handleStartBooking(phone);
   };
 
   return (
@@ -28,24 +27,26 @@ const EntranceForm = (props: IProps) => {
         <Typography variant='body1' className='mb-4 text-center'>
           Cắt xong trả tiền, hủy lịch thoải mái
         </Typography>
-        <TextField
-          type='number'
-          required
-          ref={phoneRef}
-          onKeyDown={handleKeyDown}
-          label='Nhập SĐT để đặt lịch'
-          name='phone'
-          size='medium'
-          className='w-full mb-3'
-        />
-        <Button
-          onClick={() => props.handleStartBooking(phoneRef)}
-          variant='contained'
-          size='large'
-          className='w-full mb-4'
-        >
-          ĐẶT NGAY
-        </Button>
+        <form onSubmit={onSubmit}>
+          <TextField
+            type='number'
+            required
+            onChange={(e) => setPhone(e.target.value)}
+            label='Nhập SĐT để đặt lịch'
+            name='phone'
+            size='medium'
+            className='w-full mb-3'
+          />
+          <Button
+            type='submit'
+            variant='contained'
+            size='large'
+            className='w-full mb-4'
+          >
+            ĐẶT NGAY
+          </Button>
+        </form>
+
         <Typography variant='body1'>
           Hỗ trợ đặt lịch trực tiếp{' '}
           <span className='font-medium text-[#9f6e0dd4]'>

@@ -95,7 +95,7 @@ function AddNewUser(props: IProps) {
   return (
     <div className='ml-auto mr-auto text-center max-w-sm'>
       <Typography variant='h5' gutterBottom className='mb-5'>
-        Thêm mới khách hàng và tích điểm
+        Đăng ký thành viên
       </Typography>
 
       <form onSubmit={handleSubmit}>
@@ -136,7 +136,7 @@ function AddNewUser(props: IProps) {
               }));
             }}
             slotProps={{
-              textField: { size: 'small' },
+              textField: { size: 'medium' },
               field: {
                 readOnly: true,
               },

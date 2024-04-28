@@ -38,22 +38,16 @@ const Booking = (props: IBookingEntrance) => {
     }
   }, [router.query]);
 
-  const handleStartBooking = (phoneRef: any) => {
+  const handleStartBooking = (phone: string) => {
     try {
-      if (!phoneRef.current) {
-        console.log('error');
+      if (!phone || (phone && phone?.length < 8)) {
+        toast.error('Số điện thoại chưa hợp lệ, vui lòng thử lại', {
+          position: toast.POSITION.TOP_RIGHT,
+          hideProgressBar: true,
+        });
       } else {
-        const { value } = phoneRef.current;
-        if (!value || (value && value?.length < 7)) {
-          toast.error('Số điện thoại chưa hợp lệ, vui lòng thử lại', {
-            position: toast.POSITION.TOP_RIGHT,
-            hideProgressBar: true,
-          });
-          phoneRef.current.focus();
-        } else {
-          toast.dismiss();
-          router.push(`/booking?phone=${value}`);
-        }
+        toast.dismiss();
+        router.push(`/booking?phone=${phone}`);
       }
     } catch (error) {
       console.log(error);

@@ -10,7 +10,7 @@ interface IMenu {
 const MENU: IMenu[] = [
   {
     label: 'User & Tích điểm',
-    path: '/admin/tich-diem',
+    path: '/quan-ly/tich-diem',
     icon: (
       <svg
         xmlns='http://www.w3.org/2000/svg'
@@ -30,7 +30,7 @@ const MENU: IMenu[] = [
   },
   {
     label: 'Danh sách đặt lịch',
-    path: '/admin/danh-sach',
+    path: '/quan-ly/danh-sach',
     icon: (
       <svg
         xmlns='http://www.w3.org/2000/svg'
@@ -50,7 +50,7 @@ const MENU: IMenu[] = [
   },
   {
     label: 'Thống kê',
-    path: '/admin/thong-ke',
+    path: '/quan-ly/thong-ke',
     icon: (
       <svg
         xmlns='http://www.w3.org/2000/svg'
@@ -70,7 +70,7 @@ const MENU: IMenu[] = [
   },
   {
     label: 'Gói Dịch vụ',
-    path: '/admin/dich-vu',
+    path: '/quan-ly/dich-vu',
     icon: (
       <svg
         xmlns='http://www.w3.org/2000/svg'

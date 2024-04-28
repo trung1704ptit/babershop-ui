@@ -90,7 +90,7 @@ export default function LinkPointHistory() {
       </Head>
       <Header />
       {showAddUser && (
-        <div className='mt-[100px]'>
+        <div className='mt-[100px] min-h-[80vh]'>
           <AddNewUser callbackExit={handleExitAddUser} />
         </div>
       )}
@@ -111,12 +111,15 @@ export default function LinkPointHistory() {
             id='booking-box'
           >
             <div className=' max-w-md bg-white rounded-lg p-8 md:ml-auto w-full mt-10 md:mt-0 relative z-10 shadow-md mx-auto'>
-              <h2 className='text-gray-900 text-xl font-semibold title-font text-center'>
+              <Typography variant='h6' className='title-font mb-2 text-center'>
                 KIỂM TRA ĐIỂM TÍCH LŨY
-              </h2>
+              </Typography>
 
               <div>
-                <Typography className='text-slate-500 text-lg leading-relaxed mb-4 text-center'>
+                <Typography
+                  className='text-slate-500 text-lg leading-relaxed mb-4 text-center'
+                  variant='body1'
+                >
                   Nhập SĐT để kiểm tra ngay
                 </Typography>
                 <form onSubmit={onSubmit}>
@@ -146,7 +149,7 @@ export default function LinkPointHistory() {
                     variant='contained'
                     size='large'
                     type='submit'
-                    className='w-100 mb-2'
+                    className='w-100 mb-3'
                     onClick={() => getUserProfile()}
                     disabled={loadingUser}
                   >
@@ -154,7 +157,7 @@ export default function LinkPointHistory() {
                   </Button>
                 </form>
 
-                <Typography className='text-center mb-2'>Hoặc</Typography>
+                <Typography className='text-center mb-3'>hoặc</Typography>
 
                 <Button
                   variant='outlined'
@@ -180,77 +183,114 @@ interface IPropsTimeline {
 function HairCutTimeline(props: IPropsTimeline) {
   const { userData } = props;
   const currentPoints = getLastPoint(userData);
+  const [activeView, setActiveView] = useState('');
 
   return (
     <div className='text-center max-w-xl ml-auto mr-auto mt-[100px]'>
-      <h2 className='text-gray-900 text-xl font-semibold title-font text-center'>
-        KIỂM TRA ĐIỂM TÍCH LŨY
-      </h2>
+      <Typography variant='h6' className='title-font mb-2 text-center'>
+        KIỂM TRA GÓI CƯỚC & LỊCH SỬ CẮT
+      </Typography>
       <div className='mt-30 mb-30'>
         <div className='grid grid-cols-1 lg:grid-cols-2 gap-4 p-2'>
-          <div className='bg-[#0fad78] p-4 rounded-md text-white m-auto w-100'>
+          <div className='bg-[#0fad78] p-4 rounded-md text-white m-auto w-100 h-full min-h-[160px]'>
             <Typography className='text-2xl'>Tổng điểm:</Typography>
             <Typography className='text-2xl'>{currentPoints} điểm</Typography>
             <br />
-            <Typography variant='body2'>
+            <Typography variant='body2' className='mb-3'>
               Sử dụng điểm để mua các mặt hàng
             </Typography>
+            <Button
+              size='medium'
+              variant='outlined'
+              className='text-white border-white w-100'
+              onClick={() => setActiveView('history')}
+            >
+              Xem lịch sử tích điểm
+            </Button>
           </div>
 
-          <div className='bg-[#ff5370] p-4 rounded-md text-white m-auto w-100'>
-            <Typography className='text-2xl'>Gói cước 10+2:</Typography>
-            <Typography className='text-2xl'>4 lần</Typography>
-            <br />
-            <Typography variant='body2'>
-              Cần thêm 6 lần cắt nữa để có 2 lượt cắt miễn phí.
-            </Typography>
+          <div className='bg-[#ff5370] p-4 rounded-md text-white m-auto w-100 h-full min-h-[160px]'>
+            {userData.services && size(userData.services) > 0 ? (
+              <>
+                <Typography className='text-2xl'>Gói cước 10+2:</Typography>
+                <Typography className='text-2xl'>4 lần</Typography>
+                <br />
+                <Typography variant='body2' className='mb-3'>
+                  Cần thêm 6 lần cắt nữa để có 2 lượt cắt miễn phí.
+                </Typography>
+                <Button
+                  size='medium'
+                  variant='outlined'
+                  className='text-white border-white w-100'
+                  onClick={() => setActiveView('10+2')}
+                >
+                  Xem lịch sử gói 10+2
+                </Button>
+              </>
+            ) : (
+              <Typography className=''>Chưa đăng ký gói dịch vụ nào</Typography>
+            )}
           </div>
         </div>
       </div>
 
-      <Typography variant='body1' gutterBottom className='italic'>
-        Mốc thời gian cắt tóc
-      </Typography>
-      <Timeline position='alternate-reverse'>
-        {userData &&
-          userData.points &&
-          userData?.points?.map((p, index) => {
-            if (index === size(userData.points) - 1) {
-              return (
-                <TimelineItem key={p.id}>
-                  <TimelineSeparator>
-                    <TimelineDot color='success' />
-                  </TimelineSeparator>
-                  <TimelineContent>
-                    {moment(p.created_at).format('DD-MM-YYYY')}
-                    <br />
-                    <span>
-                      Lần {index + 1},{' '}
-                      <span className='text-green-600'>+10 điểm</span>
-                    </span>
-                  </TimelineContent>
-                </TimelineItem>
-              );
-            }
+      {activeView === 'history' && (
+        <>
+          <Typography variant='body1' gutterBottom>
+            Lịch sử tích điểm
+          </Typography>
+          {userData && userData.points && size(userData.points) > 0 ? (
+            <Timeline position='alternate-reverse'>
+              {userData?.points?.map((p, index) => {
+                if (index === size(userData.points) - 1) {
+                  return (
+                    <TimelineItem key={p.id}>
+                      <TimelineSeparator>
+                        <TimelineDot color='success' />
+                      </TimelineSeparator>
+                      <TimelineContent>
+                        {moment(p.created_at).format('DD-MM-YYYY')}
+                        <br />
+                        <span>
+                          Lần {index + 1},{' '}
+                          <span className='text-green-600'>+10 điểm</span>
+                        </span>
+                      </TimelineContent>
+                    </TimelineItem>
+                  );
+                }
 
-            return (
-              <TimelineItem key={p.id}>
-                <TimelineSeparator>
-                  <TimelineDot color='success' />
-                  <TimelineConnector />
-                </TimelineSeparator>
-                <TimelineContent>
-                  {moment(p.created_at).format('DD-MM-YYYY')}
-                  <br />
-                  <span>
-                    Lần {index + 1},{' '}
-                    <span className='text-green-600'>+10 điểm</span>
-                  </span>
-                </TimelineContent>
-              </TimelineItem>
-            );
-          })}
-      </Timeline>
+                return (
+                  <TimelineItem key={p.id}>
+                    <TimelineSeparator>
+                      <TimelineDot color='success' />
+                      <TimelineConnector />
+                    </TimelineSeparator>
+                    <TimelineContent>
+                      {moment(p.created_at).format('DD-MM-YYYY')}
+                      <br />
+                      <span>
+                        Lần {index + 1},{' '}
+                        <span className='text-green-600'>+10 điểm</span>
+                      </span>
+                    </TimelineContent>
+                  </TimelineItem>
+                );
+              })}
+            </Timeline>
+          ) : (
+            <Typography>Bạn hiện chưa có lần cắt nào</Typography>
+          )}
+        </>
+      )}
+
+      {activeView === '10+2' && (
+        <>
+          <Typography variant='body1' gutterBottom>
+            Gói cước 10+2
+          </Typography>
+        </>
+      )}
     </div>
   );
 }

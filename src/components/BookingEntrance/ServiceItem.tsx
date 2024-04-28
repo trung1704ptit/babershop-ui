@@ -1,3 +1,5 @@
+import { Typography } from '@mui/material';
+
 import { IServiceDataItem, IServiceItem } from './types';
 
 const ServiceItem = (props: IServiceItem) => {
@@ -14,7 +16,9 @@ const ServiceItem = (props: IServiceItem) => {
       <div className='rounded-lg border border-gray-300 flex flex-col relative overflow-hidden h-100'>
         <div className='p-3 flex flex-col justify-between h-100'>
           <div>
-            <h4 className='font-bold'>{props.data.title}</h4>
+            <Typography variant='h6' className='mb-2'>
+              {props.data.title}
+            </Typography>
             {props.data.todos.map((todo: string) => (
               <p className='flex items-baseline mb-2 text-gray-600' key={todo}>
                 <span className='w-4 h-4 mr-2 inline-flex items-center justify-center bg-[#9f6e0dd4] text-white rounded-full flex-shrink-0 fill-blue-500'>

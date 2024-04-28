@@ -1,3 +1,4 @@
+import { Button, Typography } from '@mui/material';
 import React, { useState } from 'react';
 import { toast } from 'react-toastify';
 
@@ -14,7 +15,7 @@ export default function ServicesList(props: IServicesList) {
     if (serviceSelected.length === 0) {
       toast.dismiss();
       toast.error('Quý khách chưa chọn dịch vụ nào!', {
-        position: toast.POSITION.TOP_RIGHT,
+        position: toast.POSITION.TOP_CENTER,
         hideProgressBar: true,
       });
       window.scrollTo({
@@ -51,7 +52,7 @@ export default function ServicesList(props: IServicesList) {
     <>
       <div className='container mt-[120px]'>
         <div>
-          <h3 className='text-2xl font-semibold mb-3'>
+          <Typography className='mb-3' variant='h5'>
             {props.user.name !== 'Guest' ? (
               <>
                 Mời anh{' '}
@@ -63,7 +64,7 @@ export default function ServicesList(props: IServicesList) {
             ) : (
               <>Mời quý khách chọn dịch vụ</>
             )}
-          </h3>
+          </Typography>
         </div>
 
         <div className='relative flex flex-wrap -m-2 mt-2 mb-[100px] items-stretch'>
@@ -78,14 +79,15 @@ export default function ServicesList(props: IServicesList) {
         </div>
 
         <div className='fixed flex items-center justify-center rounded-b bottom-0 left-0 w-100 bg-white p-3 shadow-lg'>
-          <button
+          <Button
             className='text-white w-full sm:w-4/12 md:6/12 bg-[#9f6e0dd4] text-whitefont-bold uppercase text-sm px-3 py-2.5 rounded shadow hover:shadow-lg outline-none focus:outline-none mb-1 ease-linear transition-all duration-150'
             type='button'
+            variant='contained'
             onClick={handleContinue}
           >
             Chọn {serviceSelected.length > 0 ? serviceSelected.length : ''} dịch
             vụ <span className='arrow_right'></span>
-          </button>
+          </Button>
         </div>
       </div>
     </>

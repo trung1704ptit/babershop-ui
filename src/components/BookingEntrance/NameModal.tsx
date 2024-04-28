@@ -1,3 +1,4 @@
+import { Button, Typography } from '@mui/material';
 import { useRouter } from 'next/router';
 import React, { useRef } from 'react';
 import { toast } from 'react-toastify';
@@ -53,12 +54,12 @@ export default function NameModal(props: INameModal) {
           >
             <div className='relative w-auto my-6 mx-auto max-w-2xl px-2 shadow-md'>
               <div className='border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none'>
-                <div className='flex items-start justify-between px-4 pt-4 pb-4 rounded-t bg-[#f1f1f1]'>
-                  <h2 className='text-gray-900 text-xl font-semibold title-font m-0'>
-                    Chào mừng anh đến với ROY Barber Shop
-                  </h2>
+                <div className='flex items-start justify-between px-3 pt-3 pb-3 rounded-t bg-[#f1f1f1]'>
+                  <Typography variant='h6' className='title-font text-center'>
+                    Đặt lịch ROY Barber Shop
+                  </Typography>
                   <button
-                    className='p-1 ml-auto bg-transparent border-0 text-black opacity-100 float-right absolute top-1 right-2 text-3xl leading-none font-semibold outline-none focus:outline-none'
+                    className='p-1 ml-auto cursor-pointer bg-transparent border-0 text-black opacity-100 float-right absolute top-1 right-2 text-3xl leading-none font-semibold outline-none focus:outline-none'
                     onClick={handleCancel}
                   >
                     <span className='bg-transparent text-black opacity-100 h-6 w-6 text-2xl block outline-none focus:outline-none'>
@@ -82,20 +83,21 @@ export default function NameModal(props: INameModal) {
                 </div>
 
                 <div className='flex items-center justify-end p-4 md:p-10 rounded-b'>
-                  <button
-                    className='text-red-500 background-transparent font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150'
+                  <Button
                     type='button'
                     onClick={handleSkip}
+                    variant='outlined'
+                    className='mr-2'
                   >
                     Bỏ qua
-                  </button>
-                  <button
-                    className='bg-[#9f6e0dd4] text-white  font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150'
+                  </Button>
+                  <Button
                     type='button'
                     onClick={handleContinue}
+                    variant='contained'
                   >
                     Tiếp tục
-                  </button>
+                  </Button>
                 </div>
               </div>
             </div>

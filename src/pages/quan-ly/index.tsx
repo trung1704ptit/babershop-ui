@@ -4,7 +4,7 @@ import { useEffect } from 'react';
 const BookingListPage = () => {
   const router = useRouter();
   useEffect(() => {
-    router.push('/admin/tich-diem');
+    router.push('/quan-ly/tich-diem');
   }, [router]);
 
   return null;
