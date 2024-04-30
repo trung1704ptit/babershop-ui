@@ -1,9 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import CloseIcon from '@mui/icons-material/Close';
-import SaveIcon from '@mui/icons-material/Save';
-import { Button, Stack, TextField, Typography } from '@mui/material';
+import { Button, Stack, Switch, TextField, Typography } from '@mui/material';
 import AppBar from '@mui/material/AppBar';
-import Checkbox from '@mui/material/Checkbox';
 import Dialog from '@mui/material/Dialog';
 import Divider from '@mui/material/Divider';
 import FormControlLabel from '@mui/material/FormControlLabel';
@@ -18,7 +16,7 @@ import dayjs from 'dayjs';
 import { ChangeEvent, forwardRef, useState } from 'react';
 import { toast } from 'react-toastify';
 
-import { IUserData } from '.';
+import { IService, IUserData } from '.';
 import api from '../../utils/api';
 
 interface INewUserProps {
@@ -31,6 +29,7 @@ interface INewUserProps {
 interface IProps {
   callbackExit: () => void;
   userData: IUserData;
+  services?: IService[];
 }
 
 const Transition = forwardRef(function Transition(
@@ -181,35 +180,21 @@ function UpdateUserInfo(props: IProps) {
             size='small'
             type='submit'
             disabled={loadingUpdateUser}
-            startIcon={<SaveIcon />}
           >
             Cập nhật thông tin
           </Button>
         </form>
         <Divider className='mt-4' />
 
-        <Typography variant='h6' gutterBottom className='mb-3 mt-6'>
-          Dịch vụ
-        </Typography>
-        <div className='text-left'>
-          <FormControlLabel
-            control={<Checkbox defaultChecked />}
-            label='Gói cước 10+2'
-            className='w-100'
-          />
-          <Button
-            variant='outlined'
-            className='w-50'
-            size='small'
-            type='submit'
-            disabled={loadingUpdateUser}
-            startIcon={<SaveIcon />}
-          >
-            Cập nhật dịch vụ
-          </Button>
-        </div>
-
-        <Divider className='mt-4' />
+        {props.services && (
+          <>
+            <ServiceSection
+              services={props.services}
+              userData={props.userData}
+            />
+            <Divider className='mt-4' />
+          </>
+        )}
 
         <Typography variant='h6' gutterBottom className='mb-3 mt-6'>
           Sử dụng điểm
@@ -245,7 +230,6 @@ function UpdateUserInfo(props: IProps) {
               size='small'
               type='submit'
               disabled={loadingUpdateUser}
-              startIcon={<SaveIcon />}
             >
               Cập nhật điểm
             </Button>
@@ -267,5 +251,95 @@ function UpdateUserInfo(props: IProps) {
     </Dialog>
   );
 }
+
+interface IServiceSectionProps {
+  services: IService[];
+  userData: IUserData;
+}
+
+type SwitchStateType = {
+  [key: string]: boolean;
+};
+
+const ServiceSection = (props: IServiceSectionProps) => {
+  const [serviceChecked, setServicesChecked] = useState<SwitchStateType>({});
+
+  const onChangeService = (checked: boolean, id: string) => {
+    setServicesChecked((prevData) => ({
+      ...prevData,
+      [id]: checked,
+    }));
+  };
+
+  const handleSave = async () => {
+    Object.keys(serviceChecked).forEach(async (key: string) => {
+      const val = serviceChecked[key];
+      try {
+        if (val) {
+          await api.post('/api/services/user-service', {
+            user_id: props.userData.id,
+            service_id: key,
+          });
+        } else {
+          await api.delete(
+            `/api/services/user-service/${props.userData.id}_${key}`
+          );
+        }
+        toast.success('Cập nhật dịch vụ thành công', {
+          position: toast.POSITION.TOP_CENTER,
+          hideProgressBar: true,
+        });
+      } catch (error) {
+        console.log(error);
+        toast.error(
+          'Cập nhật dịch vụ không thành công, vui lòng thử lại sau.',
+          {
+            position: toast.POSITION.TOP_CENTER,
+            hideProgressBar: true,
+          }
+        );
+      }
+    });
+  };
+
+  if (!props.services) {
+    return null;
+  }
+
+  return (
+    <>
+      <Typography variant='h6' gutterBottom className='mb-3 mt-6'>
+        Dịch vụ
+      </Typography>
+      <div className='text-left'>
+        <div>
+          {props?.services?.map((s: IService) => (
+            <FormControlLabel
+              key={s.id}
+              control={
+                <Switch
+                  onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                    onChangeService(e.target.checked, s.id)
+                  }
+                />
+              }
+              label={s.name}
+            />
+          ))}
+        </div>
+
+        <Button
+          variant='outlined'
+          className='w-50'
+          size='small'
+          type='submit'
+          onClick={handleSave}
+        >
+          Cập nhật dịch vụ
+        </Button>
+      </div>
+    </>
+  );
+};
 
 export default UpdateUserInfo;

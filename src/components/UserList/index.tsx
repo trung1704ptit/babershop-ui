@@ -115,7 +115,7 @@ const UserList = () => {
   const [userToUpdate, setUserToUpdate] = useState<IUserData>();
   const [userToDelete, setUserToDelete] = useState<IUserData>();
   const [loading, setLoading] = useState(false);
-
+  const [services, setServices] = useState<IService[]>();
   const handleChangePage = (_: unknown, newPage: number) => {
     setPage(newPage);
   };
@@ -174,8 +174,21 @@ const UserList = () => {
     }
   };
 
+  const fetchServiceList = async () => {
+    try {
+      const res = await api.get('/api/services');
+      if (res && res.status == 200) {
+        const services = res.data.data;
+        setServices(services);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   useEffect(() => {
     fetchUserList();
+    fetchServiceList();
   }, []);
 
   const handleAddUserDone = () => {
@@ -234,6 +247,7 @@ const UserList = () => {
             fetchUserList();
           }}
           userData={userToUpdate}
+          services={services}
         />
       )}
 
