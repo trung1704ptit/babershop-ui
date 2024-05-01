@@ -39,23 +39,32 @@ const Header = ({ position }: IHeaderProps) => {
           <div className='menu-wrap align-items-center'>
             <div id='mainmenu' className='mainmenu'>
               <ul className='nav'>
-                <li>
-                  <Link className='nav-link active' href='/#gioi-thieu'>
-                    Giới thiệu
-                  </Link>
-                </li>
-                <li>
-                  <a href='/#dich-vu'>Dịch vụ</a>
-                </li>
-                <li>
-                  <a href='/#bang-gia'>Bảng giá</a>
-                </li>
-                <li>
-                  <a href='/#san-pham'>Sản phẩm</a>
-                </li>
-                <li>
-                  <a href='/#dia-chi'>Địa chỉ</a>
-                </li>
+                {isLoggedIn ? (
+                  <li>
+                    <Link href='/quan-ly/tich-diem'>Quản lý</Link>
+                  </li>
+                ) : (
+                  <>
+                    <li>
+                      <Link className='nav-link active' href='/#gioi-thieu'>
+                        Giới thiệu
+                      </Link>
+                    </li>
+                    <li>
+                      <a href='/#dich-vu'>Dịch vụ</a>
+                    </li>
+                    <li>
+                      <a href='/#bang-gia'>Bảng giá</a>
+                    </li>
+                    <li>
+                      <a href='/#san-pham'>Sản phẩm</a>
+                    </li>
+                    <li>
+                      <a href='/#dia-chi'>Địa chỉ</a>
+                    </li>
+                  </>
+                )}
+
                 <li>
                   <Link href='/tich-diem' className='cursor-pointer rounded'>
                     Tích điểm
@@ -156,31 +165,45 @@ const MobileMenu = (props: IMobileProps) => {
     <>
       <div className='bg-white absolute top-full left-0 w-full z-10 p-2 pb-4'>
         <ul className='text-black'>
-          <li onClick={props.handleClick}>
-            <Link className='nav-link active text-black' href='/#gioi-thieu'>
-              Giới thiệu
-            </Link>
-          </li>
-          <li onClick={props.handleClick}>
-            <a href='/#dich-vu' className='nav-link text-black'>
-              Dịch vụ
-            </a>
-          </li>
-          <li onClick={props.handleClick}>
-            <a href='/#bang-gia' className='nav-link text-black'>
-              Bảng giá
-            </a>
-          </li>
-          <li onClick={props.handleClick}>
-            <a href='/#san-pham' className='nav-link text-black'>
-              Sản phẩm
-            </a>
-          </li>
-          <li onClick={props.handleClick}>
-            <a href='/#dia-chi' className='nav-link text-black'>
-              Địa chỉ
-            </a>
-          </li>
+          {props.isLoggedIn ? (
+            <li>
+              <Link href='/quan-ly/tich-diem' className='nav-link text-black'>
+                Quản lý
+              </Link>
+            </li>
+          ) : (
+            <>
+              <li onClick={props.handleClick}>
+                <Link
+                  className='nav-link active text-black'
+                  href='/#gioi-thieu'
+                >
+                  Giới thiệu
+                </Link>
+              </li>
+              <li onClick={props.handleClick}>
+                <a href='/#dich-vu' className='nav-link text-black'>
+                  Dịch vụ
+                </a>
+              </li>
+              <li onClick={props.handleClick}>
+                <a href='/#bang-gia' className='nav-link text-black'>
+                  Bảng giá
+                </a>
+              </li>
+              <li onClick={props.handleClick}>
+                <a href='/#san-pham' className='nav-link text-black'>
+                  Sản phẩm
+                </a>
+              </li>
+              <li onClick={props.handleClick}>
+                <a href='/#dia-chi' className='nav-link text-black'>
+                  Địa chỉ
+                </a>
+              </li>
+            </>
+          )}
+
           <li>
             <a href='/tich-diem' className='nav-link text-black'>
               Tích điểm

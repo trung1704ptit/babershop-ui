@@ -261,6 +261,16 @@ type SwitchStateType = {
   [key: string]: boolean;
 };
 
+const getDefaultChecked = (id: string, services?: IService[]) => {
+  if (!services) return false;
+  const service = services.find((item) => item.id === id);
+
+  if (service) {
+    return true;
+  }
+  return false;
+};
+
 const ServiceSection = (props: IServiceSectionProps) => {
   const [serviceChecked, setServicesChecked] = useState<SwitchStateType>({});
 
@@ -321,6 +331,10 @@ const ServiceSection = (props: IServiceSectionProps) => {
                   onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                     onChangeService(e.target.checked, s.id)
                   }
+                  defaultChecked={getDefaultChecked(
+                    s.id,
+                    props.userData.services
+                  )}
                 />
               }
               label={s.name}

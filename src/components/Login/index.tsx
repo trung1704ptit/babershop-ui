@@ -24,7 +24,7 @@ const Login = () => {
           password: password,
         });
         if (res && res?.data?.status == 'success') {
-          window.location.href = '/quan-ly';
+          window.location.href = '/quan-ly/tich-diem';
         }
       } catch (error) {
         if (
