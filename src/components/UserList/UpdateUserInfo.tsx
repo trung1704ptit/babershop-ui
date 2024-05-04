@@ -176,7 +176,7 @@ function UpdateUserInfo(props: IProps) {
           />
 
           <Button
-            variant='outlined'
+            variant='contained'
             className='w-50'
             size='small'
             type='submit'
@@ -222,7 +222,7 @@ function UpdateUserInfo(props: IProps) {
             />
 
             <Button
-              variant='outlined'
+              variant='contained'
               className='w-100'
               size='small'
               type='submit'

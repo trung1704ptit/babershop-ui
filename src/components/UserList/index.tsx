@@ -106,7 +106,7 @@ export interface IUserData {
   phone: string;
   birthday: string;
   services?: IService[];
-  user_services_history: IServiceHistory[];
+  services_history: IServiceHistory[];
   points?: IPoint[];
   email?: string;
   role?: string;
@@ -133,11 +133,11 @@ const UserList = () => {
 
   if (usersFilter) {
     usersFilter.forEach((u) => {
-      const { services, user_services_history } = u;
+      const { services, services_history } = u;
       services?.forEach((s) => {
         if (s.name.includes('10+2')) {
           s['count'] =
-            user_services_history[user_services_history.length - 1]?.count || 0;
+            services_history[services_history.length - 1]?.count || 0;
         }
       });
     });

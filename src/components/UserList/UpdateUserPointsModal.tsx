@@ -31,7 +31,7 @@ export default function UpdateUserPointsModal(props: IProps) {
 
     const { services } = props.userData;
     const tenPlusService = services?.find((s) => s.name.includes('10+2'));
-    const sHistoryList = props.userData.user_services_history;
+    const sHistoryList = props.userData.services_history;
     const lastHistoryCount = sHistoryList[sHistoryList.length - 1]?.count || 0;
 
     return (

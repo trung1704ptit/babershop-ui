@@ -1,3 +1,4 @@
+import DoneIcon from '@mui/icons-material/Done';
 import Timeline from '@mui/lab/Timeline';
 import TimelineConnector from '@mui/lab/TimelineConnector';
 import TimelineContent from '@mui/lab/TimelineContent';
@@ -185,6 +186,8 @@ function HairCutTimeline(props: IPropsTimeline) {
   const currentPoints = getLastPoint(userData);
   const [activeView, setActiveView] = useState('');
 
+  const sHistory = userData.services_history;
+
   return (
     <div className='text-center max-w-xl ml-auto mr-auto mt-[100px]'>
       <Typography variant='h6' className='title-font mb-2 text-center'>
@@ -287,8 +290,76 @@ function HairCutTimeline(props: IPropsTimeline) {
       {activeView === '10+2' && (
         <>
           <Typography variant='body1' gutterBottom>
-            Gói cước 10+2
+            Lịch sử cắt gói 10+2
           </Typography>
+          {userData && sHistory && size(sHistory) > 0 ? (
+            <Timeline position='alternate-reverse'>
+              {[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11].map((index) => {
+                if (index == 11) {
+                  return (
+                    <TimelineItem key={index}>
+                      <TimelineSeparator>
+                        <TimelineDot color='success' />
+                      </TimelineSeparator>
+                      <TimelineContent>
+                        {sHistory.length > index
+                          ? moment(sHistory[index]?.created_at).format(
+                              'DD-MM-YYYY'
+                            )
+                          : ''}
+                        <br />
+                        <span>
+                          Lần {index + 1},{' '}
+                          <span>
+                            {sHistory[index]?.created_at ? '+1' : 'Chưa cắt'}
+                          </span>
+                          <br />
+                          <span className='text-green-600'>Miễn phí</span>
+                        </span>
+                      </TimelineContent>
+                    </TimelineItem>
+                  );
+                }
+                return (
+                  <TimelineItem key={index}>
+                    <TimelineSeparator>
+                      <TimelineConnector />
+                      <TimelineDot
+                        color={sHistory[index]?.created_at ? `success` : 'grey'}
+                      >
+                        <DoneIcon />
+                      </TimelineDot>
+                      <TimelineConnector />
+                    </TimelineSeparator>
+                    <TimelineContent>
+                      {sHistory.length > index
+                        ? moment(sHistory[index]?.created_at).format(
+                            'DD-MM-YYYY'
+                          )
+                        : ''}
+                      <br />
+                      <span>
+                        Lần {index + 1},
+                        <span>
+                          {sHistory[index]?.created_at
+                            ? ' Đã cắt'
+                            : ' Chưa cắt'}
+                        </span>
+                        {index == 10 && (
+                          <>
+                            <br />
+                            <span className='text-green-600'>Miễn phí</span>
+                          </>
+                        )}
+                      </span>
+                    </TimelineContent>
+                  </TimelineItem>
+                );
+              })}
+            </Timeline>
+          ) : (
+            <Typography>Bạn hiện chưa có lần cắt nào</Typography>
+          )}
         </>
       )}
     </div>
