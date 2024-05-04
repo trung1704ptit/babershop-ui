@@ -83,7 +83,7 @@ export default function UpdateUserPointsModal(props: IProps) {
               </div>
             ) : (
               <>
-                {lastHistoryCount + 1 >= 11 && (
+                {lastHistoryCount + 1 < 11 && (
                   <>
                     <Typography variant='body1'>
                       Cập nhật <span className='text-green-600'>+10 điểm</span>{' '}

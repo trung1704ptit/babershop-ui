@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import CloseIcon from '@mui/icons-material/Close';
+import DeleteIcon from '@mui/icons-material/Delete';
 import { Button, Stack, Switch, TextField, Typography } from '@mui/material';
 import AppBar from '@mui/material/AppBar';
 import Dialog from '@mui/material/Dialog';
@@ -121,7 +122,7 @@ function UpdateUserInfo(props: IProps) {
           </Typography>
         </Toolbar>
       </AppBar>
-      <div className='ml-auto mr-auto max-w-sm'>
+      <div className='ml-auto mr-auto max-w-md p-2'>
         <form onSubmit={handleSubmitUpdateUserInfo} className='mt-20'>
           <TextField
             id='outlined-basic'
@@ -187,14 +188,10 @@ function UpdateUserInfo(props: IProps) {
         <Divider className='mt-4' />
 
         {props.services && (
-          <>
-            <ServiceSection
-              services={props.services}
-              userData={props.userData}
-            />
-            <Divider className='mt-4' />
-          </>
+          <ServiceSection services={props.services} userData={props.userData} />
         )}
+
+        <Divider className='mt-4 mb-4' />
 
         <Typography variant='h6' gutterBottom className='mb-3 mt-6'>
           Sử dụng điểm
@@ -240,7 +237,7 @@ function UpdateUserInfo(props: IProps) {
 
         <Button
           variant='outlined'
-          className='w-100'
+          className='w-100 mb-4'
           size='medium'
           onClick={props.callbackExit}
           startIcon={<CloseIcon />}
@@ -273,6 +270,50 @@ const getDefaultChecked = (id: string, services?: IService[]) => {
 
 const ServiceSection = (props: IServiceSectionProps) => {
   const [serviceChecked, setServicesChecked] = useState<SwitchStateType>({});
+
+  const handleClearServiceHistory = async () => {
+    try {
+      const res = await api.delete(
+        `/api/services/history/${props.userData.id}`
+      );
+      if (res?.status === 204) {
+        toast.success(
+          `Đã xóa lịch sử gói 10+2 của khách hàng ${props.userData.name}.`,
+          {
+            position: toast.POSITION.TOP_CENTER,
+            hideProgressBar: true,
+          }
+        );
+      }
+    } catch (error) {
+      console.log(error);
+      toast.error('Đã có lỗi xảy ra, vui lòng thử lại.', {
+        position: toast.POSITION.TOP_CENTER,
+        hideProgressBar: true,
+      });
+    }
+  };
+
+  const handleClearPointsHistory = async () => {
+    try {
+      const res = await api.delete(`/api/points/history/${props.userData.id}`);
+      if (res?.status === 204) {
+        toast.success(
+          `Đã xóa lịch cắt tóc của khách hàng ${props.userData.name}.`,
+          {
+            position: toast.POSITION.TOP_CENTER,
+            hideProgressBar: true,
+          }
+        );
+      }
+    } catch (error) {
+      console.log(error);
+      toast.error('Đã có lỗi xảy ra, vui lòng thử lại.', {
+        position: toast.POSITION.TOP_CENTER,
+        hideProgressBar: true,
+      });
+    }
+  };
 
   const onChangeService = (checked: boolean, id: string) => {
     setServicesChecked((prevData) => ({
@@ -343,14 +384,38 @@ const ServiceSection = (props: IServiceSectionProps) => {
         </div>
 
         <Button
-          variant='outlined'
-          className='w-50'
+          variant='contained'
+          className='w-100 mb-4'
           size='small'
           type='submit'
           onClick={handleSave}
         >
           Cập nhật dịch vụ
         </Button>
+
+        <Stack direction='row' gap={2}>
+          <Button
+            variant='outlined'
+            color='error'
+            className='w-100'
+            size='small'
+            onClick={handleClearServiceHistory}
+            startIcon={<DeleteIcon />}
+          >
+            Xóa lịch sử gói 10+2
+          </Button>
+
+          <Button
+            variant='outlined'
+            className='w-100'
+            size='small'
+            onClick={handleClearPointsHistory}
+            color='error'
+            startIcon={<DeleteIcon />}
+          >
+            Xóa lịch sử cắt tóc
+          </Button>
+        </Stack>
       </div>
     </>
   );
