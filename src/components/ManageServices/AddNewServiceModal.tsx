@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import AddIcon from '@mui/icons-material/Add';
 import CloseIcon from '@mui/icons-material/Close';
-import PersonAddIcon from '@mui/icons-material/PersonAdd';
 import { Button, Stack, TextField, Typography } from '@mui/material';
 import { ChangeEvent, useState } from 'react';
 import { toast } from 'react-toastify';
@@ -181,7 +181,7 @@ function AddNewUser(props: IProps) {
             size='large'
             type='submit'
             disabled={loading}
-            startIcon={<PersonAddIcon />}
+            startIcon={<AddIcon />}
           >
             Thêm mới
           </Button>

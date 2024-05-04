@@ -61,7 +61,7 @@ export default function DeleteUserModal(props: IProps) {
           )}
         </DialogContentText>
       </DialogContent>
-      <DialogActions>
+      <DialogActions className='p-3'>
         {success ? (
           <>
             <Button
