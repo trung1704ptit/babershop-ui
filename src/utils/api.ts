@@ -2,6 +2,8 @@
 import axios from 'axios';
 import cookie from 'js-cookie';
 
+const UNAUTH_MESSAGE = 'the user belonging to this token no logger exists'
+
 const api = () => {
   const defaultOptions = {
     baseURL: process.env.NEXT_PUBLIC_APP_API_PATH,
@@ -36,7 +38,7 @@ const api = () => {
       const originalRequest = error.config;
 
       // Check if the error is due to an expired access token
-      if (error.response && error.response.status === 401 && !originalRequest._retry) {
+      if ((error.response && error.response.status === 401 || error.response.status == 403 && error.response.data.message === UNAUTH_MESSAGE) && !originalRequest._retry) {
         if (isRefreshing) {
           try {
             // Wait for token refresh and retry the original request

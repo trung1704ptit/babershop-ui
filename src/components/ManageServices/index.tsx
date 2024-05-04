@@ -58,14 +58,14 @@ const columns: readonly Column[] = [
 ];
 
 export interface IService {
-  id: string;
+  id?: string;
   name: string;
   image: string;
   price: number;
   price_text: string;
   description?: string;
-  created_at: string;
-  updated_at: string;
+  created_at?: string;
+  updated_at?: string;
 }
 
 const ServiceList = () => {

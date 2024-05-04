@@ -1,5 +1,6 @@
+import { Button } from '@mui/material';
 import { useRouter } from 'next/router';
-import { useEffect, useState } from 'react';
+import { useLayoutEffect, useState } from 'react';
 
 interface IMenu {
   path: string;
@@ -92,32 +93,32 @@ const MENU: IMenu[] = [
 
 export const Sidebar = () => {
   const router = useRouter();
-  const [activePath, setActivePath] = useState(MENU[0]?.path);
+  const [activePath, setActivePath] = useState('');
 
   const handleChangeRoute = (nextPath: string) => {
     router.push(nextPath);
     setActivePath(nextPath);
   };
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     setActivePath(router.pathname);
   }, [router]);
 
   return (
-    <aside className='w-[280px] bg-black'>
+    <aside className='w-[280px] bg-[#222227] border-top'>
       <div className='w-full h-full p-3'>
         <div>
           <ul>
             {MENU.map((menu: IMenu) => (
-              <li
-                className={`p-2 flex mb-2 rounded cursor-pointer ${
-                  activePath?.includes(menu.path) ? 'active-btn' : ''
-                }`}
-                key={menu.path}
-                onClick={() => handleChangeRoute(menu.path)}
-              >
-                <div className='mr-2 h-[20px]'>{menu.icon}</div>
-                {menu.label}
+              <li key={menu.path} onClick={() => handleChangeRoute(menu.path)}>
+                <Button
+                  className='w-full text-align-left text-white'
+                  variant={
+                    activePath?.includes(menu.path) ? 'contained' : 'text'
+                  }
+                >
+                  {menu.label}
+                </Button>
               </li>
             ))}
           </ul>

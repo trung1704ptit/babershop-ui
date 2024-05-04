@@ -1,26 +1,23 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import CloseIcon from '@mui/icons-material/Close';
-import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import PersonAddIcon from '@mui/icons-material/PersonAdd';
 import { Button, Stack, TextField, Typography } from '@mui/material';
-import { styled } from '@mui/material/styles';
 import { ChangeEvent, useState } from 'react';
 import { toast } from 'react-toastify';
 
 import api from '../../utils/api';
-import { MESSAGES } from '../../utils/constants';
 
-const VisuallyHiddenInput = styled('input')({
-  clip: 'rect(0 0 0 0)',
-  clipPath: 'inset(50%)',
-  height: 1,
-  overflow: 'hidden',
-  position: 'absolute',
-  bottom: 0,
-  left: 0,
-  whiteSpace: 'nowrap',
-  width: 1,
-});
+// const VisuallyHiddenInput = styled('input')({
+//   clip: 'rect(0 0 0 0)',
+//   clipPath: 'inset(50%)',
+//   height: 1,
+//   overflow: 'hidden',
+//   position: 'absolute',
+//   bottom: 0,
+//   left: 0,
+//   whiteSpace: 'nowrap',
+//   width: 1,
+// });
 
 interface INewUserProps {
   name: string;
@@ -39,8 +36,8 @@ function AddNewUser(props: IProps) {
 
   const [formData, setFormData] = useState<INewUserProps>({
     name: '',
-    image: '',
-    price: 0,
+    image: 'default.png',
+    price: 0.0,
     price_text: '',
     description: '',
   });
@@ -53,7 +50,7 @@ function AddNewUser(props: IProps) {
       .post('api/services', formData)
       .then((res) => {
         if (res?.data?.status === 'success') {
-          toast.success(MESSAGES.REGISTER_USER_SUCCESS_VI, {
+          toast.success('Thêm mới dịch vụ thành công', {
             position: toast.POSITION.TOP_CENTER,
             hideProgressBar: true,
           });
@@ -61,15 +58,8 @@ function AddNewUser(props: IProps) {
           props.callbackExit();
         }
       })
-      .catch((error) => {
-        let errorMessage = MESSAGES.COMMON_ERROR_VI;
-        if (
-          error?.response?.data?.message == MESSAGES.REGISTER_USER_EXISTS_EN
-        ) {
-          errorMessage = MESSAGES.REGISTER_USER_EXISTS_VI;
-        }
-
-        toast.error(errorMessage, {
+      .catch(() => {
+        toast.error('Thêm mới dịch vụ không thành công', {
           position: toast.POSITION.TOP_CENTER,
           hideProgressBar: true,
         });
@@ -82,7 +72,7 @@ function AddNewUser(props: IProps) {
     const { name, value } = e.target;
     setFormData((prevData) => ({
       ...prevData,
-      [name]: value,
+      [name]: name == 'price' ? parseFloat(value) : value,
     }));
   };
 
@@ -94,9 +84,9 @@ function AddNewUser(props: IProps) {
     }
   };
 
-  const handleUploadImage = () => {
-    // console.log(event.target.files[0]);
-  };
+  // const handleUploadImage = () => {
+  //   // console.log(event.target.files[0]);
+  // };
 
   // const onFileUpload = () => {
   //   // Create an object of formData
@@ -131,7 +121,7 @@ function AddNewUser(props: IProps) {
           onChange={handleChange}
         />
 
-        <Button
+        {/* <Button
           component='label'
           className='mb-3'
           size='large'
@@ -142,7 +132,7 @@ function AddNewUser(props: IProps) {
         >
           Tải lên hình ảnh
           <VisuallyHiddenInput type='file' onChange={handleUploadImage} />
-        </Button>
+        </Button> */}
 
         <TextField
           id='outlined-basic'
@@ -160,7 +150,7 @@ function AddNewUser(props: IProps) {
           label='Giá viết tắt'
           variant='outlined'
           className='w-full mb-3'
-          type='email'
+          type='text'
           name='price_text'
           onChange={handleChange}
         />
@@ -170,7 +160,7 @@ function AddNewUser(props: IProps) {
           label='Mô tả'
           variant='outlined'
           className='w-full mb-3'
-          type='email'
+          type='text'
           name='description'
           onChange={handleChange}
         />

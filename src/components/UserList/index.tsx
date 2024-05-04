@@ -55,13 +55,13 @@ const columns: readonly Column[] = [
     minWidth: 50,
   },
   {
-    id: 'email',
-    label: 'Email',
+    id: 'services',
+    label: 'Dịch vụ',
     minWidth: 170,
   },
   {
-    id: 'services',
-    label: 'Dịch vụ',
+    id: 'email',
+    label: 'Email',
     minWidth: 170,
   },
   {
