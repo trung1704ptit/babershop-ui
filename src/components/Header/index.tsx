@@ -86,7 +86,8 @@ const Header = ({ position }: IHeaderProps) => {
                 variant='outlined'
                 className='ml-2 text-white'
                 onClick={async () => {
-                  await api.get('/api/auth/logout');
+                  cookie?.remove('logged_in');
+                  api.get('/api/auth/logout');
                   router.push('/');
                 }}
               >

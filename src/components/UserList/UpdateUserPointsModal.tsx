@@ -45,7 +45,7 @@ export default function UpdateUserPointsModal(props: IProps) {
             try {
               setLoading(true);
               setError(false);
-              if (lastHistoryCount != 12 && lastHistoryCount != 11) {
+              if (lastHistoryCount + 1 != 10 && lastHistoryCount + 1 != 11) {
                 await api.post('/api/points', {
                   user_id: props.userData.id,
                 });
@@ -83,7 +83,7 @@ export default function UpdateUserPointsModal(props: IProps) {
               </div>
             ) : (
               <>
-                {lastHistoryCount + 1 < 11 && (
+                {lastHistoryCount + 1 != 10 && lastHistoryCount + 1 != 11 && (
                   <>
                     <Typography variant='body1'>
                       Cập nhật <span className='text-green-600'>+10 điểm</span>{' '}

@@ -38,7 +38,7 @@ const api = () => {
       const originalRequest = error.config;
 
       // Check if the error is due to an expired access token
-      if ((error.response && error.response.status === 401 || error.response.status == 403 && error.response.data.message === UNAUTH_MESSAGE) && !originalRequest._retry) {
+      if ((error.response && error?.response?.status === 401 || error?.response?.status == 403 && error?.response?.data?.message === UNAUTH_MESSAGE) && !originalRequest._retry) {
         if (isRefreshing) {
           try {
             // Wait for token refresh and retry the original request
