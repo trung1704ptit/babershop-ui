@@ -199,7 +199,7 @@ function HairCutTimeline(props: IPropsTimeline) {
             <Typography className='text-2xl'>Tổng điểm:</Typography>
             <Typography className='text-2xl'>{currentPoints} điểm</Typography>
             <br />
-            <Typography variant='body2' className='mb-3'>
+            <Typography variant='body2' className='mb-3 min-h-[40px]'>
               Sử dụng điểm để mua các mặt hàng
             </Typography>
             <Button
@@ -216,10 +216,17 @@ function HairCutTimeline(props: IPropsTimeline) {
             {userData.services && size(userData.services) > 0 ? (
               <>
                 <Typography className='text-2xl'>Gói cước 10+2:</Typography>
-                <Typography className='text-2xl'>4 lần</Typography>
+                <Typography className='text-2xl'>
+                  {size(userData.services_history)} lần
+                </Typography>
                 <br />
-                <Typography variant='body2' className='mb-3'>
-                  Cần thêm 6 lần cắt nữa để có 2 lượt cắt miễn phí.
+                <Typography variant='body2' className='mb-3 min-h-[40px]'>
+                  {size(userData.services_history) >= 10
+                    ? 'Gói cước 10+2 đã kết thúc'
+                    : ` Cần thêm ${
+                        10 - size(userData.services_history)
+                      } lần cắt nữa để
+                  có 2 lượt cắt miễn phí.`}
                 </Typography>
                 <Button
                   size='medium'
@@ -256,7 +263,9 @@ function HairCutTimeline(props: IPropsTimeline) {
                         <br />
                         <span>
                           Lần {index + 1},{' '}
-                          <span className='text-green-600'>+10 điểm</span>
+                          <span className='text-green-600'>
+                            Tổng điểm: {p.points}
+                          </span>
                         </span>
                       </TimelineContent>
                     </TimelineItem>
@@ -274,7 +283,9 @@ function HairCutTimeline(props: IPropsTimeline) {
                       <br />
                       <span>
                         Lần {index + 1},{' '}
-                        <span className='text-green-600'>+10 điểm</span>
+                        <span className='text-green-600'>
+                          Tổng điểm: {p.points}
+                        </span>
                       </span>
                     </TimelineContent>
                   </TimelineItem>

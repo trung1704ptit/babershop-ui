@@ -51,6 +51,7 @@ function UpdateUserInfo(props: IProps) {
     birthday: props.userData.birthday,
     phone: props.userData.phone,
   });
+  const [usePoints, setUsePoints] = useState(0);
   const handleSubmitUpdateUserInfo = (e: React.FormEvent) => {
     e.preventDefault();
 
@@ -98,6 +99,26 @@ function UpdateUserInfo(props: IProps) {
       ...prevData,
       birthday: newdate.$d.toISOString(),
     }));
+  };
+
+  const onSubmitUsePoints = async (e: React.FormEvent) => {
+    e.preventDefault();
+    try {
+      await api.post('/api/points', {
+        user_id: props.userData.id,
+        use_points: usePoints,
+      });
+      toast.success('Sử dụng điểm thành công.', {
+        position: toast.POSITION.TOP_CENTER,
+        hideProgressBar: true,
+      });
+    } catch (error) {
+      console.log(error);
+      toast.error('Đã có lỗi xảy ra, vui lòng thử lại sau.', {
+        position: toast.POSITION.TOP_CENTER,
+        hideProgressBar: true,
+      });
+    }
   };
 
   return (
@@ -198,15 +219,17 @@ function UpdateUserInfo(props: IProps) {
         </Typography>
         <Typography variant='body2' className='w-full mb-2'>
           Số điểm hiện tại:{' '}
-          {props?.userData?.points
-            ? props?.userData?.points[props?.userData?.points?.length - 1]
-                ?.points
-            : 0}
+          <strong>
+            {props?.userData?.points
+              ? props?.userData?.points[props?.userData?.points?.length - 1]
+                  ?.points
+              : 0}
+          </strong>
         </Typography>
         <Typography variant='body2' className='w-full italic mb-3'>
-          Nhập vào số điểm để trừ đi. Số nhập vào phải nhỏ hơn số điểm hiện tại
+          Số điểm nhập vào không đươc lớn hơn số điểm hiện tại.
         </Typography>
-        <form>
+        <form onSubmit={onSubmitUsePoints}>
           <Stack direction='row' gap={2}>
             <TextField
               id='outlined-basic'
@@ -215,10 +238,11 @@ function UpdateUserInfo(props: IProps) {
               className='w-100'
               required
               size='small'
-              name='name'
+              name='use_points'
               type='number'
-              onChange={handleChange}
-              defaultValue={props?.userData?.name}
+              onChange={(e: ChangeEvent<HTMLInputElement>) =>
+                setUsePoints(parseInt(e.target.value))
+              }
             />
 
             <Button
