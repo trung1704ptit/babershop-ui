@@ -24,6 +24,7 @@ import AddNewUser from './AddNewUser';
 import DeleteUserModal from './DeleteUserModal';
 import UpdateUserInfo from './UpdateUserInfo';
 import UpdateUserPointsModal from './UpdateUserPointsModal';
+import useMobile from '../../hooks/useMobile';
 import api from '../../utils/api';
 
 interface Column {
@@ -127,6 +128,7 @@ const UserList = () => {
   const [userToDelete, setUserToDelete] = useState<IUserData>();
   const [loading, setLoading] = useState(false);
   const [services, setServices] = useState<IService[]>();
+  const { isMobile } = useMobile();
   const handleChangePage = (_: unknown, newPage: number) => {
     setPage(newPage);
   };
@@ -237,14 +239,14 @@ const UserList = () => {
         id='outlined-basic'
         label='Tìm kếm'
         variant='outlined'
-        className='mb-3'
+        className='mb-2 mr-2'
         size='small'
         onChange={handleChangeSearch}
         value={search}
       />
       <Button
         variant='contained'
-        className='ml-2'
+        className='mb-2'
         startIcon={<AddIcon />}
         onClick={handleAddUser}
       >
@@ -294,115 +296,185 @@ const UserList = () => {
         />
       )}
 
-      <TableContainer component={Paper}>
-        <Table stickyHeader aria-label='sticky table' size='small'>
-          <TableHead>
-            <TableRow>
-              {columns.map((column) => (
-                <TableCell
-                  key={column.id}
-                  align={column.align}
-                  style={{ minWidth: column.minWidth }}
+      {isMobile ? (
+        <div>
+          {usersFilter.map((user) => {
+            return (
+              <Box
+                component='section'
+                sx={{
+                  p: 2,
+                  boxShadow: 'rgba(100, 100, 111, 0.2) 0px 7px 20px 0px',
+                  marginBottom: '10px',
+                }}
+                key={user.id}
+              >
+                <Typography variant='body1'>Tên: {user.name}</Typography>
+                <Typography variant='body1'>
+                  Điện thoại: {user.phone}
+                </Typography>
+                <Typography variant='body1'>Email: {user.email}</Typography>
+                <Typography variant='body1'>
+                  Ngày sinh: {new Date(user.birthday).toLocaleDateString()}
+                </Typography>
+                <Typography variant='body1'>
+                  Điểm: {user?.points?.[user?.points?.length - 1]?.points}
+                </Typography>
+
+                <Typography variant='body1'>
+                  Dịch vụ:{' '}
+                  {user?.services
+                    ?.map((item: IService) => item.name + `: ${item.count} lần`)
+                    .join(', ')}
+                </Typography>
+                <Button
+                  variant='outlined'
+                  size='small'
+                  className='mr-2 mt-1'
+                  onClick={() => handleUpdateUserInfo(user)}
+                  startIcon={<EditIcon />}
                 >
-                  {column.label}
-                </TableCell>
-              ))}
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {usersFilter
-              ?.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-              ?.map((user) => {
-                return (
-                  <TableRow
-                    hover
-                    role='checkbox'
-                    tabIndex={-1}
-                    key={user.phone}
-                  >
-                    {columns.map((column) => {
-                      if (column.id === 'services') {
-                        return (
-                          <TableCell key={column.id}>
-                            {user?.services
-                              ?.map(
-                                (item: IService) =>
-                                  item.name + `: ${item.count} lần`
-                              )
-                              .join(', ')}
-                          </TableCell>
-                        );
-                      }
-                      if (column.id === 'points') {
-                        return (
-                          <TableCell key={column.id}>
-                            {user?.points?.[user?.points?.length - 1]?.points}
-                          </TableCell>
-                        );
-                      }
-                      if (column.id === 'birthday') {
-                        return (
-                          <TableCell key={column.id}>
-                            {new Date(user.birthday).toLocaleDateString()}
-                          </TableCell>
-                        );
-                      }
-                      if (column.id === 'action') {
-                        return (
-                          <TableCell key={column.id} align={column.align}>
-                            <Button
-                              variant='outlined'
-                              size='small'
-                              className='mr-2 mt-1'
-                              onClick={() => handleUpdateUserInfo(user)}
-                              startIcon={<EditIcon />}
-                            >
-                              Cài đặt
-                            </Button>
-                            <Button
-                              variant='contained'
-                              size='small'
-                              className='mr-2 mt-1'
-                              onClick={() => handleUpdateUserPoints(user)}
-                              startIcon={<AddLinkIcon />}
-                            >
-                              Tích điểm
-                            </Button>
-                            <Button
-                              variant='outlined'
-                              color='error'
-                              size='small'
-                              className='mr-2 mt-1'
-                              onClick={() => setUserToDelete(user)}
-                              startIcon={<DeleteIcon />}
-                            >
-                              Xóa
-                            </Button>
-                          </TableCell>
-                        );
-                      }
-                      const value = user[column.id];
-                      return (
-                        <TableCell key={column.id} align={column.align}>
-                          {value}
-                        </TableCell>
-                      );
-                    })}
-                  </TableRow>
-                );
-              })}
-          </TableBody>
-        </Table>
-      </TableContainer>
-      <TablePagination
-        rowsPerPageOptions={[50, 100]}
-        component='div'
-        count={users.length}
-        rowsPerPage={rowsPerPage}
-        page={page}
-        onPageChange={handleChangePage}
-        onRowsPerPageChange={handleChangeRowsPerPage}
-      />
+                  Cài đặt
+                </Button>
+                <Button
+                  variant='contained'
+                  size='small'
+                  className='mr-2 mt-1'
+                  onClick={() => handleUpdateUserPoints(user)}
+                  startIcon={<AddLinkIcon />}
+                >
+                  Tích điểm
+                </Button>
+                <Button
+                  variant='outlined'
+                  color='error'
+                  size='small'
+                  className='mr-2 mt-1'
+                  onClick={() => setUserToDelete(user)}
+                  startIcon={<DeleteIcon />}
+                >
+                  Xóa
+                </Button>
+              </Box>
+            );
+          })}
+        </div>
+      ) : (
+        <>
+          <TableContainer component={Paper}>
+            <Table stickyHeader aria-label='sticky table' size='small'>
+              <TableHead>
+                <TableRow>
+                  {columns.map((column) => (
+                    <TableCell
+                      key={column.id}
+                      align={column.align}
+                      style={{ minWidth: column.minWidth }}
+                    >
+                      {column.label}
+                    </TableCell>
+                  ))}
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {usersFilter
+                  ?.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                  ?.map((user) => {
+                    return (
+                      <TableRow
+                        hover
+                        role='checkbox'
+                        tabIndex={-1}
+                        key={user.phone}
+                      >
+                        {columns.map((column) => {
+                          if (column.id === 'services') {
+                            return (
+                              <TableCell key={column.id}>
+                                {user?.services
+                                  ?.map(
+                                    (item: IService) =>
+                                      item.name + `: ${item.count} lần`
+                                  )
+                                  .join(', ')}
+                              </TableCell>
+                            );
+                          }
+                          if (column.id === 'points') {
+                            return (
+                              <TableCell key={column.id}>
+                                {
+                                  user?.points?.[user?.points?.length - 1]
+                                    ?.points
+                                }
+                              </TableCell>
+                            );
+                          }
+                          if (column.id === 'birthday') {
+                            return (
+                              <TableCell key={column.id}>
+                                {new Date(user.birthday).toLocaleDateString()}
+                              </TableCell>
+                            );
+                          }
+                          if (column.id === 'action') {
+                            return (
+                              <TableCell key={column.id} align={column.align}>
+                                <Button
+                                  variant='outlined'
+                                  size='small'
+                                  className='mr-2 mt-1'
+                                  onClick={() => handleUpdateUserInfo(user)}
+                                  startIcon={<EditIcon />}
+                                >
+                                  Cài đặt
+                                </Button>
+                                <Button
+                                  variant='contained'
+                                  size='small'
+                                  className='mr-2 mt-1'
+                                  onClick={() => handleUpdateUserPoints(user)}
+                                  startIcon={<AddLinkIcon />}
+                                >
+                                  Tích điểm
+                                </Button>
+                                <Button
+                                  variant='outlined'
+                                  color='error'
+                                  size='small'
+                                  className='mr-2 mt-1'
+                                  onClick={() => setUserToDelete(user)}
+                                  startIcon={<DeleteIcon />}
+                                >
+                                  Xóa
+                                </Button>
+                              </TableCell>
+                            );
+                          }
+                          const value = user[column.id];
+                          return (
+                            <TableCell key={column.id} align={column.align}>
+                              {value}
+                            </TableCell>
+                          );
+                        })}
+                      </TableRow>
+                    );
+                  })}
+              </TableBody>
+            </Table>
+          </TableContainer>
+          <TablePagination
+            rowsPerPageOptions={[50, 100]}
+            component='div'
+            count={users.length}
+            rowsPerPage={rowsPerPage}
+            page={page}
+            onPageChange={handleChangePage}
+            onRowsPerPageChange={handleChangeRowsPerPage}
+          />
+        </>
+      )}
     </div>
   );
 };

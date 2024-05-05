@@ -33,7 +33,7 @@ const Header = ({ position }: IHeaderProps) => {
             <img
               src='/img/logo-type1.png'
               alt='Barbershop'
-              className='w-[250px]'
+              className='w-[240px]'
             />
           </Link>
           <div className='menu-wrap align-items-center'>

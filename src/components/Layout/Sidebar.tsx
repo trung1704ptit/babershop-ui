@@ -1,4 +1,5 @@
 import { Button } from '@mui/material';
+import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 
@@ -91,7 +92,11 @@ const MENU: IMenu[] = [
   },
 ];
 
-export const Sidebar = () => {
+interface IProps {
+  showLogo?: boolean;
+}
+
+export const Sidebar = (props: IProps) => {
   const router = useRouter();
   const [activePath, setActivePath] = useState('');
 
@@ -105,9 +110,19 @@ export const Sidebar = () => {
   }, [router]);
 
   return (
-    <aside className='w-[280px] bg-[#222227] border-top'>
-      <div className='w-full h-full p-3'>
+    <aside className='w-[260px] bg-[#222227] border-top'>
+      <div className='w-[260px] h-full p-3'>
         <div>
+          {props.showLogo && (
+            <Link href='/' className='navbar-brand mb-4'>
+              <img
+                src='/img/logo-type1.png'
+                alt='Barbershop'
+                className='w-[215px]'
+              />
+            </Link>
+          )}
+
           <ul>
             {MENU.map((menu: IMenu) => (
               <li key={menu.path} onClick={() => handleChangeRoute(menu.path)}>

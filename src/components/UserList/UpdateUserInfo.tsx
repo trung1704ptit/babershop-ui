@@ -138,7 +138,12 @@ function UpdateUserInfo(props: IProps) {
           >
             <CloseIcon />
           </IconButton>
-          <Typography sx={{ ml: 2, flex: 1 }} variant='h6' component='div'>
+          <Typography
+            sx={{ ml: 2, flex: 1 }}
+            variant='h6'
+            component='div'
+            className='uppercase'
+          >
             Cài đặt tài khoản
           </Typography>
         </Toolbar>
@@ -214,7 +219,7 @@ function UpdateUserInfo(props: IProps) {
 
         <Divider className='mt-4 mb-4' />
 
-        <Typography variant='h6' gutterBottom className='mb-3 mt-6'>
+        <Typography variant='h6' gutterBottom className='mb-3 mt-6 uppercase'>
           Sử dụng điểm
         </Typography>
         <Typography variant='body2' className='w-full mb-2'>
@@ -383,7 +388,7 @@ const ServiceSection = (props: IServiceSectionProps) => {
 
   return (
     <>
-      <Typography variant='h6' gutterBottom className='mb-3 mt-6'>
+      <Typography variant='h6' gutterBottom className='mb-3 mt-6 uppercase'>
         Dịch vụ
       </Typography>
       <div className='text-left'>
@@ -421,7 +426,7 @@ const ServiceSection = (props: IServiceSectionProps) => {
           <Button
             variant='outlined'
             color='error'
-            className='w-100'
+            className='w-100 text-xs'
             size='small'
             onClick={handleClearServiceHistory}
             startIcon={<DeleteIcon />}
@@ -431,7 +436,7 @@ const ServiceSection = (props: IServiceSectionProps) => {
 
           <Button
             variant='outlined'
-            className='w-100'
+            className='w-100 text-xs'
             size='small'
             onClick={handleClearPointsHistory}
             color='error'
