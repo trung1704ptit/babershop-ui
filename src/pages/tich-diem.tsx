@@ -299,7 +299,13 @@ function HairCutTimeline(props: IPropsTimeline) {
                   return (
                     <TimelineItem key={index}>
                       <TimelineSeparator>
-                        <TimelineDot color='success' />
+                        <TimelineDot
+                          color={
+                            sHistory[index]?.created_at ? `success` : 'grey'
+                          }
+                        >
+                          <DoneIcon />
+                        </TimelineDot>
                       </TimelineSeparator>
                       <TimelineContent>
                         {sHistory.length > index
