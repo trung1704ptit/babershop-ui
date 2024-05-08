@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import CloseIcon from '@mui/icons-material/Close';
 import DeleteIcon from '@mui/icons-material/Delete';
+import MailOutlineIcon from '@mui/icons-material/MailOutline';
 import { Button, Stack, Switch, TextField, Typography } from '@mui/material';
 import AppBar from '@mui/material/AppBar';
 import Dialog from '@mui/material/Dialog';
@@ -218,6 +219,8 @@ function UpdateUserInfo(props: IProps) {
         )}
 
         <Divider className='mt-4 mb-4' />
+        <MailBirthday userData={props.userData} />
+        <Divider className='mt-4 mb-4' />
 
         <Typography variant='h6' gutterBottom className='mb-3 mt-6 uppercase'>
           Sử dụng điểm
@@ -414,7 +417,7 @@ const ServiceSection = (props: IServiceSectionProps) => {
 
         <Button
           variant='contained'
-          className='w-100 mb-4'
+          className='w-50 mb-4'
           size='small'
           type='submit'
           onClick={handleSave}
@@ -422,7 +425,7 @@ const ServiceSection = (props: IServiceSectionProps) => {
           Cập nhật dịch vụ
         </Button>
 
-        <Stack direction='row' gap={2}>
+        <Stack direction='row' gap={1}>
           <Button
             variant='outlined'
             color='error'
@@ -446,6 +449,56 @@ const ServiceSection = (props: IServiceSectionProps) => {
           </Button>
         </Stack>
       </div>
+    </>
+  );
+};
+
+interface IMailBirthdayProps {
+  userData: IUserData;
+}
+
+const MailBirthday = (props: IMailBirthdayProps) => {
+  const [loading, setLoading] = useState(false);
+  const handleSendRemind = async () => {
+    setLoading(true);
+    try {
+      const res = await api.post('/api/reminds/birthday', {
+        email: props.userData.email,
+      });
+      if (res && res.status == 200) {
+        setLoading(false);
+        toast.success('Gửi mail chúc mừng sinh nhật thành công.', {
+          position: toast.POSITION.TOP_CENTER,
+          hideProgressBar: true,
+        });
+      }
+    } catch (error) {
+      console.log(error);
+      setLoading(false);
+      toast.error('Đã có lỗi xảy ra, vui lòng thử lại.', {
+        position: toast.POSITION.TOP_CENTER,
+        hideProgressBar: true,
+      });
+    }
+  };
+
+  return (
+    <>
+      <Typography variant='h6' gutterBottom className='mb-3 mt-6 uppercase'>
+        GỬI MAIL CHÚC MỪNG SINH NHẬT
+      </Typography>
+
+      <Button
+        variant='contained'
+        className=''
+        size='small'
+        type='submit'
+        disabled={loading}
+        onClick={handleSendRemind}
+        startIcon={<MailOutlineIcon />}
+      >
+        Gửi mail chúc sinh nhật
+      </Button>
     </>
   );
 };

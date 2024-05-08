@@ -304,7 +304,8 @@ const UserList = () => {
                 component='section'
                 sx={{
                   p: 2,
-                  boxShadow: 'rgba(100, 100, 111, 0.2) 0px 7px 20px 0px',
+                  boxShadow:
+                    'rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 2px 6px 2px;',
                   marginBottom: '10px',
                 }}
                 key={user.id}

@@ -33,6 +33,7 @@ const Layout = (props: Props) => {
                 variant='contained'
                 onClick={() => setOpenDrawser(!openDrawer)}
                 startIcon={<MenuIcon />}
+                size='small'
               >
                 Menu
               </Button>
