@@ -90,3 +90,15 @@ html {
 .time-series-item {
   border: 1px solid #a0a096;
 }
+
+.product-item {
+  height: 100%;
+  width: auto;
+}
+
+@media only screen and (max-width: 768px) {
+  .product-item {
+    width: 90%;
+    height: auto;
+  }
+}
