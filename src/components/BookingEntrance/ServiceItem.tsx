@@ -1,4 +1,4 @@
-import { Typography } from '@mui/material';
+import { Button, Typography } from '@mui/material';
 
 import { IServiceDataItem, IServiceItem } from './types';
 
@@ -40,31 +40,13 @@ const ServiceItem = (props: IServiceItem) => {
           </div>
           <div>
             <p className='font-semibold text-black'>{props.data.priceLabel}</p>
-            <button
-              className={`text-black text-center mt-auto border py-1 w-full focus:outline-none rounded ${
-                isSelected ? 'bg-[#9f6e0dd4] text-white' : ''
-              }`}
+            <Button
+              className='w-full'
+              variant={isSelected ? 'contained' : 'outlined'}
               onClick={() => handleSelect(props.data)}
             >
-              {isSelected ? (
-                <span className='inline-flex items-center justify-center text-white'>
-                  <svg
-                    fill='none'
-                    stroke='currentColor'
-                    strokeLinecap='round'
-                    strokeLinejoin='round'
-                    strokeWidth='2.5'
-                    className='w-3.5 h-3 mr-1.5'
-                    viewBox='0 0 26 26'
-                  >
-                    <path d='M20 6L9 17l-5-5' />
-                  </svg>
-                  <span>Đã chọn</span>
-                </span>
-              ) : (
-                'Chọn'
-              )}
-            </button>
+              {isSelected ? 'Đã chọn' : 'Chọn'}
+            </Button>
           </div>
         </div>
       </div>

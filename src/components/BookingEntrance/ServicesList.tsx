@@ -78,7 +78,7 @@ export default function ServicesList(props: IServicesList) {
           ))}
         </div>
 
-        <div className='fixed flex items-center justify-center rounded-b bottom-0 left-0 w-100 bg-white p-3 shadow-lg'>
+        <div className='fixed flex items-center justify-center rounded-b bottom-0 left-0 w-100 bg-white p-3 shadow-lg border-top'>
           <Button
             className='text-white w-full sm:w-4/12 md:6/12 bg-[#9f6e0dd4] text-whitefont-bold uppercase text-sm px-3 py-2.5 rounded shadow hover:shadow-lg outline-none focus:outline-none mb-1 ease-linear transition-all duration-150'
             type='button'
