@@ -161,3 +161,9 @@ export const MESSAGES = {
   INALID_EMAIL_OR_PASSWORD_EN: "Invalid email or Password",
   INALID_EMAIL_OR_PASSWORD_VI: "Email hoặc mật khẩu không đúng"
 }
+
+export const ROLES = {
+  ADMIN: 'admin',
+  BARBER: 'barber',
+  GUEST: 'guest',
+}

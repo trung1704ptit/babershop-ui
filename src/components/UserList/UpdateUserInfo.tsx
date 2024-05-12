@@ -1,8 +1,17 @@
+/* eslint-disable @next/next/no-img-element */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import CloseIcon from '@mui/icons-material/Close';
+import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import DeleteIcon from '@mui/icons-material/Delete';
 import MailOutlineIcon from '@mui/icons-material/MailOutline';
-import { Button, Stack, Switch, TextField, Typography } from '@mui/material';
+import {
+  Button,
+  Checkbox,
+  Stack,
+  Switch,
+  TextField,
+  Typography,
+} from '@mui/material';
 import AppBar from '@mui/material/AppBar';
 import Dialog from '@mui/material/Dialog';
 import Divider from '@mui/material/Divider';
@@ -15,17 +24,22 @@ import { DatePicker, LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import axios from 'axios';
 import dayjs from 'dayjs';
-import { ChangeEvent, forwardRef, useState } from 'react';
+import { size } from 'lodash';
+import { ChangeEvent, forwardRef, useMemo, useState } from 'react';
 import { toast } from 'react-toastify';
 
 import { IService, IUserData } from '.';
+import { VisuallyHiddenInput } from './AddNewUser';
 import api from '../../utils/api';
+import { ROLES } from '../../utils/constants';
 
 interface INewUserProps {
   name: string;
   phone: string;
   birthday: string;
   email?: string;
+  roles?: string[];
+  photo?: string;
 }
 
 interface IProps {
@@ -45,23 +59,52 @@ const Transition = forwardRef(function Transition(
 
 function UpdateUserInfo(props: IProps) {
   const [loadingUpdateUser, setLoadingUpdateUser] = useState(false);
+  const [photo, setPhoto] = useState<File | null>(null);
+  const [usePoints, setUsePoints] = useState(0);
 
   const [formData, setFormData] = useState<INewUserProps>({
     name: props.userData.name,
     email: props.userData.email,
     birthday: props.userData.birthday,
     phone: props.userData.phone,
+    roles: props.userData.roles,
+    photo: props.userData.photo,
   });
-  const [usePoints, setUsePoints] = useState(0);
-  const handleSubmitUpdateUserInfo = (e: React.FormEvent) => {
-    e.preventDefault();
 
-    setLoadingUpdateUser(true);
+  const handleSubmitUpdateUserInfo = async (e: React.FormEvent) => {
+    e.preventDefault();
 
     if (!formData.birthday) {
       toast.error('Vui lòng điền thông tin ngày sinh');
       return;
     }
+
+    if (size(formData.roles) == 0) {
+      toast.error('Vui lòng chọn quyền cho user');
+      return;
+    }
+
+    let photoPath = '';
+
+    setLoadingUpdateUser(true);
+
+    if (photo) {
+      const formFile = new FormData();
+      formFile.append('file', photo);
+      try {
+        const res = await api.post('api/files/single', formFile, {
+          headers: {
+            'Content-Type': 'multipart/form-data', // Set the Content-Type manually
+          },
+        });
+        if (res && res.status == 200) {
+          photoPath = res.data.data.filePath;
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    }
+    formData.photo = photoPath;
 
     api
       .put(`api/users/${props.userData.id}`, formData)
@@ -121,6 +164,36 @@ function UpdateUserInfo(props: IProps) {
       });
     }
   };
+
+  const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files && e.target.files.length > 0) {
+      const selectedFile = e.target.files[0];
+      if (selectedFile) {
+        setPhoto(selectedFile);
+      }
+    }
+  };
+
+  const handleRole = (checked: boolean, role: string) => {
+    let roles = formData?.roles || [];
+    if (checked) {
+      roles = [...roles, role];
+    } else {
+      roles = roles.filter((item) => item !== role);
+    }
+
+    setFormData((prevData) => ({
+      ...prevData,
+      roles,
+    }));
+  };
+
+  const photoPreviewUrl = useMemo(() => {
+    if (photo) return URL.createObjectURL(photo);
+    else if (formData.photo && formData.photo != '-')
+      return process.env.NEXT_PUBLIC_APP_API_PATH + '/api/' + formData.photo;
+    return '';
+  }, [photo, formData.photo]);
 
   return (
     <Dialog
@@ -190,6 +263,38 @@ function UpdateUserInfo(props: IProps) {
               }}
             />
           </LocalizationProvider>
+
+          <Button
+            component='label'
+            role={undefined}
+            variant='outlined'
+            size='small'
+            tabIndex={-1}
+            startIcon={<CloudUploadIcon />}
+            className='mb-3'
+          >
+            Tải ảnh đại diện
+            <VisuallyHiddenInput type='file' onChange={handleFileChange} />
+          </Button>
+          {photoPreviewUrl && photoPreviewUrl != '-' && (
+            <span className='relative'>
+              <img
+                src={photoPreviewUrl}
+                className='w-[30%] border-radius ml-2 mb-2'
+                alt='preview img'
+              />
+              <CloseIcon
+                className='cursor-pointer'
+                onClick={() => {
+                  setFormData((prevData) => ({
+                    ...prevData,
+                    photo: '-',
+                  }));
+                  setPhoto(null);
+                }}
+              />
+            </span>
+          )}
           <TextField
             id='outlined-basic'
             label='Email (Nếu có)'
@@ -201,7 +306,33 @@ function UpdateUserInfo(props: IProps) {
             defaultValue={props?.userData?.email}
             onChange={handleChange}
           />
-
+          <FormControlLabel
+            control={
+              <Checkbox
+                onChange={(e) => handleRole(e.target.checked, ROLES.GUEST)}
+                defaultChecked={props?.userData?.roles?.includes(ROLES.GUEST)}
+              />
+            }
+            label='Khách'
+          />
+          <FormControlLabel
+            control={
+              <Checkbox
+                onChange={(e) => handleRole(e.target.checked, ROLES.BARBER)}
+                defaultChecked={props?.userData?.roles?.includes(ROLES.BARBER)}
+              />
+            }
+            label='Barber'
+          />
+          <FormControlLabel
+            control={
+              <Checkbox
+                onChange={(e) => handleRole(e.target.checked, ROLES.ADMIN)}
+                defaultChecked={props?.userData?.roles?.includes(ROLES.ADMIN)}
+              />
+            }
+            label='Quản trị'
+          />
           <Button
             variant='contained'
             className='w-50'

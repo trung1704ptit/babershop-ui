@@ -26,6 +26,7 @@ import UpdateUserInfo from './UpdateUserInfo';
 import UpdateUserPointsModal from './UpdateUserPointsModal';
 import useMobile from '../../hooks/useMobile';
 import api from '../../utils/api';
+import { ROLES } from '../../utils/constants';
 
 interface Column {
   id:
@@ -34,6 +35,7 @@ interface Column {
     | 'points'
     | 'email'
     | 'birthday'
+    | 'roles'
     | 'action'
     | 'services';
   label: string;
@@ -63,6 +65,11 @@ const columns: readonly Column[] = [
   {
     id: 'email',
     label: 'Email',
+    minWidth: 170,
+  },
+  {
+    id: 'roles',
+    label: 'Quyền',
     minWidth: 170,
   },
   {
@@ -110,7 +117,8 @@ export interface IUserData {
   services_history: IServiceHistory[];
   points?: IPoint[];
   email?: string;
-  role?: string;
+  roles?: string[];
+  photo?: string;
   provider?: string;
   created_at: string;
   updated_at: string;
@@ -381,6 +389,9 @@ const UserList = () => {
                 {usersFilter
                   ?.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                   ?.map((user) => {
+                    const isBarberOrAdmin = user?.roles?.some((r: string) =>
+                      [ROLES.BARBER, ROLES.ADMIN].includes(r)
+                    );
                     return (
                       <TableRow
                         hover
@@ -418,6 +429,14 @@ const UserList = () => {
                               </TableCell>
                             );
                           }
+
+                          if (column.id == 'roles') {
+                            return (
+                              <TableCell key={column.id}>
+                                {user?.roles?.join(', ')}
+                              </TableCell>
+                            );
+                          }
                           if (column.id === 'action') {
                             return (
                               <TableCell key={column.id} align={column.align}>
@@ -436,6 +455,7 @@ const UserList = () => {
                                   className='mr-2 mt-1'
                                   onClick={() => handleUpdateUserPoints(user)}
                                   startIcon={<AddLinkIcon />}
+                                  disabled={isBarberOrAdmin}
                                 >
                                   Tích điểm
                                 </Button>
