@@ -12,6 +12,7 @@ import { IBookingEntrance, IServiceDataItem, IUserBooking } from './types';
 import { ITeam } from '../Team/type';
 import addData from '../../firebase/addData';
 import { BOOKING_COLLECTION } from '../../firebase/config';
+import api from '../../utils/api';
 import { TEAM_EMAILS } from '../../utils/constants';
 import { bookingEmailTemplate } from '../../utils/helper';
 
@@ -34,7 +35,23 @@ const Booking = (props: IBookingEntrance) => {
   useEffect(() => {
     if (router.query && router.query.phone) {
       const phone: string = router.query.phone as string;
-      setUser((prev: IUserBooking) => ({ ...prev, phone }));
+      try {
+        const queryUserDetail = async () => {
+          const res = await api.get(`/api/users/${phone}`);
+          if (res && res.status == 200) {
+            setUser((prev: IUserBooking) => ({
+              ...prev,
+              name: res.data.data.name,
+              phone,
+            }));
+          } else {
+            setUser((prev: IUserBooking) => ({ ...prev, phone }));
+          }
+        };
+        queryUserDetail();
+      } catch (err) {
+        console.log(err);
+      }
     }
   }, [router.query]);
 
