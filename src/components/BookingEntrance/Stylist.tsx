@@ -167,7 +167,7 @@ const Stylist = (props: IProps) => {
             <div className='flex justify-between border-b py-3' key={item.id}>
               <div className='flex text-center items-center'>
                 <Image
-                  src={item?.square_photo || 'default.png'}
+                  src={item.photo}
                   alt='avatar'
                   width='100'
                   height='100'
