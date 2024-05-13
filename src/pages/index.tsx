@@ -16,6 +16,7 @@ import {
 import { PRODUCTS_COLLECTION } from '../firebase/config';
 import { getDocsByCollection } from '../firebase/getData';
 import { IHomeProps } from '../interface/pages';
+import api from '../utils/api';
 
 export default function Home(props: IHomeProps) {
   return (
@@ -29,7 +30,7 @@ export default function Home(props: IHomeProps) {
       <HeroCarousel />
       <About />
       <Services />
-      <Team />
+      <Team barbers={props.barbers} />
       <Pricing />
       <Products products={props.products} />
       <Reviews />
@@ -42,11 +43,13 @@ export default function Home(props: IHomeProps) {
 export const getServerSideProps: GetServerSideProps = async () => {
   try {
     const productResults = await getDocsByCollection(PRODUCTS_COLLECTION);
+    const barbersRes = await api.get('/api/users?role=barber');
     if (productResults.error) throw new Error();
 
     return {
       props: {
         products: productResults.result,
+        barbers: barbersRes.data.data,
       },
     };
   } catch (error) {

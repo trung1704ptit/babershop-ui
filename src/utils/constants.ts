@@ -110,34 +110,37 @@ export const TEAM_EMAILS = {
 
 export const TEAM: ITeam[] = [
   {
-    id: 1,
+    id: '1',
     name: TEAM_NAME.DINH_QUANG,
     position: '',
-    description: 'Barber cao cấp',
-    square_avatar: '/img/barbers/quang.jpg',
-    avatar: '/img/barbers/quang.jpg',
+    intro: 'Barber cao cấp',
+    square_photo: '/img/barbers/quang.jpg',
+    photo: '/img/barbers/quang.jpg',
     color: '#50b500',
     email: TEAM_EMAILS.DINH_QUANG,
+    phone: '098323223'
   },
   {
-    id: 2,
+    id: '2',
     name: TEAM_NAME.VAN_LUONG,
     position: '',
-    description: 'Barber trung cấp',
-    square_avatar: '/img/barbers/luong.jpeg',
-    avatar: '/img/barbers/luong.jpeg',
+    intro: 'Barber trung cấp',
+    square_photo: '/img/barbers/luong.jpeg',
+    photo: '/img/barbers/luong.jpeg',
     color: '#c94f08',
-    email: TEAM_EMAILS.VAN_LUONG
+    email: TEAM_EMAILS.VAN_LUONG,
+    phone: '098323223'
   },
   {
-    id: 3,
+    id: '3',
     name: TEAM_NAME.VAN_TUAN,
     position: '',
-    description: 'Barber trung cấp',
-    square_avatar: '/img/barbers/tuan.jpg',
-    avatar: '/img/barbers/tuan.jpg',
+    intro: 'Barber trung cấp',
+    square_photo: '/img/barbers/tuan.jpg',
+    photo: '/img/barbers/tuan.jpg',
     color: '#ac08c9',
-    email: TEAM_EMAILS.VAN_TUAN
+    email: TEAM_EMAILS.VAN_TUAN,
+    phone: '098323223'
   }
 ]
 

@@ -1,10 +1,11 @@
 export interface ITeam {
-  id: string | number,
+  id: string,
   name: string,
   position: string,
-  description: string,
-  square_avatar: string,
-  avatar: string,
-  color: string,
+  intro: string,
+  square_photo?: string,
+  photo: string,
+  color?: string,
   email: string
+  phone: string
 }

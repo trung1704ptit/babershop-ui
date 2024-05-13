@@ -167,7 +167,7 @@ const Stylist = (props: IProps) => {
             <div className='flex justify-between border-b py-3' key={item.id}>
               <div className='flex text-center items-center'>
                 <Image
-                  src={item.square_avatar}
+                  src={item?.square_photo || 'default.png'}
                   alt='avatar'
                   width='100'
                   height='100'
@@ -175,7 +175,7 @@ const Stylist = (props: IProps) => {
                 />
                 <div className='align-left'>
                   <div className='text-lg text-black'>{item.name}</div>
-                  <i className='text-sm'>{item.description}</i>
+                  <i className='text-sm'>{item.intro}</i>
                 </div>
               </div>
               <div className='flex text-center align-middle'>
