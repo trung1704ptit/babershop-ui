@@ -82,6 +82,11 @@ function AddNewUser(props: IProps) {
       toast.error('Vui lòng chọn quyền cho user');
       return;
     }
+
+    if (formData.phone.length < 8) {
+      toast.error('Độ dài số điện thoại phải lớn hơn 8');
+      return;
+    }
     let photoPath = '';
 
     setLoading(true);

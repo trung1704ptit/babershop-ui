@@ -84,6 +84,11 @@ function UpdateUserInfo(props: IProps) {
       return;
     }
 
+    if (formData.phone.length < 8) {
+      toast.error('Độ dài số điện thoại phải lớn hơn 8');
+      return;
+    }
+
     let photoPath = '';
 
     setLoadingUpdateUser(true);

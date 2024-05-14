@@ -23,6 +23,7 @@ export interface IServicesList {
 
 export interface INameModal {
   handleContinue: (a: string) => void
+  phone: string;
 }
 
 export interface IUserBooking {

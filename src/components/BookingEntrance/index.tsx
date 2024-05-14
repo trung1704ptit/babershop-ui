@@ -36,8 +36,9 @@ const Booking = (props: IBookingEntrance) => {
   useEffect(() => {
     if (router.query && router.query.phone) {
       const phone: string = router.query.phone as string;
-      try {
-        const queryUserDetail = async () => {
+
+      const queryUserDetail = async () => {
+        try {
           const res = await api.get(`/api/users/${phone}`);
           if (res && res.status == 200) {
             setUser((prev: IUserBooking) => ({
@@ -47,11 +48,11 @@ const Booking = (props: IBookingEntrance) => {
           } else {
             setUser((prev: IUserBooking) => ({ ...prev, phone }));
           }
-        };
-        queryUserDetail();
-      } catch (err) {
-        console.log(err);
-      }
+        } catch (error) {
+          setUser((prev: IUserBooking) => ({ ...prev, phone }));
+        }
+      };
+      queryUserDetail();
     }
   }, [router.query]);
 
@@ -75,8 +76,24 @@ const Booking = (props: IBookingEntrance) => {
     setUser((prev) => ({ ...prev, services }));
   };
 
-  const handleNameFilled = (newName: string) => {
-    setUser((prev) => ({ ...prev, name: newName }));
+  const handleNameFilled = async (newName: string) => {
+    try {
+      const timestamp = new Date().getTime().toString();
+      const res = await api.post('/api/auth/register', {
+        name: newName,
+        phone: user.phone,
+        email: `guest-${new Date().getTime()}@gmail.com`,
+        password: timestamp,
+        passwordConfirm: timestamp,
+        roles: ['guest'],
+      });
+      if (res && res.status == 201) {
+        setUser((prev) => ({ ...prev, ...res.data.data.user }));
+      }
+    } catch (err) {
+      console.log(err);
+      setUser((prev) => ({ ...prev, name: newName }));
+    }
     const url = new URL(window.location as any);
     url.searchParams.set('name', newName);
     window.history.pushState(null, '', url.toString());
@@ -120,8 +137,10 @@ const Booking = (props: IBookingEntrance) => {
     });
   };
 
+  console.log('user:', user);
+
   if (user.phone && !user.name) {
-    return <NameModal handleContinue={handleNameFilled} />;
+    return <NameModal handleContinue={handleNameFilled} phone={user.phone} />;
   }
 
   if (user.phone && user.name && !user.services.length) {
