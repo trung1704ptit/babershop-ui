@@ -3,11 +3,11 @@ import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 
+import Berbers from './Barbers';
 import EntranceForm from './EntranceForm';
 import Finish from './Finish';
 import NameModal from './NameModal';
 import ServicesList from './ServicesList';
-import Stylist from './Stylist';
 import { IBookingEntrance, IServiceDataItem, IUserBooking } from './types';
 import { ITeam } from '../Team/type';
 import addData from '../../firebase/addData';
@@ -18,8 +18,9 @@ import { bookingEmailTemplate } from '../../utils/helper';
 
 const Booking = (props: IBookingEntrance) => {
   const [user, setUser] = useState<IUserBooking>({
-    phone: props.phone,
-    name: props.name,
+    id: '',
+    phone: props.phone || '',
+    name: props.name || '',
     services: [],
     datetime: {
       date: new Date(),
@@ -41,8 +42,7 @@ const Booking = (props: IBookingEntrance) => {
           if (res && res.status == 200) {
             setUser((prev: IUserBooking) => ({
               ...prev,
-              name: res.data.data.name,
-              phone,
+              ...res.data.data,
             }));
           } else {
             setUser((prev: IUserBooking) => ({ ...prev, phone }));
@@ -130,7 +130,7 @@ const Booking = (props: IBookingEntrance) => {
 
   if (user.services.length > 0 && !user.datetime.time) {
     return (
-      <Stylist
+      <Berbers
         handleContinue={handleSelectBarberAndTime}
         title='Mời anh chọn Barber'
         marginTop='120px'

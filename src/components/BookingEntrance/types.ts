@@ -26,8 +26,9 @@ export interface INameModal {
 }
 
 export interface IUserBooking {
-  phone: string | number | null | undefined
-  name: string | null | undefined,
+  id: string;
+  phone: string;
+  name: string
   services: IServiceDataItem[],
   datetime: IDatetime,
   notes: string,
@@ -40,6 +41,6 @@ export interface IDatetime {
   date: Date;
 }
 export interface IBookingEntrance {
-  phone?: string | number;
+  phone?: string;
   name?: string;
 }

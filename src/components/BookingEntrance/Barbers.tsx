@@ -40,7 +40,7 @@ const isAvailableToOrder = (
   return filter.length < 2;
 };
 
-const Stylist = (props: IProps) => {
+const Barbers = (props: IProps) => {
   const [barber, setBarber] = useState<ITeam | null>();
   const [datetime, setDatetime] = useState<{ time: number; date: Value }>({
     time: props?.defaultDatetime?.time || 0,
@@ -267,4 +267,4 @@ const Stylist = (props: IProps) => {
   );
 };
 
-export default Stylist;
+export default Barbers;

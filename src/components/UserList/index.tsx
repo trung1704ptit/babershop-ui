@@ -119,6 +119,8 @@ export interface IUserData {
   email?: string;
   roles?: string[];
   photo?: string;
+  intro?: string;
+  position?: string;
   provider?: string;
   created_at: string;
   updated_at: string;

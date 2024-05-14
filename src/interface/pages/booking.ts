@@ -1,5 +1,5 @@
 export interface IBookingPage {
-  phone?: string | number
+  phone?: string
   name?: string
 }
 
