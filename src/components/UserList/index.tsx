@@ -112,9 +112,9 @@ export interface IUserData {
   id: string;
   name: string;
   phone: string;
-  birthday: string;
+  birthday?: string;
   services?: IService[];
-  services_history: IServiceHistory[];
+  services_history?: IServiceHistory[];
   points?: IPoint[];
   email?: string;
   roles?: string[];

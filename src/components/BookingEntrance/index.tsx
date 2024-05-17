@@ -1,4 +1,3 @@
-import axios from 'axios';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
@@ -8,28 +7,22 @@ import EntranceForm from './EntranceForm';
 import Finish from './Finish';
 import NameModal from './NameModal';
 import ServicesList from './ServicesList';
-import { IBookingEntrance, IServiceDataItem, IUserBooking } from './types';
+import { IBookingEntrance, IGuestBooking, IServiceDataItem } from './types';
 import { ITeam } from '../Team/type';
-import addData from '../../firebase/addData';
-import { BOOKING_COLLECTION } from '../../firebase/config';
 import api from '../../utils/api';
-import { TEAM_EMAILS } from '../../utils/constants';
-import { bookingEmailTemplate } from '../../utils/helper';
+import { ROLES } from '../../utils/constants';
+import { toISOString } from '../../utils/helper';
 
 const Booking = (props: IBookingEntrance) => {
-  const [user, setUser] = useState<IUserBooking>({
-    id: '',
-    phone: props.phone || '',
-    name: props.name || '',
+  const [barbers, setBarbers] = useState<ITeam[]>([]);
+  const [booking, setBooking] = useState<IGuestBooking>({
     services: [],
-    datetime: {
-      date: new Date(),
-      time: 0,
-    },
-    notes: '',
+    bookingTime: '',
     barber: null,
-    status: 'open',
+    guest: null,
+    phone: '',
   });
+  const [nextStep, setNextStep] = useState('start');
 
   const router = useRouter();
 
@@ -41,31 +34,50 @@ const Booking = (props: IBookingEntrance) => {
         try {
           const res = await api.get(`/api/users/${phone}`);
           if (res && res.status == 200) {
-            setUser((prev: IUserBooking) => ({
+            setBooking((prev: IGuestBooking) => ({
               ...prev,
               ...res.data.data,
             }));
           } else {
-            setUser((prev: IUserBooking) => ({ ...prev, phone }));
+            setBooking((prev: IGuestBooking) => ({ ...prev, phone }));
           }
         } catch (error) {
-          setUser((prev: IUserBooking) => ({ ...prev, phone }));
+          setBooking((prev: IGuestBooking) => ({ ...prev, phone }));
         }
       };
       queryUserDetail();
     }
+
+    if (router.query && router.query.step) {
+      const step: string = router.query.step as string;
+      setNextStep(step);
+    }
   }, [router.query]);
+
+  useEffect(() => {
+    const queryBarbers = async () => {
+      try {
+        const res = await api.get('/api/users?role=barber');
+        if (res.status === 200) {
+          setBarbers(res.data.data);
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    queryBarbers();
+  }, []);
 
   const handleStartBooking = (phone: string) => {
     try {
       if (!phone || (phone && phone?.length < 8)) {
         toast.error('Số điện thoại chưa hợp lệ, vui lòng thử lại', {
-          position: toast.POSITION.TOP_RIGHT,
+          position: toast.POSITION.TOP_CENTER,
           hideProgressBar: true,
         });
       } else {
         toast.dismiss();
-        router.push(`/booking?phone=${phone}`);
+        router.push(`/dat-lich/chi-tiet?phone=${phone}&step=name`);
       }
     } catch (error) {
       console.log(error);
@@ -73,7 +85,8 @@ const Booking = (props: IBookingEntrance) => {
   };
 
   const handleSelectServices = (services: IServiceDataItem[]) => {
-    setUser((prev) => ({ ...prev, services }));
+    setBooking((prev) => ({ ...prev, services }));
+    setNextStep('barbers');
   };
 
   const handleNameFilled = async (newName: string) => {
@@ -81,87 +94,113 @@ const Booking = (props: IBookingEntrance) => {
       const timestamp = new Date().getTime().toString();
       const res = await api.post('/api/auth/register', {
         name: newName,
-        phone: user.phone,
+        phone: booking.phone,
         email: `guest-${new Date().getTime()}@gmail.com`,
         password: timestamp,
         passwordConfirm: timestamp,
-        roles: ['guest'],
+        birthday: toISOString(new Date().toString()),
+        roles: [ROLES.GUEST],
       });
       if (res && res.status == 201) {
-        setUser((prev) => ({ ...prev, ...res.data.data.user }));
+        setBooking((prev) => ({ ...prev, guest: res.data.data.user }));
+        setNextStep('services');
       }
     } catch (err) {
       console.log(err);
-      setUser((prev) => ({ ...prev, name: newName }));
+      setBooking((prev) => ({ ...prev, name: newName }));
     }
-    const url = new URL(window.location as any);
-    url.searchParams.set('name', newName);
-    window.history.pushState(null, '', url.toString());
+
+    router.push({
+      query: { name: newName, step: 'services' },
+    });
+    setNextStep('services');
   };
 
-  const handleSelectBarberAndTime = (barberAndTime: {
-    datetime: { date: Date; time: number };
+  const handleSelectBarberAndTime = async ({
+    barber,
+    bookingTime,
+  }: {
     barber: ITeam;
+    bookingTime: string;
   }) => {
-    const newUser = { ...user, ...barberAndTime };
-    setUser(newUser);
-
     const payload = {
-      name: newUser.name,
+      user: booking,
       barber: {
-        name: newUser.barber.name,
-        color: newUser.barber.color,
+        name: barber.name,
+        color: barber.color,
       },
-      datetime: newUser.datetime,
-      notes: newUser.notes,
-      phone: newUser.phone,
-      services: newUser.services.map((item) => ({
+      bookingTime: bookingTime,
+      services: booking.services.map((item) => ({
         id: item.id,
         price: item.price,
         title: item.title,
         priceLabel: item.priceLabel,
       })),
-      status: 'open',
     };
 
-    addData(BOOKING_COLLECTION, new Date().getTime().toString(), payload);
-    const emailTemplate = bookingEmailTemplate(payload);
-    axios.post('/api/booking-notification', {
-      from: 'support@roybarbershop.com',
-      to:
-        newUser.barber.email === TEAM_EMAILS.DINH_QUANG
-          ? newUser.barber.email
-          : [newUser.barber.email, TEAM_EMAILS.DINH_QUANG],
-      subject: `Thông báo có lịch hẹn cắt tóc mới [${payload.name}]`,
-      html: emailTemplate,
-    });
+    try {
+      const res = await api.post('/api/bookings', {
+        guest_id: booking?.guest?.id,
+        barber_id: barber.id,
+        booking_time: bookingTime,
+      });
+
+      if (res && res.status == 201) {
+        // const emailTemplate = bookingEmailTemplate(payload);
+        // axios.post('/api/booking-notification', {
+        //   from: 'support@roybarbershop.com',
+        //   to:
+        //     barber.email === TEAM_EMAILS.DINH_QUANG
+        //       ? barber.email
+        //       : [barber.email, TEAM_EMAILS.DINH_QUANG],
+        //   subject: `Thông báo có lịch hẹn cắt tóc mới`,
+        //   html: emailTemplate,
+        // });
+        setNextStep('finish');
+      }
+    } catch (error) {
+      console.log(error);
+      toast.error('Có lỗi xảy ra, vui lòng thử lại', {
+        position: toast.POSITION.TOP_CENTER,
+        hideProgressBar: true,
+      });
+    }
+
+    /**
+     * 
+    "barber_id": "1f97b206-eb43-4adc-a025-b120b2d08040",
+    "guest_id": "edf4b4ac-16f7-4da1-961c-730a44cfcea8",
+    "booking_time": "",
+    "services": [""]
+     */
   };
 
-  console.log('user:', user);
-
-  if (user.phone && !user.name) {
-    return <NameModal handleContinue={handleNameFilled} phone={user.phone} />;
+  if (nextStep === 'name') {
+    return <NameModal onDoneCallback={handleNameFilled} booking={booking} />;
   }
 
-  if (user.phone && user.name && !user.services.length) {
-    return <ServicesList user={user} handleContinue={handleSelectServices} />;
+  if (nextStep === 'services') {
+    return (
+      <ServicesList booking={booking} onDoneCallback={handleSelectServices} />
+    );
   }
 
-  if (user.services.length > 0 && !user.datetime.time) {
+  if (nextStep === 'barbers') {
     return (
       <Berbers
-        handleContinue={handleSelectBarberAndTime}
+        onDoneCallback={handleSelectBarberAndTime}
         title='Mời anh chọn Barber'
-        marginTop='120px'
+        marginTop='100px'
+        barbers={barbers}
       />
     );
   }
 
-  if (user.datetime.time) {
-    return <Finish user={user} />;
+  if (nextStep === 'finish') {
+    return <Finish booking={booking} />;
   }
 
-  return <EntranceForm handleStartBooking={handleStartBooking} />;
+  return <EntranceForm onDoneCallback={handleStartBooking} />;
 };
 
 export default Booking;

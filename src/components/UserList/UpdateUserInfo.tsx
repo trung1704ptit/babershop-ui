@@ -32,11 +32,12 @@ import { IService, IUserData } from '.';
 import { VisuallyHiddenInput } from './AddNewUser';
 import api from '../../utils/api';
 import { ROLES } from '../../utils/constants';
+import { toISOString } from '../../utils/helper';
 
 interface INewUserProps {
   name: string;
   phone: string;
-  birthday: string;
+  birthday?: string;
   email?: string;
   roles?: string[];
   photo?: string;
@@ -146,7 +147,7 @@ function UpdateUserInfo(props: IProps) {
   const handleDateChange = (newdate: any) => {
     setFormData((prevData) => ({
       ...prevData,
-      birthday: newdate.$d.toISOString(),
+      birthday: toISOString(newdate.toString()),
     }));
   };
 

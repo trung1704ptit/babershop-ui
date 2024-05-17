@@ -1,8 +1,8 @@
 import { GetServerSideProps } from 'next';
 import Head from 'next/head';
 
-import { BookingEntrance, Header } from '../components';
-import { IBookingPage } from '../interface/pages/booking';
+import { BookingEntrance, Header } from '../../components';
+import { IBookingPage } from '../../interface/pages/booking';
 
 export default function Booking({ phone, name }: IBookingPage) {
   return (

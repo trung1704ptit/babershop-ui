@@ -92,7 +92,7 @@ export default function LinkPointHistory() {
       <Header />
       {showAddUser && (
         <div className='mt-[100px] min-h-[80vh]'>
-          <AddNewUser callbackExit={handleExitAddUser} />
+          <AddNewUser callbackExit={handleExitAddUser} guestMode={true} />
         </div>
       )}
 

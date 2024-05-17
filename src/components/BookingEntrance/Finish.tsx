@@ -1,11 +1,12 @@
+/* eslint-disable @next/next/no-img-element */
+import { Typography } from '@mui/material';
 import moment from 'moment';
 import { useEffect } from 'react';
 
-import { IUserBooking } from './types';
+import { IGuestBooking } from './types';
 import { CONTACT } from '../../utils/constants';
-import { getTimeRange } from '../../utils/helper';
 
-const Finish = ({ user }: { user: IUserBooking }) => {
+const Finish = ({ booking }: { booking: IGuestBooking }) => {
   try {
     useEffect(() => {
       window.scroll({
@@ -17,31 +18,31 @@ const Finish = ({ user }: { user: IUserBooking }) => {
     return (
       <div className='container mt-[100px] mb-[100px] text-center'>
         <div className='border-0 rounded-lg  relative p-4'>
-          <h2 className='text-green-600 mb-4 text-3xl font-bold'>
+          <Typography variant='h5' className='text-green-600 mb-2'>
             Đặt lịch thành công!
-          </h2>
+          </Typography>
 
-          <p className='font-medium text-lg text-black'>
-            ROY Barber Shop xin gửi tới anh thông tin lịch hẹn
-          </p>
+          <Typography variant='body1'>
+            ROY Barber Shop xin gửi tới anh thông tin lịch hẹn, cảm ơn quý
+            khách.
+          </Typography>
           <div className='mb-4 text-black text-lg flex flex-wrap'>
             <div className='p-3 text-center justify-center flex flex-col items-center w-full md:w-[25%] capitalize'>
-              <img src='/img/haircut.png' alt='user' className='w-8 mb-3' />{' '}
-              {user.name} ({user.phone})
+              <img src='/img/haircut.png' alt='guest' className='w-8 mb-3' />{' '}
+              {booking.guest?.name} ({booking.guest?.phone})
             </div>
             <div className='p-3 text-center justify-center flex flex-col items-center w-full md:w-[25%]'>
               <img src='/img/barber_1.png' alt='barber1' className='w-8 mb-3' />{' '}
-              {user.services.map((s) => s.title).join(', ')}
+              {booking?.services.map((s) => s.title).join(', ')}
             </div>
             <div className='p-3 text-center justify-center flex flex-col items-center w-full md:w-[25%] capitalize'>
               <img src='/img/barber.png' alt='clock' className='w-8 mb-3' />{' '}
-              {user.barber?.name}
+              {booking?.barber?.name}
             </div>
             <div className='p-3 text-center justify-center flex flex-col items-center w-full md:w-[25%]'>
               <img src='/img/wall-clock.png' alt='clock' className='w-8 mb-3' />{' '}
               <span>
-                {moment(user.datetime.date?.toString()).format('DD/MM/YYYY')}{' '}
-                &nbsp; &nbsp;{getTimeRange(user.datetime.time)}
+                {moment(booking?.bookingTime?.toString()).format('DD/MM/YYYY')}
               </span>
             </div>
           </div>

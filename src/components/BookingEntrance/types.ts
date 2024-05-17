@@ -1,4 +1,5 @@
 import { ITeam } from "../Team/type";
+import { IUserData } from "../UserList";
 
 export interface IServiceItem {
   data: IServiceDataItem
@@ -17,30 +18,24 @@ export interface IServiceDataItem {
 }
 
 export interface IServicesList {
-  user: IUserBooking;
-  handleContinue: (list: any) => void;
+  booking: IGuestBooking;
+  onDoneCallback: (list: any) => void;
 }
 
 export interface INameModal {
-  handleContinue: (a: string) => void
-  phone: string;
+  onDoneCallback: (a: string) => void
+  booking: IGuestBooking;
 }
 
-export interface IUserBooking {
-  id: string;
-  phone: string;
-  name: string
+export interface IGuestBooking {
+  guest: IUserData | null,
+  barber: ITeam | null
   services: IServiceDataItem[],
-  datetime: IDatetime,
-  notes: string,
-  barber: ITeam | null,
-  status: string
+  bookingTime: string
+  phone: string
 }
 
-export interface IDatetime {
-  time: number;
-  date: Date;
-}
+
 export interface IBookingEntrance {
   phone?: string;
   name?: string;

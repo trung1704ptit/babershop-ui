@@ -10,10 +10,7 @@ export interface IBookingItem {
     color: string,
   },
   name: string,
-  datetime: {
-    date: any,
-    time: number,
-  },
+  datetime: string,
   notes?: string,
   phone: string,
   services: {

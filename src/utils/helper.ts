@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import moment from "moment";
 
 import { IUserData } from "../components/UserList";
@@ -70,4 +71,8 @@ export const getLastPoint = (userData: IUserData) => {
   }
 
   return currentPoints;
+}
+
+export const toISOString = (date: any) => {
+  return moment(date).format('YYYY-MM-DDT00:00:00.000') + 'Z';
 }

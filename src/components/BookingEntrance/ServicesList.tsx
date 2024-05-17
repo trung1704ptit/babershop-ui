@@ -11,7 +11,7 @@ export default function ServicesList(props: IServicesList) {
     []
   );
 
-  const handleContinue = () => {
+  const onDoneCallback = () => {
     if (serviceSelected.length === 0) {
       toast.dismiss();
       toast.error('Quý khách chưa chọn dịch vụ nào!', {
@@ -24,7 +24,7 @@ export default function ServicesList(props: IServicesList) {
         behavior: 'smooth',
       });
     } else {
-      props.handleContinue(serviceSelected);
+      props.onDoneCallback(serviceSelected);
     }
   };
 
@@ -50,20 +50,16 @@ export default function ServicesList(props: IServicesList) {
 
   return (
     <>
-      <div className='container mt-[120px]'>
+      <div className='container mt-[100px]'>
         <div>
-          <Typography className='mb-3' variant='h5'>
-            {props.user.name !== 'Guest' ? (
-              <>
-                Mời anh{' '}
-                <span className='uppercase text-red-500'>
-                  {props.user.name}
-                </span>{' '}
-                chọn dịch vụ
-              </>
-            ) : (
-              <>Mời quý khách chọn dịch vụ</>
-            )}
+          <Typography className='mb-2' variant='h5'>
+            <>
+              Mời anh{' '}
+              <span className='uppercase text-red-500'>
+                {props.booking.guest?.name}
+              </span>{' '}
+              chọn dịch vụ
+            </>
           </Typography>
         </div>
 
@@ -83,7 +79,7 @@ export default function ServicesList(props: IServicesList) {
             className='text-white w-full sm:w-4/12 md:6/12 bg-[#9f6e0dd4] text-whitefont-bold uppercase text-sm px-3 py-2.5 rounded shadow hover:shadow-lg outline-none focus:outline-none mb-1 ease-linear transition-all duration-150'
             type='button'
             variant='contained'
-            onClick={handleContinue}
+            onClick={onDoneCallback}
           >
             Chọn {serviceSelected.length > 0 ? serviceSelected.length : ''} dịch
             vụ <span className='arrow_right'></span>

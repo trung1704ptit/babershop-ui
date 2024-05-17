@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { CONTACT } from '../../utils/constants';
 
 interface IProps {
-  handleStartBooking: (val: string) => void;
+  onDoneCallback: (val: string) => void;
 }
 
 const EntranceForm = (props: IProps) => {
@@ -12,7 +12,7 @@ const EntranceForm = (props: IProps) => {
 
   const onSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    props.handleStartBooking(phone);
+    props.onDoneCallback(phone);
   };
 
   return (

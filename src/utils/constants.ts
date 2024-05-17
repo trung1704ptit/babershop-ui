@@ -1,7 +1,12 @@
 import { IServiceDataItem } from "../components/BookingEntrance/types"
 import { ITeam } from "../components/Team/type"
 
-export const TIME_LIST = [8, 8.5, 9, 9.5, 10, 10.5, 11, 11.5, 12, 12.5, 13, 13.5, 14, 14.5, 15, 15.5, 16, 16.5, 17, 17.5, 18, 18.5, 19, 19.5, 20]
+export const TIME_LIST = [
+  '08:00', '08:30', '09:00', '09:30', '10:00', '10:30',
+  '11:00', '11:30', '12:00', '12:30', '13:00', '13:30',
+  '14:00', '14:30', '15:00', '15:30', '16:00', '16:30',
+  '17:00', '17:30', '18:00', '18:30', '19:00', '19:30', '20:00'
+]
 
 export const SERVICES: IServiceDataItem[] = [
   {

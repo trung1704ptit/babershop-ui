@@ -19,7 +19,7 @@ import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 
-import Stylist from '../BookingEntrance/Barbers';
+import Barbers from '../BookingEntrance/Barbers';
 import Loading from '../Loading';
 import addData from '../../firebase/addData';
 import { BOOKING_COLLECTION, db } from '../../firebase/config';
@@ -369,7 +369,7 @@ const CustomEditor = ({ scheduler }: CustomEditorProps) => {
         !newState?.barber.name
       ) {
         toast.error('Cần hoàn thiện các thông tin', {
-          position: toast.POSITION.TOP_RIGHT,
+          position: toast.POSITION.TOP_CENTER,
           hideProgressBar: true,
         });
       } else {
@@ -477,7 +477,7 @@ const CustomEditor = ({ scheduler }: CustomEditorProps) => {
         <div className='border-t m-3' />
 
         <div onClick={onClickOnBarberSection}>
-          <Stylist
+          <Barbers
             handleContinue={finalUpdate}
             title=''
             marginTop='0'

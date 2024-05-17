@@ -21,6 +21,7 @@ import { toast } from 'react-toastify';
 
 import api from '../../utils/api';
 import { MESSAGES, ROLES } from '../../utils/constants';
+import { toISOString } from '../../utils/helper';
 
 interface INewUserProps {
   name: string;
@@ -36,6 +37,7 @@ interface INewUserProps {
 
 interface IProps {
   callbackExit: () => void;
+  guestMode?: boolean;
 }
 
 export const VisuallyHiddenInput = styled('input')({
@@ -55,13 +57,14 @@ function AddNewUser(props: IProps) {
   const [photo, setPhoto] = useState<File | null>(null);
 
   const timstamp = new Date().getTime().toString();
+  const defaultRoles = props.guestMode ? [ROLES.GUEST] : [];
 
   const [formData, setFormData] = useState<INewUserProps>({
     name: '',
     email: '',
     birthday: '',
     phone: '',
-    roles: [],
+    roles: defaultRoles,
     photo: '',
     intro: '',
     password: timstamp,
@@ -215,7 +218,7 @@ function AddNewUser(props: IProps) {
             onChange={(value: any) => {
               setFormData((prevData) => ({
                 ...prevData,
-                birthday: value.$d.toISOString(),
+                birthday: toISOString(value.toString()),
               }));
             }}
             slotProps={{
@@ -263,30 +266,34 @@ function AddNewUser(props: IProps) {
           onChange={handleChange}
         />
 
-        <FormControlLabel
-          control={
-            <Checkbox
-              onChange={(e) => handleRole(e.target.checked, ROLES.GUEST)}
+        {!props.guestMode && (
+          <>
+            <FormControlLabel
+              control={
+                <Checkbox
+                  onChange={(e) => handleRole(e.target.checked, ROLES.GUEST)}
+                />
+              }
+              label='Khách'
             />
-          }
-          label='Khách'
-        />
-        <FormControlLabel
-          control={
-            <Checkbox
-              onChange={(e) => handleRole(e.target.checked, ROLES.BARBER)}
+            <FormControlLabel
+              control={
+                <Checkbox
+                  onChange={(e) => handleRole(e.target.checked, ROLES.BARBER)}
+                />
+              }
+              label='Barber'
             />
-          }
-          label='Barber'
-        />
-        <FormControlLabel
-          control={
-            <Checkbox
-              onChange={(e) => handleRole(e.target.checked, ROLES.ADMIN)}
+            <FormControlLabel
+              control={
+                <Checkbox
+                  onChange={(e) => handleRole(e.target.checked, ROLES.ADMIN)}
+                />
+              }
+              label='Quản trị'
             />
-          }
-          label='Quản trị'
-        />
+          </>
+        )}
 
         {formData.roles.includes(ROLES.BARBER) && (
           <TextField
