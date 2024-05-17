@@ -7,7 +7,7 @@ import EntranceForm from './EntranceForm';
 import Finish from './Finish';
 import NameModal from './NameModal';
 import ServicesList from './ServicesList';
-import { IBookingEntrance, IGuestBooking, IServiceDataItem } from './types';
+import { IBookingEntrance, IGuestBooking } from './types';
 import { ITeam } from '../Team/type';
 import api from '../../utils/api';
 import { ROLES } from '../../utils/constants';
@@ -84,7 +84,7 @@ const Booking = (props: IBookingEntrance) => {
     }
   };
 
-  const handleSelectServices = (services: IServiceDataItem[]) => {
+  const handleSelectServices = (services: string[]) => {
     setBooking((prev) => ({ ...prev, services }));
     setNextStep('barbers');
   };
@@ -123,26 +123,12 @@ const Booking = (props: IBookingEntrance) => {
     barber: ITeam;
     bookingTime: string;
   }) => {
-    const payload = {
-      user: booking,
-      barber: {
-        name: barber.name,
-        color: barber.color,
-      },
-      bookingTime: bookingTime,
-      services: booking.services.map((item) => ({
-        id: item.id,
-        price: item.price,
-        title: item.title,
-        priceLabel: item.priceLabel,
-      })),
-    };
-
     try {
       const res = await api.post('/api/bookings', {
         guest_id: booking?.guest?.id,
         barber_id: barber.id,
         booking_time: bookingTime,
+        services: booking.services,
       });
 
       if (res && res.status == 201) {
@@ -165,14 +151,6 @@ const Booking = (props: IBookingEntrance) => {
         hideProgressBar: true,
       });
     }
-
-    /**
-     * 
-    "barber_id": "1f97b206-eb43-4adc-a025-b120b2d08040",
-    "guest_id": "edf4b4ac-16f7-4da1-961c-730a44cfcea8",
-    "booking_time": "",
-    "services": [""]
-     */
   };
 
   if (nextStep === 'name') {

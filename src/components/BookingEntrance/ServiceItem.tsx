@@ -1,13 +1,19 @@
 import { Button, Typography } from '@mui/material';
 
-import { IServiceDataItem, IServiceItem } from './types';
+import { IService } from './types';
 
-const ServiceItem = (props: IServiceItem) => {
+interface IProps {
+  serviceSelected: IService[];
+  data: IService;
+  handleSelect: (data: IService) => void;
+}
+
+const ServiceItem = (props: IProps) => {
   const isSelected = props.serviceSelected.find(
     (item) => item.id === props.data.id
   );
 
-  const handleSelect = (data: IServiceDataItem) => {
+  const handleSelect = (data: IService) => {
     props.handleSelect(data);
   };
 
@@ -17,9 +23,9 @@ const ServiceItem = (props: IServiceItem) => {
         <div className='p-3 flex flex-col justify-between h-100'>
           <div>
             <Typography variant='h6' className='mb-2'>
-              {props.data.title}
+              {props.data.name}
             </Typography>
-            {props.data.todos.map((todo: string) => (
+            {props?.data?.todos?.map((todo: string) => (
               <p className='flex items-baseline mb-2 text-gray-600' key={todo}>
                 <span className='w-4 h-4 mr-2 inline-flex items-center justify-center bg-[#9f6e0dd4] text-white rounded-full flex-shrink-0 fill-blue-500'>
                   <svg
@@ -39,7 +45,7 @@ const ServiceItem = (props: IServiceItem) => {
             ))}
           </div>
           <div>
-            <p className='font-semibold text-black'>{props.data.priceLabel}</p>
+            <p className='font-semibold text-black'>{props.data.price_text}</p>
             <Button
               className='w-full'
               variant={isSelected ? 'contained' : 'outlined'}

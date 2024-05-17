@@ -2,10 +2,16 @@
 import AddIcon from '@mui/icons-material/Add';
 import CloseIcon from '@mui/icons-material/Close';
 import { Button, Stack, TextField, Typography } from '@mui/material';
+import FormControl from '@mui/material/FormControl';
+import InputLabel from '@mui/material/InputLabel';
+import MenuItem from '@mui/material/MenuItem';
+import Select, { SelectChangeEvent } from '@mui/material/Select';
 import { ChangeEvent, useState } from 'react';
 import { toast } from 'react-toastify';
 
+import DynamicInput from './DynamicInput';
 import api from '../../utils/api';
+import { PRODUCT_CATEGORIES } from '../../utils/constants';
 
 // const VisuallyHiddenInput = styled('input')({
 //   clip: 'rect(0 0 0 0)',
@@ -24,6 +30,8 @@ interface INewUserProps {
   image: string;
   price: number;
   price_text: string;
+  todos: string[];
+  category: string;
   description?: string;
 }
 
@@ -39,6 +47,8 @@ function AddNewUser(props: IProps) {
     image: 'default.png',
     price: 0.0,
     price_text: '',
+    category: '',
+    todos: [],
     description: '',
   });
 
@@ -106,7 +116,7 @@ function AddNewUser(props: IProps) {
 
   return (
     <div className='ml-auto mr-auto max-w-sm'>
-      <Typography variant='h5' gutterBottom className='mb-5'>
+      <Typography variant='h5' gutterBottom className='mb-3'>
         Thêm mới gói dịch vụ
       </Typography>
 
@@ -155,14 +165,22 @@ function AddNewUser(props: IProps) {
           onChange={handleChange}
         />
 
-        <TextField
-          id='outlined-basic'
-          label='Mô tả'
-          variant='outlined'
-          className='w-full mb-3'
-          type='text'
-          name='description'
-          onChange={handleChange}
+        <SelectCategory
+          handleCategoryChange={(category: string) => {
+            setFormData((prevData) => ({
+              ...prevData,
+              category,
+            }));
+          }}
+        />
+
+        <DynamicInput
+          handleChange={(todos: string[]) => {
+            setFormData((prevData) => ({
+              ...prevData,
+              todos,
+            }));
+          }}
         />
 
         <Stack direction='row' gap={2}>
@@ -190,5 +208,38 @@ function AddNewUser(props: IProps) {
     </div>
   );
 }
+
+interface ICategoryProps {
+  category?: string;
+  handleCategoryChange: (category: string) => void;
+}
+
+const SelectCategory = (props: ICategoryProps) => {
+  const [category, setCategory] = useState('');
+
+  const handleChange = (event: SelectChangeEvent) => {
+    setCategory(event.target.value);
+    props.handleCategoryChange(event.target.value);
+  };
+
+  return (
+    <FormControl className='w-100 mb-3' size='medium'>
+      <InputLabel id='demo-select-small-label'>Danh mục</InputLabel>
+      <Select
+        labelId='demo-select-small-label'
+        id='demo-select-small'
+        value={category}
+        label='Danh mục'
+        onChange={handleChange}
+      >
+        {PRODUCT_CATEGORIES.map((c) => (
+          <MenuItem value={c.id} key={c.id}>
+            {c.name}
+          </MenuItem>
+        ))}
+      </Select>
+    </FormControl>
+  );
+};
 
 export default AddNewUser;

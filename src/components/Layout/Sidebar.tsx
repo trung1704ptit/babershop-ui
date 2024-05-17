@@ -71,7 +71,7 @@ const MENU: IMenu[] = [
     ),
   },
   {
-    label: 'Gói Dịch vụ',
+    label: 'Dịch vụ',
     path: '/quan-ly/dich-vu',
     icon: (
       <svg

@@ -1,15 +1,15 @@
 import { Button, Typography } from '@mui/material';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 
 import ServiceItem from './ServiceItem';
-import { IServiceDataItem, IServicesList } from './types';
-import { SERVICES } from '../../utils/constants';
+import { IService, IServicesList } from './types';
+import api from '../../utils/api';
 
 export default function ServicesList(props: IServicesList) {
-  const [serviceSelected, setServicesSelected] = useState<IServiceDataItem[]>(
-    []
-  );
+  const [serviceSelected, setServicesSelected] = useState<IService[]>([]);
+
+  const [services, setServices] = useState<IService[]>([]);
 
   const onDoneCallback = () => {
     if (serviceSelected.length === 0) {
@@ -24,29 +24,38 @@ export default function ServicesList(props: IServicesList) {
         behavior: 'smooth',
       });
     } else {
-      props.onDoneCallback(serviceSelected);
+      props.onDoneCallback(serviceSelected.map((item) => item.id));
     }
   };
 
-  const handleSelect = (data: IServiceDataItem) => {
+  const handleSelect = (data: IService) => {
     let newSelected = serviceSelected;
     const isExist = serviceSelected.find((item) => item.id === data.id);
     if (isExist) {
       newSelected = serviceSelected.filter(
-        (item: IServiceDataItem) => item.id !== data.id
+        (item: IService) => item.id !== data.id
       );
       setServicesSelected(newSelected);
     } else {
       newSelected = [...serviceSelected, data];
       setServicesSelected(newSelected);
     }
-    const url = new URL(window.location as any);
-    url.searchParams.set(
-      'services',
-      newSelected.map((item) => item.id).join(',')
-    );
-    window.history.pushState(null, '', url.toString());
   };
+
+  useEffect(() => {
+    const queryServices = async () => {
+      try {
+        const res = await api.get('/api/services');
+        if (res && res.status === 200) {
+          setServices(res.data.data);
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    queryServices();
+  }, []);
 
   return (
     <>
@@ -64,7 +73,7 @@ export default function ServicesList(props: IServicesList) {
         </div>
 
         <div className='relative flex flex-wrap -m-2 mt-2 mb-[100px] items-stretch'>
-          {SERVICES.map((item) => (
+          {services.map((item) => (
             <ServiceItem
               key={item.id}
               data={item}

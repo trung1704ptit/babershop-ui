@@ -2,24 +2,27 @@ import { ITeam } from "../Team/type";
 import { IUserData } from "../UserList";
 
 export interface IServiceItem {
-  data: IServiceDataItem
-  handleSelect: (data: IServiceDataItem) => void;
-  serviceSelected: IServiceDataItem[]
+  data: IService
+  handleSelect: (data: IService) => void;
+  serviceSelected: IService[]
 }
 
-export interface IServiceDataItem {
-  id: string;
-  title: string,
-  previewImage: string,
-  price: string | number,
-  priceLabel: string,
-  todos: string[];
-  category?: string;
+export interface IService {
+  id: string
+  name: string
+  image: string
+  price: number
+  price_text: string
+  todos: string[]
+  description: string
+  category: string
+  created_at: string
+  updated_at: string
 }
 
 export interface IServicesList {
   booking: IGuestBooking;
-  onDoneCallback: (list: any) => void;
+  onDoneCallback: (list: string[]) => void;
 }
 
 export interface INameModal {
@@ -30,7 +33,7 @@ export interface INameModal {
 export interface IGuestBooking {
   guest: IUserData | null,
   barber: ITeam | null
-  services: IServiceDataItem[],
+  services: string[],
   bookingTime: string
   phone: string
 }
@@ -39,4 +42,6 @@ export interface IGuestBooking {
 export interface IBookingEntrance {
   phone?: string;
   name?: string;
+  step?: string;
+  services?: string;
 }
