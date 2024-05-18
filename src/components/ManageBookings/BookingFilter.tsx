@@ -6,7 +6,7 @@ import {
   Select,
   SelectChangeEvent,
 } from '@mui/material';
-import React, { useState } from 'react';
+import React from 'react';
 
 import { IUserData } from '../UserList';
 import { STATUS } from '../../utils/constants';
@@ -14,20 +14,25 @@ import { STATUS } from '../../utils/constants';
 interface IProps {
   barbers: IUserData[];
   onFilterChange: (filter: any) => void;
+  filter: {
+    barber_id: string;
+    status: string;
+  };
 }
 
 const BookingFilter = (props: IProps) => {
-  const [barberId, setBarberId] = useState('*');
-  const [status, setStatus] = useState('*');
-
   const handleFilterBarber = (event: SelectChangeEvent) => {
-    setBarberId(event.target.value);
-    props.onFilterChange({ barberId: event.target.value, status });
+    props.onFilterChange({
+      barber_id: event.target.value,
+      status: props.filter.status,
+    });
   };
 
   const handleFilterStatus = (event: SelectChangeEvent) => {
-    setStatus(event.target.value);
-    props.onFilterChange({ status: event.target.value, barberId });
+    props.onFilterChange({
+      status: event.target.value,
+      barber_id: props.filter.barber_id,
+    });
   };
 
   return (
@@ -38,7 +43,7 @@ const BookingFilter = (props: IProps) => {
           <Select
             labelId='demo-simple-select-label'
             id='demo-simple-select'
-            value={barberId}
+            value={props.filter.barber_id}
             label='Chọn Barber'
             onChange={handleFilterBarber}
           >
@@ -58,7 +63,7 @@ const BookingFilter = (props: IProps) => {
           <Select
             labelId='demo-simple-select-label'
             id='demo-simple-select'
-            value={status}
+            value={props.filter.status}
             label='Trạng thái'
             onChange={handleFilterStatus}
           >
