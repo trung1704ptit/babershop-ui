@@ -5,6 +5,7 @@ import React, { useEffect, useState } from 'react';
 
 interface IProps {
   handleChange: (todos: string[]) => void;
+  todos?: string[];
 }
 
 const DynamicInput = (props: IProps) => {
@@ -34,6 +35,17 @@ const DynamicInput = (props: IProps) => {
     props.handleChange(inputFields.map((field) => field.value));
   }, [inputFields]);
 
+  useEffect(() => {
+    if (props.todos) {
+      setInputFields(
+        props.todos.map((item) => ({
+          id: Math.random(),
+          value: item,
+        }))
+      );
+    }
+  }, [props.todos]);
+
   return (
     <div className='mb-3'>
       {inputFields.map((field) => (
@@ -42,8 +54,8 @@ const DynamicInput = (props: IProps) => {
           sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 1 }}
         >
           <TextField
-            variant='outlined'
             size='small'
+            placeholder='Mô tả'
             value={field.value}
             onChange={(e) => handleChange(field.id, e)}
           />
@@ -57,7 +69,7 @@ const DynamicInput = (props: IProps) => {
           </Button>
         </Box>
       ))}
-      <Button variant='contained' onClick={handleAddField} size='small'>
+      <Button variant='outlined' onClick={handleAddField} size='small'>
         Thêm mô tả
       </Button>
     </div>

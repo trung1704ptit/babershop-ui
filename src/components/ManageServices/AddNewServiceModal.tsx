@@ -2,16 +2,12 @@
 import AddIcon from '@mui/icons-material/Add';
 import CloseIcon from '@mui/icons-material/Close';
 import { Button, Stack, TextField, Typography } from '@mui/material';
-import FormControl from '@mui/material/FormControl';
-import InputLabel from '@mui/material/InputLabel';
-import MenuItem from '@mui/material/MenuItem';
-import Select, { SelectChangeEvent } from '@mui/material/Select';
 import { ChangeEvent, useState } from 'react';
 import { toast } from 'react-toastify';
 
 import DynamicInput from './DynamicInput';
+import SelectCategory from './SelectCategory';
 import api from '../../utils/api';
-import { PRODUCT_CATEGORIES } from '../../utils/constants';
 
 // const VisuallyHiddenInput = styled('input')({
 //   clip: 'rect(0 0 0 0)',
@@ -208,38 +204,5 @@ function AddNewUser(props: IProps) {
     </div>
   );
 }
-
-interface ICategoryProps {
-  category?: string;
-  handleCategoryChange: (category: string) => void;
-}
-
-const SelectCategory = (props: ICategoryProps) => {
-  const [category, setCategory] = useState('');
-
-  const handleChange = (event: SelectChangeEvent) => {
-    setCategory(event.target.value);
-    props.handleCategoryChange(event.target.value);
-  };
-
-  return (
-    <FormControl className='w-100 mb-3' size='medium'>
-      <InputLabel id='demo-select-small-label'>Danh mục</InputLabel>
-      <Select
-        labelId='demo-select-small-label'
-        id='demo-select-small'
-        value={category}
-        label='Danh mục'
-        onChange={handleChange}
-      >
-        {PRODUCT_CATEGORIES.map((c) => (
-          <MenuItem value={c.id} key={c.id}>
-            {c.name}
-          </MenuItem>
-        ))}
-      </Select>
-    </FormControl>
-  );
-};
 
 export default AddNewUser;

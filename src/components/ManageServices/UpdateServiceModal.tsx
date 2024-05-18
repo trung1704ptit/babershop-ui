@@ -12,6 +12,8 @@ import { ChangeEvent, forwardRef, useState } from 'react';
 import { toast } from 'react-toastify';
 
 import { IService } from '.';
+import DynamicInput from './DynamicInput';
+import SelectCategory from './SelectCategory';
 import api from '../../utils/api';
 
 interface IProps {
@@ -37,6 +39,10 @@ function ServiceDetail(props: IProps) {
     price_text: props.serviceData.price_text,
     description: props.serviceData.description,
     image: props.serviceData.image,
+    todos: props.serviceData.todos,
+    category: props.serviceData.category,
+    created_at: props.serviceData.created_at,
+    updated_at: props.serviceData.updated_at,
   });
 
   const handleSubmitServiceDetail = (e: React.FormEvent) => {
@@ -148,16 +154,24 @@ function ServiceDetail(props: IProps) {
             onChange={handleChange}
           />
 
-          <TextField
-            id='outlined-basic'
-            label='Mô tả'
-            variant='outlined'
-            size='small'
-            className='w-100 mb-3'
-            type='text'
-            name='description'
-            defaultValue={props?.serviceData?.description}
-            onChange={handleChange}
+          <SelectCategory
+            handleCategoryChange={(category: string) => {
+              setFormData((prevData) => ({
+                ...prevData,
+                category,
+              }));
+            }}
+            category={props.serviceData.category}
+          />
+
+          <DynamicInput
+            handleChange={(todos: string[]) => {
+              setFormData((prevData) => ({
+                ...prevData,
+                todos,
+              }));
+            }}
+            todos={props.serviceData.todos}
           />
 
           <Stack direction='row' gap={2}>

@@ -63,6 +63,8 @@ export interface IService {
   image: string;
   price: number;
   price_text: string;
+  todos: string[];
+  category: string;
   description?: string;
   created_at?: string;
   updated_at?: string;
