@@ -32,7 +32,7 @@ const MENU: IMenu[] = [
   },
   {
     label: 'Danh sách đặt lịch',
-    path: '/quan-ly/danh-sach',
+    path: '/quan-ly/dat-lich',
     icon: (
       <svg
         xmlns='http://www.w3.org/2000/svg'

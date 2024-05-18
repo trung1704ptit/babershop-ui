@@ -15,7 +15,7 @@ import api from '../../utils/api';
 import { ROLES, TEAM_EMAILS } from '../../utils/constants';
 import { bookingEmailTemplate, toISOString } from '../../utils/helper';
 
-const Booking = (props: IBookingEntrance) => {
+const Booking = (_: IBookingEntrance) => {
   const [barbers, setBarbers] = useState<ITeam[]>([]);
   const [booking, setBooking] = useState<IGuestBooking>({
     service_ids: [],
@@ -43,9 +43,11 @@ const Booking = (props: IBookingEntrance) => {
             setNextStep('services');
           } else {
             setBooking((prev: IGuestBooking) => ({ ...prev, phone }));
+            setNextStep('name');
           }
         } catch (error) {
           setBooking((prev: IGuestBooking) => ({ ...prev, phone }));
+          setNextStep('name');
         }
       };
       queryUserDetail();
@@ -114,7 +116,7 @@ const Booking = (props: IBookingEntrance) => {
     }
 
     router.push({
-      query: { name: newName, step: 'services' },
+      query: { ...router.query, name: newName, step: 'services' },
     });
     setNextStep('services');
   };

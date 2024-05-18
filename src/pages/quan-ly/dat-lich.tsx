@@ -1,12 +1,11 @@
 import { NextApiRequest } from 'next';
 
-import { BookingFilter, Layout, Scheduler } from '../../components';
+import { Layout, ManageBookings } from '../../components';
 
 const BookingListPage = () => {
   return (
     <Layout>
-      <BookingFilter />
-      <Scheduler />
+      <ManageBookings />
     </Layout>
   );
 };

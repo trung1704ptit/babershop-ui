@@ -16,6 +16,7 @@ export interface IService {
   todos: string[]
   description: string
   category: string
+  service_type: string;
   created_at: string
   updated_at: string
 }
@@ -44,4 +45,17 @@ export interface IBookingEntrance {
   name?: string;
   step?: string;
   services?: string;
+}
+
+export interface IBooking {
+  id: string,
+  barber_id: string,
+  barber: IUserData,
+  guest_id: string,
+  guest: IUserData,
+  status: string,
+  services: IService[],
+  booking_time: string,
+  created_at: string,
+  updated_at: string
 }

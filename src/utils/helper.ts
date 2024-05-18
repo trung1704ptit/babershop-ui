@@ -77,3 +77,9 @@ export const getLastPoint = (userData: IUserData) => {
 export const toISOString = (date: any) => {
   return moment(date).format('YYYY-MM-DDT00:00:00.000') + 'Z';
 }
+
+export function addMinutes(date: Date, minutes: number) {
+  const newDate = new Date(date);
+  newDate.setMinutes(newDate.getMinutes() + minutes);
+  return newDate;
+}

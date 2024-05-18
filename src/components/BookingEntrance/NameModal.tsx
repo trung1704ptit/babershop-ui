@@ -18,13 +18,13 @@ export default function NameModal(props: INameModal) {
   };
 
   const handleCancel = () => {
-    router.push('/');
+    router.push('/dat-lich');
   };
 
   const onDoneCallback = () => {
     try {
       if (!name) {
-        toast.error('Qúy khách vui lòng điền tên hoặc nhấn Bỏ qua', {
+        toast.error('Qúy khách vui lòng cho biết tên', {
           position: toast.POSITION.TOP_CENTER,
           hideProgressBar: true,
         });
@@ -34,10 +34,6 @@ export default function NameModal(props: INameModal) {
     } catch (error) {
       console.log(error);
     }
-  };
-
-  const handleSkip = () => {
-    props.onDoneCallback('Guest');
   };
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -80,11 +76,11 @@ export default function NameModal(props: INameModal) {
 
                   <div className='flex items-center justify-end p-4 md:p-10 rounded-b'>
                     <Button
-                      onClick={handleSkip}
+                      onClick={handleCancel}
                       variant='outlined'
                       className='mr-2'
                     >
-                      Bỏ qua
+                      Quay lại
                     </Button>
                     <Button
                       type='submit'

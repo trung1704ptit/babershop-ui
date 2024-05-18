@@ -4,7 +4,7 @@ import MenuItem from '@mui/material/MenuItem';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
 import { useState } from 'react';
 
-import { PRODUCT_CATEGORIES } from '../../utils/constants';
+import { SERVICE_CATEGORIES } from '../../utils/constants';
 
 interface ICategoryProps {
   category?: string;
@@ -29,7 +29,7 @@ const SelectCategory = (props: ICategoryProps) => {
         label='Danh mục'
         onChange={handleChange}
       >
-        {PRODUCT_CATEGORIES.map((c) => (
+        {SERVICE_CATEGORIES.map((c) => (
           <MenuItem value={c.id} key={c.id}>
             {c.name}
           </MenuItem>

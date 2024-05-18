@@ -18,6 +18,7 @@ import TableCell from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
+import moment from 'moment';
 import { useEffect, useState } from 'react';
 
 import AddNewUser from './AddNewUser';
@@ -94,6 +95,8 @@ export interface IService {
   price: number;
   price_text: string;
   description?: string;
+  todos?: string[];
+  category?: string;
   count?: number;
   created_at: string;
   updated_at: string;
@@ -149,7 +152,9 @@ const UserList = () => {
       services?.forEach((s) => {
         if (s.name.includes('10+2')) {
           s['count'] =
-            services_history[services_history.length - 1]?.count || 0;
+            (services_history &&
+              services_history[services_history.length - 1]?.count) ||
+            0;
         }
       });
     });
@@ -326,7 +331,7 @@ const UserList = () => {
                 </Typography>
                 <Typography variant='body1'>Email: {user.email}</Typography>
                 <Typography variant='body1'>
-                  Ngày sinh: {new Date(user.birthday).toLocaleDateString()}
+                  Ngày sinh: {moment(user.birthday).format('DD/MM/YYYY')}
                 </Typography>
                 <Typography variant='body1'>
                   Điểm: {user?.points?.[user?.points?.length - 1]?.points}
@@ -427,7 +432,7 @@ const UserList = () => {
                           if (column.id === 'birthday') {
                             return (
                               <TableCell key={column.id}>
-                                {new Date(user.birthday).toLocaleDateString()}
+                                {moment(user.birthday).format('DD/MM/YYYY')}
                               </TableCell>
                             );
                           }

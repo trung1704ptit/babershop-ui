@@ -7,7 +7,7 @@ export const TIME_LIST = [
   '17:00', '17:30', '18:00', '18:30', '19:00', '19:30', '20:00'
 ]
 
-export const PRODUCT_CATEGORIES = [{
+export const SERVICE_CATEGORIES = [{
   id: "ee22f7bb-c8bf-4091-af9a-0cc04ed099ba",
   name: 'Dịch vụ cắt tỉa'
 },
@@ -67,7 +67,6 @@ export const TEAM: ITeam[] = [
 
 export const STATUS = {
   DONE: 'done',
-  PENDING: 'pending',
   OPEN: 'open'
 }
 

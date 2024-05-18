@@ -31,7 +31,7 @@ export default function Home(props: IHomeProps) {
       <About />
       <Services />
       <Team barbers={props.barbers} />
-      <Pricing />
+      <Pricing services={props.services} />
       <Products products={props.products} />
       <Reviews />
       <Contact />
@@ -44,12 +44,15 @@ export const getServerSideProps: GetServerSideProps = async () => {
   try {
     const productResults = await getDocsByCollection(PRODUCTS_COLLECTION);
     const barbersRes = await api.get('/api/users?role=barber');
+    const servicesRes = await api.get('/api/services');
+
     if (productResults.error) throw new Error();
 
     return {
       props: {
         products: productResults.result,
         barbers: barbersRes.data.data,
+        services: servicesRes.data.data,
       },
     };
   } catch (error) {
