@@ -36,29 +36,30 @@ export const getSubTotal = (booking: any) => {
   return total;
 }
 
-export const bookingEmailTemplate = (bookingItem: any) => {
-  return `
-	<div style="background: #fcf9f5; padding: 25px; border-radius: 10px">
-      <h2 style="text-align:center; margin-bottom:25px">Thông báo có lịch hẹn cắt tóc mới</h2>
-      <div>Xin chào <b>${bookingItem.barber.name}</b>,</div>
-      <div>Bạn có một lịch hẹn cắt tóc:</div>
-      <ul>
-          <li>Tên khách hàng: ${bookingItem.name}</li>
-          <li>Số điện thoại: ${bookingItem.phone}</li>
-          <li>Chỉ định người cắt: <b>${bookingItem.barber.name}</b></li>
-          <li>Thời gian: ${moment(bookingItem.datetime.date?.toString()).format('DD/MM/YYYY')} &nbsp;${getTimeRange(bookingItem.datetime.time)}</li>
-          <li>Dịch vụ: ${bookingItem.services.map((s: any) => `${s.title}(${s.priceLabel})`).join(', ')}</li>
-          <li>Tạm tính: ${getSubTotal(bookingItem)} VND</li>
-          ${bookingItem.notes ? `<li>Ghi chú: ${bookingItem.notes}</li>` : ''}
-      </ul>
-      
-      <div style="margin-bottom: 20px"><i>Đây là email tự động, vui lòng không phản hồi lại email này.</i></div>
-      
-      
-      <div>Xin cảm ơn,</div>
-      <div>Roy Barber Shop team.</div>
-    </div>
-  `
+export const bookingEmailTemplate = (bookingRes: any) => {
+  try {
+    return `
+    <div style="background: #fcf9f5; padding: 25px; border-radius: 10px">
+        <h2 style="text-align:center; margin-bottom:25px">Thông báo có lịch hẹn cắt tóc mới</h2>
+        <div>Xin chào,</div>
+        <div>Bạn có một lịch hẹn cắt tóc:</div>
+        <ul>
+            <li>Tên khách hàng: ${bookingRes.guest.name}</li>
+            <li>Số điện thoại: ${bookingRes.guest.phone}</li>
+            <li>Chỉ định người cắt: <b>${bookingRes.barber.name}</b></li>
+            <li>Thời gian: ${moment(bookingRes.booking_time).format('DD/MM/YYYY HH:mm')}</li>
+            <li>Dịch vụ: ${bookingRes.services.map((s: any) => `${s.name}(${s.price_text})`).join(', ')}</li>
+            ${bookingRes.notes ? `<li>Ghi chú: ${bookingRes.notes}</li>` : ''}
+        </ul>
+        
+        <div style="margin-bottom: 20px"><i>Đây là email tự động, vui lòng không phản hồi lại email này.</i></div>
+        <div>Xin cảm ơn,</div>
+        <div><b>Roy Barber Shop</b> team</div>
+      </div>
+    `
+  } catch (error) {
+    return '';
+  }
 }
 
 export const getLastPoint = (userData: IUserData) => {

@@ -1,12 +1,12 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @next/next/no-img-element */
 import { Typography } from '@mui/material';
 import moment from 'moment';
 import { useEffect } from 'react';
 
-import { IGuestBooking } from './types';
 import { CONTACT } from '../../utils/constants';
 
-const Finish = ({ booking }: { booking: IGuestBooking }) => {
+const Finish = ({ bookingRes }: { bookingRes: any }) => {
   try {
     useEffect(() => {
       window.scroll({
@@ -29,20 +29,20 @@ const Finish = ({ booking }: { booking: IGuestBooking }) => {
           <div className='mb-4 text-black text-lg flex flex-wrap'>
             <div className='p-3 text-center justify-center flex flex-col items-center w-full md:w-[25%] capitalize'>
               <img src='/img/haircut.png' alt='guest' className='w-8 mb-3' />{' '}
-              {booking.guest?.name} ({booking.guest?.phone})
+              {bookingRes.guest?.name} ({bookingRes.guest?.phone})
             </div>
             <div className='p-3 text-center justify-center flex flex-col items-center w-full md:w-[25%]'>
               <img src='/img/barber_1.png' alt='barber1' className='w-8 mb-3' />{' '}
-              {booking?.services.map((s) => s.title).join(', ')}
+              {bookingRes?.services.map((s: any) => s.name).join(', ')}
             </div>
             <div className='p-3 text-center justify-center flex flex-col items-center w-full md:w-[25%] capitalize'>
               <img src='/img/barber.png' alt='clock' className='w-8 mb-3' />{' '}
-              {booking?.barber?.name}
+              {bookingRes?.barber?.name}
             </div>
             <div className='p-3 text-center justify-center flex flex-col items-center w-full md:w-[25%]'>
               <img src='/img/wall-clock.png' alt='clock' className='w-8 mb-3' />{' '}
               <span>
-                {moment(booking?.bookingTime?.toString()).format('DD/MM/YYYY')}
+                {moment(bookingRes?.booking_time).format('DD/MM/YYYY HH:mm')}
               </span>
             </div>
           </div>

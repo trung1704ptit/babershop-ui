@@ -7,7 +7,9 @@ import { toast } from 'react-toastify';
 
 import DynamicInput from './DynamicInput';
 import SelectCategory from './SelectCategory';
+import ServiceType from './ServiceType';
 import api from '../../utils/api';
+import { SERVICE_TYPES } from '../../utils/constants';
 
 // const VisuallyHiddenInput = styled('input')({
 //   clip: 'rect(0 0 0 0)',
@@ -28,6 +30,7 @@ interface INewUserProps {
   price_text: string;
   todos: string[];
   category: string;
+  service_type: string;
   description?: string;
 }
 
@@ -45,6 +48,7 @@ function AddNewUser(props: IProps) {
     price_text: '',
     category: '',
     todos: [],
+    service_type: SERVICE_TYPES.ONE_TIME,
     description: '',
   });
 
@@ -159,6 +163,16 @@ function AddNewUser(props: IProps) {
           type='text'
           name='price_text'
           onChange={handleChange}
+        />
+
+        <ServiceType
+          onSelectCallback={(val: string) => {
+            setFormData((prevData) => ({
+              ...prevData,
+              service_type: val,
+            }));
+          }}
+          serviceType={formData.service_type}
         />
 
         <SelectCategory

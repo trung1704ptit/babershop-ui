@@ -25,7 +25,14 @@ import UpdateServiceModal from './UpdateServiceModal';
 import api from '../../utils/api';
 
 interface Column {
-  id: 'name' | 'image' | 'price' | 'price_text' | 'description' | 'action';
+  id:
+    | 'name'
+    | 'image'
+    | 'price'
+    | 'price_text'
+    | 'description'
+    | 'action'
+    | 'service_type';
   label: string;
   minWidth?: number;
   align?: 'right';
@@ -46,8 +53,8 @@ const columns: readonly Column[] = [
     minWidth: 100,
   },
   {
-    id: 'description',
-    label: 'Mô tả',
+    id: 'service_type',
+    label: 'Thời hạn',
     minWidth: 100,
   },
   {
@@ -65,6 +72,7 @@ export interface IService {
   price_text: string;
   todos: string[];
   category: string;
+  service_type: string;
   description?: string;
   created_at?: string;
   updated_at?: string;

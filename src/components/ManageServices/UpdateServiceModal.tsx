@@ -14,6 +14,7 @@ import { toast } from 'react-toastify';
 import { IService } from '.';
 import DynamicInput from './DynamicInput';
 import SelectCategory from './SelectCategory';
+import ServiceType from './ServiceType';
 import api from '../../utils/api';
 
 interface IProps {
@@ -41,6 +42,7 @@ function ServiceDetail(props: IProps) {
     image: props.serviceData.image,
     todos: props.serviceData.todos,
     category: props.serviceData.category,
+    service_type: props.serviceData.service_type,
     created_at: props.serviceData.created_at,
     updated_at: props.serviceData.updated_at,
   });
@@ -152,6 +154,16 @@ function ServiceDetail(props: IProps) {
             name='image'
             defaultValue={props?.serviceData?.image}
             onChange={handleChange}
+          />
+
+          <ServiceType
+            onSelectCallback={(val: string) => {
+              setFormData((prevData) => ({
+                ...prevData,
+                service_type: val,
+              }));
+            }}
+            serviceType={props.serviceData.service_type}
           />
 
           <SelectCategory

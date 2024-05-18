@@ -91,3 +91,8 @@ export const ROLES = {
   BARBER: 'barber',
   GUEST: 'guest',
 }
+
+export const SERVICE_TYPES = {
+  ONE_TIME: 'one_time',
+  LONG_TIME: 'long_time',
+}

@@ -33,8 +33,8 @@ export interface INameModal {
 export interface IGuestBooking {
   guest: IUserData | null,
   barber: ITeam | null
-  services: string[],
-  bookingTime: string
+  service_ids: string[],
+  booking_time: string
   phone: string
 }
 

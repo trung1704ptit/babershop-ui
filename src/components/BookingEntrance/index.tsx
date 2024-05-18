@@ -1,3 +1,5 @@
+/* eslint-disable unused-imports/no-unused-vars */
+import axios from 'axios';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
@@ -10,20 +12,20 @@ import ServicesList from './ServicesList';
 import { IBookingEntrance, IGuestBooking } from './types';
 import { ITeam } from '../Team/type';
 import api from '../../utils/api';
-import { ROLES } from '../../utils/constants';
-import { toISOString } from '../../utils/helper';
+import { ROLES, TEAM_EMAILS } from '../../utils/constants';
+import { bookingEmailTemplate, toISOString } from '../../utils/helper';
 
 const Booking = (props: IBookingEntrance) => {
   const [barbers, setBarbers] = useState<ITeam[]>([]);
   const [booking, setBooking] = useState<IGuestBooking>({
-    services: [],
-    bookingTime: '',
+    service_ids: [],
+    booking_time: '',
     barber: null,
     guest: null,
     phone: '',
   });
   const [nextStep, setNextStep] = useState('start');
-
+  const [bookingRes, setBookingRes] = useState();
   const router = useRouter();
 
   useEffect(() => {
@@ -36,8 +38,9 @@ const Booking = (props: IBookingEntrance) => {
           if (res && res.status == 200) {
             setBooking((prev: IGuestBooking) => ({
               ...prev,
-              ...res.data.data,
+              guest: res.data.data,
             }));
+            setNextStep('services');
           } else {
             setBooking((prev: IGuestBooking) => ({ ...prev, phone }));
           }
@@ -77,15 +80,15 @@ const Booking = (props: IBookingEntrance) => {
         });
       } else {
         toast.dismiss();
-        router.push(`/dat-lich/chi-tiet?phone=${phone}&step=name`);
+        router.push(`/dat-lich/chi-tiet?phone=${phone}`);
       }
     } catch (error) {
       console.log(error);
     }
   };
 
-  const handleSelectServices = (services: string[]) => {
-    setBooking((prev) => ({ ...prev, services }));
+  const handleSelectServices = (service_ids: string[]) => {
+    setBooking((prev) => ({ ...prev, service_ids }));
     setNextStep('barbers');
   };
 
@@ -128,20 +131,25 @@ const Booking = (props: IBookingEntrance) => {
         guest_id: booking?.guest?.id,
         barber_id: barber.id,
         booking_time: bookingTime,
-        services: booking.services,
+        service_ids: booking.service_ids,
       });
 
       if (res && res.status == 201) {
-        // const emailTemplate = bookingEmailTemplate(payload);
-        // axios.post('/api/booking-notification', {
-        //   from: 'support@roybarbershop.com',
-        //   to:
-        //     barber.email === TEAM_EMAILS.DINH_QUANG
-        //       ? barber.email
-        //       : [barber.email, TEAM_EMAILS.DINH_QUANG],
-        //   subject: `Thông báo có lịch hẹn cắt tóc mới`,
-        //   html: emailTemplate,
-        // });
+        setBookingRes(res.data.data);
+        const to =
+          barber.email === TEAM_EMAILS.DINH_QUANG
+            ? [barber.email]
+            : [barber.email, TEAM_EMAILS.DINH_QUANG];
+        if (!res.data.data.guest.email.includes('guest')) {
+          to.push(res.data.data.guest.email);
+        }
+        const emailTemplate = bookingEmailTemplate(res.data.data);
+        axios.post('/api/booking-notification', {
+          from: 'Roy Barber Shop <roybarbershop>',
+          to: to,
+          subject: `Thông báo có lịch hẹn cắt tóc mới`,
+          html: emailTemplate,
+        });
         setNextStep('finish');
       }
     } catch (error) {
@@ -175,7 +183,7 @@ const Booking = (props: IBookingEntrance) => {
   }
 
   if (nextStep === 'finish') {
-    return <Finish booking={booking} />;
+    return <Finish bookingRes={bookingRes} />;
   }
 
   return <EntranceForm onDoneCallback={handleStartBooking} />;
