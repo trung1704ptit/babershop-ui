@@ -7,6 +7,8 @@ import Lightbox from 'yet-another-react-lightbox';
 
 import 'yet-another-react-lightbox/styles.css';
 
+import useMobile from '../../hooks/useMobile';
+
 export interface IGallery {
   id: string;
   name: string;
@@ -22,6 +24,7 @@ interface IProps {
 export default function ImagesGallery(props: IProps) {
   const [index, setIndex] = useState(-1);
   const [images, setImages] = useState<any>([]);
+  const { isMobile } = useMobile();
 
   useEffect(() => {
     if (props?.galleries && props?.galleries.length) {
@@ -44,7 +47,7 @@ export default function ImagesGallery(props: IProps) {
         <h2>Thư viện ảnh</h2>
         <div className='heading-line' />
       </div>
-      <ImageList variant='masonry' cols={5} gap={8}>
+      <ImageList variant='masonry' cols={isMobile ? 3 : 5} gap={8}>
         {images.map((item: any, index: number) => (
           <ImageListItem key={item.image_url}>
             <img
