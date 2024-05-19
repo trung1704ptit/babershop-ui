@@ -40,7 +40,7 @@ export const bookingEmailTemplate = (bookingRes: any) => {
   try {
     return `
     <div style="background: #fcf9f5; padding: 25px; border-radius: 10px">
-        <h2 style="text-align:center; margin-bottom:25px">Thông báo có lịch hẹn cắt tóc mới</h2>
+        <h2 style="text-align:center; margin-bottom:25px">Thông báo lịch hẹn cắt tóc</h2>
         <div>Xin chào,</div>
         <div>Bạn có một lịch hẹn cắt tóc:</div>
         <ul>

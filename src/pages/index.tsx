@@ -13,6 +13,7 @@ import {
   Services,
   Team,
 } from '../components';
+import ImagesGallery from '../components/ImagesGallery';
 import { PRODUCTS_COLLECTION } from '../firebase/config';
 import { getDocsByCollection } from '../firebase/getData';
 import { IHomeProps } from '../interface/pages';
@@ -29,6 +30,7 @@ export default function Home(props: IHomeProps) {
       <Header />
       <HeroCarousel />
       <About />
+      <ImagesGallery />
       <Services />
       <Team barbers={props.barbers} />
       <Pricing services={props.services} />

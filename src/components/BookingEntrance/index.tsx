@@ -149,7 +149,7 @@ const Booking = (_: IBookingEntrance) => {
         axios.post('/api/booking-notification', {
           from: 'Roy Barber Shop <roybarbershop>',
           to: to,
-          subject: `Thông báo có lịch hẹn cắt tóc mới`,
+          subject: `Thông báo lịch hẹn cắt tóc`,
           html: emailTemplate,
         });
         setNextStep('finish');
