@@ -1,9 +1,12 @@
 /* eslint-disable @next/next/no-img-element */
 /* eslint-disable jsx-a11y/alt-text */
 
-import { Add, CloudUpload } from '@mui/icons-material';
+import { Add } from '@mui/icons-material';
 import CloseIcon from '@mui/icons-material/Close';
-import { Button, Grid, IconButton, TextField, Typography } from '@mui/material';
+import CloudUploadIcon from '@mui/icons-material/CloudUpload';
+import SaveIcon from '@mui/icons-material/Save';
+import { Button, Grid, IconButton, Typography } from '@mui/material';
+import { styled } from '@mui/material/styles';
 import React, { useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 
@@ -17,6 +20,18 @@ interface ImageInput {
   img: string;
   imgOriginUrl: string;
 }
+
+const VisuallyHiddenInput = styled('input')({
+  clip: 'rect(0 0 0 0)',
+  clipPath: 'inset(50%)',
+  height: 1,
+  overflow: 'hidden',
+  position: 'absolute',
+  bottom: 0,
+  left: 0,
+  whiteSpace: 'nowrap',
+  width: 1,
+});
 
 const DynamicImageUpload = () => {
   const [gallery, setGallery] = useState<IGallery>();
@@ -132,35 +147,43 @@ const DynamicImageUpload = () => {
       <div>
         {inputs?.map((input) => (
           <Grid container spacing={2} key={input.id} alignItems='center'>
-            <Grid item xs={8} display='flex' gap={2} mb={2}>
-              <TextField
-                type='file'
-                fullWidth
-                onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                  handleFileChange(
-                    input.id,
-                    e.target?.files ? e.target?.files[0] : undefined
-                  )
-                }
-              />
+            <Grid item gap={2} mb={2}>
+              <Button
+                component='label'
+                role={undefined}
+                variant='outlined'
+                tabIndex={-1}
+                startIcon={<CloudUploadIcon />}
+                size='small'
+                className='mr-3'
+              >
+                Tải ảnh khác
+                <VisuallyHiddenInput
+                  type='file'
+                  onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                    handleFileChange(
+                      input.id,
+                      e.target?.files ? e.target?.files[0] : undefined
+                    )
+                  }
+                />
+              </Button>
 
-              {input?.img && <img src={input?.img} width={80} />}
+              {input?.img && <img src={input?.img} width={50} />}
 
               {input.file && (
-                <img src={URL.createObjectURL(input.file)} width={80} />
+                <img src={URL.createObjectURL(input.file)} width={50} />
               )}
             </Grid>
-            <Grid item>
-              <IconButton onClick={() => handleRemoveField(input.id)}>
-                <CloseIcon />
-              </IconButton>
-            </Grid>
+            <IconButton onClick={() => handleRemoveField(input.id)}>
+              <CloseIcon />
+            </IconButton>
           </Grid>
         ))}
       </div>
 
       <Button
-        variant='contained'
+        variant='outlined'
         size='small'
         startIcon={<Add />}
         onClick={handleAddField}
@@ -171,7 +194,7 @@ const DynamicImageUpload = () => {
       <Button
         variant='contained'
         size='small'
-        startIcon={<CloudUpload />}
+        startIcon={<SaveIcon />}
         onClick={handleUpload}
         style={{ marginTop: '20px', marginLeft: '20px' }}
       >
