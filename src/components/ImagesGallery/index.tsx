@@ -1,24 +1,42 @@
-import { useState } from 'react';
-import { Gallery } from 'react-grid-gallery';
-import Lightbox from 'react-image-lightbox';
+/* eslint-disable @next/next/no-img-element */
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import ImageList from '@mui/material/ImageList';
+import ImageListItem from '@mui/material/ImageListItem';
+import { useEffect, useState } from 'react';
+import Lightbox from 'yet-another-react-lightbox';
 
-import 'react-image-lightbox/style.css';
+import 'yet-another-react-lightbox/styles.css';
 
-import { CustomImage, images } from './images';
+export interface IGallery {
+  id: string;
+  name: string;
+  images: string[];
+  created_at: string;
+  updated_at: string;
+}
 
-export default function ImagesGallery() {
+interface IProps {
+  galleries: IGallery[];
+}
+
+export default function ImagesGallery(props: IProps) {
   const [index, setIndex] = useState(-1);
+  const [images, setImages] = useState<any>([]);
 
-  const currentImage = images[index];
-  const nextIndex = (index + 1) % images.length;
-  const nextImage = images[nextIndex] || currentImage;
-  const prevIndex = (index + images.length - 1) % images.length;
-  const prevImage = images[prevIndex] || currentImage;
+  useEffect(() => {
+    if (props?.galleries && props?.galleries.length) {
+      const imagesFormated = props?.galleries[0]?.images.map((img) => ({
+        src: img.includes('uploads/')
+          ? `${process.env.NEXT_PUBLIC_APP_API_PATH}/api/${img}`
+          : img,
+      }));
+      setImages(imagesFormated);
+    }
+  }, [props.galleries]);
 
-  const handleClick = (index: number, item: CustomImage) => setIndex(index);
-  const handleClose = () => setIndex(-1);
-  const handleMovePrev = () => setIndex(prevIndex);
-  const handleMoveNext = () => setIndex(nextIndex);
+  const handleClick = (index: number) => {
+    setIndex(index);
+  };
 
   return (
     <div className='container mt-4 mb-4'>
@@ -26,25 +44,26 @@ export default function ImagesGallery() {
         <h2>Thư viện ảnh</h2>
         <div className='heading-line' />
       </div>
-      <Gallery
-        images={images}
-        onClick={handleClick}
-        enableImageSelection={false}
+      <ImageList variant='masonry' cols={5} gap={8}>
+        {images.map((item: any, index: number) => (
+          <ImageListItem key={item.image_url}>
+            <img
+              srcSet={item.src}
+              src={item.src}
+              alt={item.name}
+              loading='lazy'
+              onClick={() => handleClick(index)}
+              className='cursor-pointer'
+            />
+          </ImageListItem>
+        ))}
+      </ImageList>
+      <Lightbox
+        index={index}
+        slides={images}
+        open={index >= 0}
+        close={() => setIndex(-1)}
       />
-      {!!currentImage && (
-        <Lightbox
-          mainSrc={currentImage.original}
-          imageTitle={currentImage.caption}
-          mainSrcThumbnail={currentImage.src}
-          // nextSrc={nextImage.original}
-          // nextSrcThumbnail={nextImage.src}
-          // prevSrc={prevImage.original}
-          // prevSrcThumbnail={prevImage.src}
-          onCloseRequest={handleClose}
-          onMovePrevRequest={handleMovePrev}
-          onMoveNextRequest={handleMoveNext}
-        />
-      )}
     </div>
   );
 }

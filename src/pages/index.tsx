@@ -30,7 +30,7 @@ export default function Home(props: IHomeProps) {
       <Header />
       <HeroCarousel />
       <About />
-      <ImagesGallery />
+      <ImagesGallery galleries={props.galleries} />
       <Services />
       <Team barbers={props.barbers} />
       <Pricing services={props.services} />
@@ -47,6 +47,7 @@ export const getServerSideProps: GetServerSideProps = async () => {
     const productResults = await getDocsByCollection(PRODUCTS_COLLECTION);
     const barbersRes = await api.get('/api/users?role=barber');
     const servicesRes = await api.get('/api/services');
+    const galleriesRes = await api.get('/api/galleries');
 
     if (productResults.error) throw new Error();
 
@@ -55,6 +56,7 @@ export const getServerSideProps: GetServerSideProps = async () => {
         products: productResults.result,
         barbers: barbersRes.data.data,
         services: servicesRes.data.data,
+        galleries: galleriesRes.data.data,
       },
     };
   } catch (error) {
