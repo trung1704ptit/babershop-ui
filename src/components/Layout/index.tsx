@@ -39,7 +39,7 @@ const Layout = (props: Props) => {
               </Button>
             )}
           </div>
-          {props.children}
+          <div className='p-1 mt-2'>{props.children}</div>
         </main>
       </div>
       <Footer />

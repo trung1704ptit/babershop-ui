@@ -217,7 +217,7 @@ const UserList = () => {
 
   const fetchServiceList = async () => {
     try {
-      const res = await api.get('/api/services');
+      const res = await api.get('/api/services?service_type=long_time');
       if (res && res.status == 200) {
         const services = res.data.data;
         setServices(services);

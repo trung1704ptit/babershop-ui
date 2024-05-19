@@ -1,6 +1,6 @@
 import { NextApiRequest } from 'next';
 
-import { Layout } from '../../components';
+import Layout from '../../components/Layout';
 import ManageServices from '../../components/ManageServices';
 
 const BookingListPage = () => {

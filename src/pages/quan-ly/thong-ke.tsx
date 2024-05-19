@@ -1,12 +1,12 @@
 import { NextApiRequest } from 'next';
 
-import { Layout } from '../../components';
-import Summary from '../../components/Summary';
+import Layout from '../../components/Layout';
+import ManageSummary from '../../components/ManageSummary';
 
 const BookingListPage = () => {
   return (
     <Layout>
-      <Summary />
+      <ManageSummary />
     </Layout>
   );
 };

@@ -4,16 +4,13 @@ import Contact from './Contact';
 import Footer from './Footer';
 import Header from './Header';
 import HeroCarousel from './HeroCarousel';
-import Layout from './Layout';
 import Loading from './Loading';
 import Login from './Login';
-import ManageBookings from './ManageBookings';
 import Pricing from './Pricing';
 import Products from './Products';
 import Reviews from './Reviews';
-import ScrollToTop from './ScrollToTop';
+// import ScrollToTop from './ScrollToTop';
 import Services from './Services';
-import Summary from './Summary';
 import Team from './Team';
 
 export {
@@ -23,15 +20,12 @@ export {
   Footer,
   Header,
   HeroCarousel,
-  Layout,
   Loading,
   Login,
-  ManageBookings,
   Pricing,
   Products,
   Reviews,
-  ScrollToTop,
+  // ScrollToTop,
   Services,
-  Summary,
   Team,
 };
