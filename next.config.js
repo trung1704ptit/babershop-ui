@@ -17,6 +17,7 @@ module.exports = withBundleAnalyzer({
       {
         // matching all API routes
         source: '/api/(.*)',
+        destination: 'https://api.roybarbershop.com/:path*',
         headers: [
           { key: 'Access-Control-Allow-Credentials', value: 'true' },
           { key: 'Access-Control-Allow-Origin', value: '*' },
