@@ -45,7 +45,7 @@ export default function ServicesList(props: IServicesList) {
   useEffect(() => {
     const queryServices = async () => {
       try {
-        const res = await api.get('/api/services?service_type=one_time');
+        const res = await api.get('api/services?service_type=one_time');
         if (res && res.status === 200) {
           setServices(res.data.data);
         }

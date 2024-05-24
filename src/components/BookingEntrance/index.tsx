@@ -62,7 +62,7 @@ const Booking = (_: IBookingEntrance) => {
   useEffect(() => {
     const queryBarbers = async () => {
       try {
-        const res = await api.get('/api/users?role=barber');
+        const res = await api.get('api/users?role=barber');
         if (res.status === 200) {
           setBarbers(res.data.data);
         }

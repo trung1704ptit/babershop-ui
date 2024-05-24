@@ -87,7 +87,7 @@ const Header = ({ position }: IHeaderProps) => {
                 className='ml-2 text-white'
                 onClick={async () => {
                   cookie?.remove('logged_in');
-                  api.get('/api/auth/logout');
+                  api.get('api/auth/logout');
                   router.push('/');
                 }}
               >
@@ -225,7 +225,7 @@ const MobileMenu = (props: IMobileProps) => {
               variant='outlined'
               className='w-full'
               onClick={async () => {
-                await api.get('/api/auth/logout');
+                await api.get('api/auth/logout');
                 router.push('/');
               }}
             >

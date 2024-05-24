@@ -24,7 +24,7 @@ const ManageBookings = () => {
   const queryBookings = async (params?: any) => {
     try {
       setLoading(true);
-      const res = await api.get('/api/bookings', { params });
+      const res = await api.get('api/bookings', { params });
       const bookings = res.data.data;
       const eventsFormat = bookings.map((booking: IBooking) => {
         const start = new Date(booking.booking_time);
@@ -49,7 +49,7 @@ const ManageBookings = () => {
   useEffect(() => {
     const queryBarbers = async () => {
       try {
-        const res = await api.get('/api/users?role=barber');
+        const res = await api.get('api/users?role=barber');
         setBarbers(res.data.data);
       } catch (err) {
         console.error(err);

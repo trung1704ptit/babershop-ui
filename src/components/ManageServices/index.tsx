@@ -129,7 +129,7 @@ const ServiceList = () => {
   const fetchServiceList = async () => {
     try {
       setLoading(true);
-      const res = await api.get('/api/services');
+      const res = await api.get('api/services');
       if (res?.status == 200) {
         const servicesData = res.data.data;
         setServices(servicesData);

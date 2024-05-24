@@ -60,7 +60,7 @@ const DynamicImageUpload = () => {
 
   const queryGallery = async () => {
     try {
-      const res = await api.get('/api/galleries');
+      const res = await api.get('api/galleries');
       if (res && res.status === 200) {
         const result = res.data.data[0];
         setGallery(res.data.data[0]);
