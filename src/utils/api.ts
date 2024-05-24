@@ -10,6 +10,7 @@ const api = () => {
     withCredentials: true,
     headers: {
       'Content-Type': 'application/json',
+      'Cache-Control': 'no-store, no-cache, must-revalidate',
     },
   };
 
