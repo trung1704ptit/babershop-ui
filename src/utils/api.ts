@@ -1,6 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import axios from 'axios';
-import cookie from 'js-cookie';
 
 const UNAUTH_MESSAGE = 'the user belonging to this token no logger exists'
 
@@ -18,10 +17,6 @@ const api = () => {
 
   // Set the AUTH token for any request
   instance.interceptors.request.use((config) => {
-    const accessToken = cookie.get('access_token');
-    if (accessToken) {
-      config.headers.Authorization = `Bearer ${accessToken}`;
-    }
     return config;
   }, (error) => {
     return Promise.reject(error);
