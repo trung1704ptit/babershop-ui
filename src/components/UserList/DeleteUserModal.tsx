@@ -34,6 +34,7 @@ export default function DeleteUserModal(props: IProps) {
             setLoading(true);
             await api.delete(`/api/services/history/${props.userData.id}`);
             await api.delete(`/api/points/history/${props.userData.id}`);
+            await api.delete(`/api/bookings/guest/${props.userData.id}`);
 
             const res = await api.delete(`/api/users/${props.userData.id}`);
             if (res.status === 204) {
