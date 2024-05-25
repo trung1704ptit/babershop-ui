@@ -45,9 +45,9 @@ export default function Home(props: IHomeProps) {
 export const getServerSideProps: GetServerSideProps = async () => {
   try {
     const productResults = await getDocsByCollection(PRODUCTS_COLLECTION);
-    const barbersRes = await api.get('api/users?role=barber');
-    const servicesRes = await api.get('api/services');
-    const galleriesRes = await api.get('api/galleries');
+    const barbersRes = await api.get('/api/users?role=barber');
+    const servicesRes = await api.get('/api/services');
+    const galleriesRes = await api.get('/api/galleries');
 
     if (productResults.error) throw new Error();
 
