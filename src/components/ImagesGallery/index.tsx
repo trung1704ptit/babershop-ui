@@ -28,7 +28,7 @@ export default function ImagesGallery(props: IProps) {
 
   useEffect(() => {
     if (props?.galleries && props?.galleries.length) {
-      const imagesFormated = props?.galleries[0]?.images.map((img) => ({
+      const imagesFormated = props?.galleries[0]?.images?.map((img) => ({
         src: img.includes('uploads/')
           ? `${process.env.NEXT_PUBLIC_APP_API_PATH}/api/${img}`
           : img,
@@ -41,32 +41,39 @@ export default function ImagesGallery(props: IProps) {
     setIndex(index);
   };
 
-  return (
-    <div className='container mt-4 mb-4'>
-      <div className='section_heading text-center mb-40' data-wow-delay='300ms'>
-        <h2>Thư viện ảnh</h2>
-        <div className='heading-line' />
+  if (images && images.length) {
+    return (
+      <div className='container mt-4 mb-4'>
+        <div
+          className='section_heading text-center mb-40'
+          data-wow-delay='300ms'
+        >
+          <h2>Thư viện ảnh</h2>
+          <div className='heading-line' />
+        </div>
+        <ImageList variant='masonry' cols={isMobile ? 3 : 5} gap={8}>
+          {images.map((item: any, index: number) => (
+            <ImageListItem key={item.image_url}>
+              <img
+                srcSet={item.src}
+                src={item.src}
+                alt={item.name}
+                loading='lazy'
+                onClick={() => handleClick(index)}
+                className='cursor-pointer'
+              />
+            </ImageListItem>
+          ))}
+        </ImageList>
+        <Lightbox
+          index={index}
+          slides={images}
+          open={index >= 0}
+          close={() => setIndex(-1)}
+        />
       </div>
-      <ImageList variant='masonry' cols={isMobile ? 3 : 5} gap={8}>
-        {images.map((item: any, index: number) => (
-          <ImageListItem key={item.image_url}>
-            <img
-              srcSet={item.src}
-              src={item.src}
-              alt={item.name}
-              loading='lazy'
-              onClick={() => handleClick(index)}
-              className='cursor-pointer'
-            />
-          </ImageListItem>
-        ))}
-      </ImageList>
-      <Lightbox
-        index={index}
-        slides={images}
-        open={index >= 0}
-        close={() => setIndex(-1)}
-      />
-    </div>
-  );
+    );
+  }
+
+  return null;
 }
