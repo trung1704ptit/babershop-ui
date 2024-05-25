@@ -6,7 +6,7 @@ const UNAUTH_MESSAGE = 'the user belonging to this token no logger exists'
 const api = () => {
   const defaultOptions = {
     baseURL: process.env.NEXT_PUBLIC_APP_API_PATH,
-    // withCredentials: true,
+    withCredentials: true,
     headers: {
       'Content-Type': 'application/json',
     },
