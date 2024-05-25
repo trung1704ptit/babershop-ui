@@ -22,6 +22,7 @@ import Toolbar from '@mui/material/Toolbar';
 import { TransitionProps } from '@mui/material/transitions';
 import { DatePicker, LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { viVN } from '@mui/x-date-pickers/locales';
 import axios from 'axios';
 import dayjs from 'dayjs';
 import { size } from 'lodash';
@@ -144,13 +145,6 @@ function UpdateUserInfo(props: IProps) {
     }));
   };
 
-  const handleDateChange = (newdate: any) => {
-    setFormData((prevData) => ({
-      ...prevData,
-      birthday: toISOString(newdate.toString()),
-    }));
-  };
-
   const onSubmitUsePoints = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
@@ -254,12 +248,22 @@ function UpdateUserInfo(props: IProps) {
             defaultValue={props?.userData?.phone}
             onChange={handleChange}
           />
-          <LocalizationProvider dateAdapter={AdapterDayjs}>
+          <LocalizationProvider
+            dateAdapter={AdapterDayjs}
+            localeText={
+              viVN.components.MuiLocalizationProvider.defaultProps.localeText
+            }
+          >
             <DatePicker
               className='w-100 mb-3'
               label='Ngày sinh'
-              onChange={handleDateChange}
-              format='DD/MM/YYYY'
+              onChange={(value: any) => {
+                setFormData((prevData) => ({
+                  ...prevData,
+                  birthday: toISOString(value.toString()),
+                }));
+              }}
+              format='DD-MM-YYYY'
               defaultValue={dayjs(props?.userData?.birthday || new Date())}
               slotProps={{
                 textField: { size: 'small' },

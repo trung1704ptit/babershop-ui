@@ -1,5 +1,6 @@
 import { Button, TextField, Typography } from '@mui/material';
 import axios from 'axios';
+import Link from 'next/link';
 import { useState } from 'react';
 
 import api from '../../utils/api';
@@ -97,12 +98,12 @@ const Login = () => {
               </Button>
               <p className='text-sm font-light text-gray-500 dark:text-gray-400'>
                 Chưa có tài khoản?{' '}
-                <a
+                <Link
                   href='/dang-ky'
                   className='font-medium text-[#9f6e0dd4] hover:underline'
                 >
                   Đăng ký
-                </a>
+                </Link>
               </p>
             </form>
           </div>
