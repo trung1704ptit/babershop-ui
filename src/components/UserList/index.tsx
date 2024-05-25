@@ -330,6 +330,9 @@ const UserList = () => {
                 <Typography variant='body1'>
                   Điện thoại: {user.phone}
                 </Typography>
+                <Typography variant='body1'>
+                  Quyền: {user?.roles?.join(', ')}
+                </Typography>
                 <Typography variant='body1'>Email: {user.email}</Typography>
                 <Typography variant='body1'>
                   Ngày sinh: {moment(user.birthday).format('DD/MM/YYYY')}
