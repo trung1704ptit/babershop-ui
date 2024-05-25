@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 /* eslint-disable @next/next/no-html-link-for-pages */
 import { Button } from '@mui/material';
 import cookie from 'js-cookie';
@@ -59,15 +60,12 @@ const Header = ({ position }: IHeaderProps) => {
                     <li>
                       <a href='/#san-pham'>Sản phẩm</a>
                     </li>
-                    <li>
-                      <a href='/#dia-chi'>Địa chỉ</a>
-                    </li>
                   </>
                 )}
 
                 <li>
                   <Link href='/tich-diem' className='cursor-pointer rounded'>
-                    Tích điểm
+                    Xem Tích điểm
                   </Link>
                 </li>
               </ul>
@@ -94,15 +92,26 @@ const Header = ({ position }: IHeaderProps) => {
                 Đăng xuất
               </Button>
             ) : (
-              <Button
-                variant='outlined'
-                className='ml-2 text-white'
-                onClick={() => {
-                  router.push('/dang-nhap');
-                }}
-              >
-                Đăng nhập
-              </Button>
+              <>
+                <Button
+                  variant='outlined'
+                  className='ml-2 text-white'
+                  onClick={() => {
+                    router.push('/dang-nhap');
+                  }}
+                >
+                  Đăng nhập
+                </Button>
+                <Button
+                  variant='outlined'
+                  className='ml-2 text-white'
+                  onClick={() => {
+                    router.push('/dang-ky');
+                  }}
+                >
+                  Đăng ký
+                </Button>
+              </>
             )}
           </div>
         </nav>
@@ -207,17 +216,14 @@ const MobileMenu = (props: IMobileProps) => {
 
           <li>
             <a href='/tich-diem' className='nav-link text-black'>
-              Tích điểm
+              Xem Tích điểm
             </a>
           </li>
         </ul>
-        <div className='w-full p-3' onClick={props.handleClick}>
-          <Link
-            href='/dat-lich'
-            className='block text-center text-white w-full border-0 py-1.5 px-4 focus:outline-none rounded text-lg bg-[#9f6e0dd4]'
-          >
+        <div className='w-full pl-3 pr-3'>
+          <Button href='/dat-lich' variant='contained' className='w-full mb-2'>
             Đặt chỗ{' '}
-          </Link>
+          </Button>
         </div>
         <div className='w-full pl-3 pr-3'>
           {props.isLoggedIn ? (
@@ -232,15 +238,27 @@ const MobileMenu = (props: IMobileProps) => {
               Đăng xuất
             </Button>
           ) : (
-            <Button
-              variant='outlined'
-              className='w-full'
-              onClick={() => {
-                router.push('/dang-nhap');
-              }}
-            >
-              Đăng nhập
-            </Button>
+            <>
+              <Button
+                variant='outlined'
+                className='w-full mb-2'
+                onClick={() => {
+                  router.push('/dang-nhap');
+                }}
+              >
+                Đăng nhập
+              </Button>
+
+              <Button
+                variant='outlined'
+                className='w-full'
+                onClick={() => {
+                  router.push('/dang-ky');
+                }}
+              >
+                Đăng ký
+              </Button>
+            </>
           )}
         </div>
       </div>

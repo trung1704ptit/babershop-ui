@@ -10,6 +10,7 @@ import axios from 'axios';
 import { size } from 'lodash';
 import moment from 'moment';
 import Head from 'next/head';
+import { useRouter } from 'next/router';
 import { ChangeEvent, useState } from 'react';
 
 import { Header } from '../components';
@@ -25,6 +26,7 @@ export default function LinkPointHistory() {
   const [loadingUser, setLoadingUser] = useState(false);
   const [phone, setPhone] = useState('');
   const [error, setError] = useState('');
+  const router = useRouter();
 
   const getUserProfile = async () => {
     if (phone) {
@@ -55,11 +57,6 @@ export default function LinkPointHistory() {
         getUserProfile();
       }
     }
-  };
-
-  const handleClickAddUser = () => {
-    setShowAddUser(true);
-    setSubmitted(true);
   };
 
   const handleExitAddUser = () => {
@@ -118,8 +115,8 @@ export default function LinkPointHistory() {
 
               <div>
                 <Typography
-                  className='text-slate-500 text-lg leading-relaxed mb-4 text-center'
-                  variant='body2'
+                  className='text-slate-500 leading-relaxed mb-4 text-center'
+                  variant='body1'
                 >
                   Nhập SĐT để kiểm tra ngay
                 </Typography>
@@ -164,7 +161,7 @@ export default function LinkPointHistory() {
                   variant='outlined'
                   size='large'
                   className='w-100'
-                  onClick={handleClickAddUser}
+                  onClick={() => router.push('/dang-ky')}
                 >
                   Đăng ký thành viên
                 </Button>

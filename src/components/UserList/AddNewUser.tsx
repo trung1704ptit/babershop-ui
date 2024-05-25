@@ -179,8 +179,12 @@ function AddNewUser(props: IProps) {
   };
 
   return (
-    <div className='ml-auto mr-auto text-left max-w-sm'>
-      <Typography variant='h5' gutterBottom className='mb-5 uppercase'>
+    <div className='ml-auto mr-auto max-w-sm'>
+      <Typography
+        variant='h5'
+        gutterBottom
+        className='mb-5 uppercase text-center'
+      >
         Đăng ký thành viên
       </Typography>
 
