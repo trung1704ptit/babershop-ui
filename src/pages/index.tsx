@@ -1,4 +1,3 @@
-import { GetServerSideProps } from 'next';
 import Head from 'next/head';
 
 import {
@@ -42,7 +41,7 @@ export default function Home(props: IHomeProps) {
   );
 }
 
-export const getServerSideProps: GetServerSideProps = async () => {
+export const getStaticProps = async () => {
   try {
     const productResults = await getDocsByCollection(PRODUCTS_COLLECTION);
     const barbersRes = await api.get('/api/users?role=barber');
