@@ -29,18 +29,16 @@ const Barbers = (props: IProps) => {
     toISOString(new Date().toString())
   );
 
-  const handleSelectTime = (time: string, isAvailable: boolean) => {
-    if (isAvailable) {
-      let newDatetime = bookingTime.split('T')[0];
-      newDatetime = newDatetime + 'T' + time + ':00+07:00';
-      setBookingTime(newDatetime);
+  const handleSelectTime = (time: string) => {
+    let newDatetime = bookingTime.split('T')[0];
+    newDatetime = newDatetime + 'T' + time + ':00+07:00';
+    setBookingTime(newDatetime);
 
-      if (props.handleChangeDateTime) {
-        props.handleChangeDateTime({
-          datetime: newDatetime,
-          barber,
-        });
-      }
+    if (props.handleChangeDateTime) {
+      props.handleChangeDateTime({
+        datetime: newDatetime,
+        barber,
+      });
     }
   };
 
@@ -73,6 +71,10 @@ const Barbers = (props: IProps) => {
       props.handleBackToBarberCallBack();
     }
   };
+
+  const currentTime = new Date();
+  const currentHours = currentTime.getHours();
+  const currentMinutes = currentTime.getMinutes();
 
   return (
     <div className={`mt-[${props.marginTop}]`}>
@@ -134,7 +136,19 @@ const Barbers = (props: IProps) => {
             <div className='flex flex-wrap w-100 mb-[120px]'>
               {TIME_LIST.length > 0 ? (
                 TIME_LIST.map((time: string) => {
-                  const isAvailable = true;
+                  let isAvailable = true;
+                  const [hours, minutes] = time.split(':').map(Number);
+
+                  if (
+                    (hours && hours > currentHours) ||
+                    (hours === currentHours &&
+                      minutes &&
+                      minutes >= currentMinutes)
+                  ) {
+                    isAvailable = true;
+                  } else {
+                    isAvailable = false;
+                  }
                   let bg = 'bg-stone-300';
 
                   if (bookingTime.includes(time)) {
@@ -143,27 +157,26 @@ const Barbers = (props: IProps) => {
                     bg = 'bg-white';
                   }
 
-                  return (
-                    <div
-                      className={`${
-                        isAvailable ? 'cursor-pointer' : 'cursor-not-allowed'
-                      } p-1 w-1/3 md:w-1/4 h-[80px]`}
-                      key={time}
-                      onClick={() => handleSelectTime(time, isAvailable)}
-                      id={time}
-                    >
+                  if (isAvailable) {
+                    return (
                       <div
-                        className={`time-series-item rounded text-center w-100 h-100 flex text-base ${bg}`}
+                        className='p-1 w-1/3 md:w-1/4 h-[80px] cursor-pointer'
+                        key={time}
+                        onClick={() => handleSelectTime(time)}
+                        id={time}
                       >
-                        <div className='m-auto'>
-                          <p className='m-0 leading-none'>{time}</p>
-                          {!isAvailable && (
-                            <span className='text-[12px]'>(Đã kín lịch)</span>
-                          )}
+                        <div
+                          className={`time-series-item rounded text-center w-100 h-100 flex text-base ${bg}`}
+                        >
+                          <div className='m-auto'>
+                            <p className='m-0 leading-none'>{time}</p>
+                          </div>
                         </div>
                       </div>
-                    </div>
-                  );
+                    );
+                  }
+
+                  return null;
                 })
               ) : (
                 <div className='w-100 h-20 flex text-center'>

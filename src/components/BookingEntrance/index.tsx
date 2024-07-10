@@ -4,7 +4,7 @@ import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 
-import Berbers from './Barbers';
+import Barbers from './Barbers';
 import EntranceForm from './EntranceForm';
 import Finish from './Finish';
 import NameModal from './NameModal';
@@ -175,7 +175,7 @@ const Booking = (_: IBookingEntrance) => {
 
   if (nextStep === 'barbers') {
     return (
-      <Berbers
+      <Barbers
         onDoneCallback={handleSelectBarberAndTime}
         title='Mời anh chọn Barber'
         marginTop='100px'
