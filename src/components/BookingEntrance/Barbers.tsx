@@ -76,6 +76,8 @@ const Barbers = (props: IProps) => {
   const currentHours = currentTime.getHours();
   const currentMinutes = currentTime.getMinutes();
   const bookingDate = new Date(bookingTime).getDate();
+  const bookingMonth = new Date(bookingTime).getMonth();
+  const bookingYear = new Date(bookingTime).getFullYear();
 
   return (
     <div className={`mt-[${props.marginTop}]`}>
@@ -139,9 +141,17 @@ const Barbers = (props: IProps) => {
                 TIME_LIST.map((time: string) => {
                   let isAvailable = true;
                   const [hours, minutes] = time.split(':').map(Number);
-                  if (bookingDate > currentTime.getDate()) {
+                  if (
+                    bookingMonth > currentTime.getMonth() ||
+                    bookingYear > currentTime.getFullYear() ||
+                    bookingDate > currentTime.getDate()
+                  ) {
                     isAvailable = true;
-                  } else if (bookingDate < currentTime.getDate()) {
+                  } else if (
+                    bookingMonth < currentTime.getMonth() ||
+                    bookingYear < currentTime.getFullYear() ||
+                    bookingDate < currentTime.getDate()
+                  ) {
                     isAvailable = false;
                   } else if (
                     (hours && hours > currentHours) ||
