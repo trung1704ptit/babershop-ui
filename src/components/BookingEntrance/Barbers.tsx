@@ -179,7 +179,11 @@ const Barbers = (props: IProps) => {
                           : 'pointer-events-none cursor-not-allowed'
                       }`}
                       key={time}
-                      onClick={() => handleSelectTime(time)}
+                      onClick={() => {
+                        if (isAvailable) {
+                          handleSelectTime(time);
+                        }
+                      }}
                       id={time}
                     >
                       <div
