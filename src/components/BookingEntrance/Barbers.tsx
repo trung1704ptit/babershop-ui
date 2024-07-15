@@ -75,6 +75,7 @@ const Barbers = (props: IProps) => {
   const currentTime = new Date();
   const currentHours = currentTime.getHours();
   const currentMinutes = currentTime.getMinutes();
+  const bookingDate = new Date(bookingTime).getDate();
 
   return (
     <div className={`mt-[${props.marginTop}]`}>
@@ -138,8 +139,11 @@ const Barbers = (props: IProps) => {
                 TIME_LIST.map((time: string) => {
                   let isAvailable = true;
                   const [hours, minutes] = time.split(':').map(Number);
-
-                  if (
+                  if (bookingDate > currentTime.getDate()) {
+                    isAvailable = true;
+                  } else if (bookingDate < currentTime.getDate()) {
+                    isAvailable = false;
+                  } else if (
                     (hours && hours > currentHours) ||
                     (hours === currentHours &&
                       minutes &&
@@ -157,26 +161,29 @@ const Barbers = (props: IProps) => {
                     bg = 'bg-white';
                   }
 
-                  if (isAvailable) {
-                    return (
+                  return (
+                    <div
+                      className={`p-1 w-1/3 md:w-1/4 h-[80px] ${
+                        isAvailable
+                          ? 'cursor-pointer'
+                          : 'pointer-events-none cursor-not-allowed'
+                      }`}
+                      key={time}
+                      onClick={() => handleSelectTime(time)}
+                      id={time}
+                    >
                       <div
-                        className='p-1 w-1/3 md:w-1/4 h-[80px] cursor-pointer'
-                        key={time}
-                        onClick={() => handleSelectTime(time)}
-                        id={time}
+                        className={`time-series-item rounded text-center w-100 h-100 flex text-base ${bg}`}
                       >
-                        <div
-                          className={`time-series-item rounded text-center w-100 h-100 flex text-base ${bg}`}
-                        >
-                          <div className='m-auto'>
-                            <p className='m-0 leading-none'>{time}</p>
-                          </div>
+                        <div className='m-auto'>
+                          <p className='m-0 leading-none'>{time}</p>
+                          {!isAvailable ? (
+                            <span className='text-xs'>Ko khả dụng</span>
+                          ) : null}
                         </div>
                       </div>
-                    );
-                  }
-
-                  return null;
+                    </div>
+                  );
                 })
               ) : (
                 <div className='w-100 h-20 flex text-center'>
