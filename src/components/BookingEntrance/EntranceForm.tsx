@@ -25,7 +25,7 @@ const EntranceForm = (props: IProps) => {
           ĐẶT LỊCH GIỮ CHỖ CHỈ 30 GIÂY
         </Typography>
         <Typography variant='body1' className='mb-4 text-center'>
-          Cắt xong trả tiền, hủy lịch thoải mái
+          Phù phép lên mái tóc của bạn
         </Typography>
         <form onSubmit={onSubmit}>
           <TextField
